@@ -1,6 +1,9 @@
 package Model;
 
+import sun.awt.image.ImageWatched;
+
 import java.util.Random;
+import java.util.LinkedHashMap;
 
 /**
  * The Mouse Class implements the 'food' for the SimpleSnake game.
@@ -19,9 +22,8 @@ public class Mouse {
      * Constructor
      * @author  Nicolai Verbaarschot
      */
-    public Mouse(int grid_x, int grid_y) {
-        this.x = random_number_generator.nextInt(grid_x);
-        this.y = random_number_generator.nextInt(grid_y);
+    public Mouse(LinkedHashMap<Integer, LinkedHashMap<Integer, Integer>> possible_locations) {
+        update_location(possible_locations);
     }
 
     /**
@@ -29,7 +31,7 @@ public class Mouse {
      * @return mouse objects x-coordinate
      * @author  Nicolai Verbaarschot
      */
-    public int get_x_coordinates() {
+    public int get_x_coordinate() {
         return this.x;
     }
 
@@ -38,7 +40,7 @@ public class Mouse {
      * @return mouse objects y-coordinate
      * @author  Nicolai Verbaarschot
      */
-    public int get_y_coordinates() {
+    public int get_y_coordinate() {
         return this.y;
     }
 
@@ -46,8 +48,40 @@ public class Mouse {
      * This is a randomizer method that will randomize the grid coordinates of a Mouse Instance
      * @author  Nicolai Verbaarschot
      */
-    public void randomize_coordinates(int grid_x, int grid_y) {
-        this.x = random_number_generator.nextInt(grid_x);
-        this.y = random_number_generator.nextInt(grid_y);
+    public void update_location(LinkedHashMap<Integer, LinkedHashMap<Integer, Integer>> possible_locations) {
+
+        int map_size = possible_locations.size();
+
+        int outer_index = random_number_generator.nextInt(map_size);
+
+        LinkedHashMap nested_map = (LinkedHashMap) getElementByIndex(possible_locations, outer_index);
+
+        int nested_map_size = nested_map.size();
+
+        int inner_index = random_number_generator.nextInt(nested_map_size);
+
+
+        int x_coordinate = (Integer) possible_locations.keySet().toArray()[outer_index];
+        int y_coordinate = (Integer) nested_map.keySet().toArray()[inner_index];
+
+//        Debug prints TODO: Remove
+//        System.out.println("Coor");
+//        System.out.println(x_coordinate);
+//        System.out.println(y_coordinate);
+//        System.out.println();
+
+
+    }
+
+
+
+    /**
+     * @param map A nested LinkedHashMap containing all grid cells not occupied by the snake
+     * @param index Used to get map values not by key but by index.
+     * @return the Object linked by the map, given by the index.
+     * @author Nicolai Verbaarschot
+     */
+    private Object getElementByIndex(LinkedHashMap map, int index) {
+        return map.get((map.keySet().toArray())[index]);
     }
 }
