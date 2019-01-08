@@ -9,7 +9,7 @@ public class SimpleSnake {
 
     private Snake solid;
     private Mouse mickey;
-    private Map<Integer, Map<Integer, Integer>> game_board;
+    private LinkedHashMap<Integer, LinkedHashMap<Integer, Integer>> game_board;
 
     /**
      * Constructor
@@ -43,7 +43,7 @@ public class SimpleSnake {
         }
 
         // Create mouse
-        this.mickey = new Mouse(grid_x, grid_y);
+        this.mickey = new Mouse(game_board);
     }
 
     /**
