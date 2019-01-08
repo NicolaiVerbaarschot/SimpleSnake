@@ -30,7 +30,7 @@ public class SimpleSnake {
         }
 
         for (Point p: solid.get_location()) {
-            game_board.get(p.getX()).remove(p.getY());
+            game_board.get((int) p.getX()).remove((int) p.getY());
         }
     }
 
@@ -74,7 +74,7 @@ public class SimpleSnake {
         // Check for mouse
         if (newHead.getX() == mickey.get_x_coordinate() && newHead.getY() == mickey.get_y_coordinate()) {
             solid.move((int) newHead.getX(), (int) newHead.getY(), true);
-            game_board.get(newHead.getX()).put(Integer.valueOf((int) newHead.getY()), 0);
+            game_board.get((int) newHead.getX()).put((int) newHead.getY(), 0);
             // Update local snake location
             snake_location = solid.get_location();
             mickey.update_location(grid_x, grid_y, snake_location);
@@ -83,8 +83,8 @@ public class SimpleSnake {
         // Check for impossible action - otherwise move snake
         else if (newHead.getLocation() != snake_location.get(snake_location.size() - 2)) {
             Point tail = solid.move((int) newHead.getX(), (int) newHead.getY(), false);
-            game_board.get(newHead.getX()).put(Integer.valueOf((int) newHead.getY()), 0);
-            game_board.get(tail.getX()).remove(tail.getY());
+            game_board.get((int) newHead.getX()).put((int) newHead.getY(), 0);
+            game_board.get((int) tail.getX()).remove((int) tail.getY());
         }
     }
 }
