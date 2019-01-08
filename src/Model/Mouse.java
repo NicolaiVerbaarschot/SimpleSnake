@@ -45,40 +45,33 @@ public class Mouse {
     }
 
     /**
-     * This is a randomizer method that will randomize the grid coordinates of a Mouse Instance
+     * This method will calculate a new and valid location for the mouse
+     * @param possible_locations nested map providing the possible mouse locations
      * @author  Nicolai Verbaarschot
      */
     public void update_location(LinkedHashMap<Integer, LinkedHashMap<Integer, Integer>> possible_locations) {
 
+        // Calculate outer map size and corresponding index
         int map_size = possible_locations.size();
-
         int outer_index = random_number_generator.nextInt(map_size);
 
+        // Retrieve nested map
         LinkedHashMap nested_map = (LinkedHashMap) getElementByIndex(possible_locations, outer_index);
 
+        // Calculate nested map size and corresponding index
         int nested_map_size = nested_map.size();
-
         int inner_index = random_number_generator.nextInt(nested_map_size);
 
-
-        int x_coordinate = (Integer) possible_locations.keySet().toArray()[outer_index];
-        int y_coordinate = (Integer) nested_map.keySet().toArray()[inner_index];
-
-//        Debug prints TODO: Remove
-//        System.out.println("Coor");
-//        System.out.println(x_coordinate);
-//        System.out.println(y_coordinate);
-//        System.out.println();
-
-
+        // Update coordinate fields
+        this.x = (Integer) possible_locations.keySet().toArray()[outer_index];
+        this.y = (Integer) nested_map.keySet().toArray()[inner_index];
     }
 
-
-
     /**
+     * This is a helper method that relates a maps key with an index
      * @param map A nested LinkedHashMap containing all grid cells not occupied by the snake
-     * @param index Used to get map values not by key but by index.
-     * @return the Object linked by the map, given by the index.
+     * @param index Used to get map values not by key but by index
+     * @return the Object linked by the map, given by the index
      * @author Nicolai Verbaarschot
      */
     private Object getElementByIndex(LinkedHashMap map, int index) {
