@@ -9,7 +9,7 @@ public class SimpleSnake {
 
     private Snake solid;
     private Mouse mickey;
-    private Map<Integer, Map<Integer, Integer>> game_board;
+    private Gameboard gameboard;
 
     /**
      * Constructor
@@ -21,29 +21,14 @@ public class SimpleSnake {
 
         // Create snake
         this.solid = new Snake(grid_x, grid_y);
-
         // Create gameboard
-        this.game_board = new LinkedHashMap<>();
-
-        // Create gameboard map
-        for (int i = 0; i < grid_x; i++) {
-            game_board.put(i, new LinkedHashMap<>());
-            for (int j = 0; j < grid_y; j++) {
-                game_board.get(i).put(j, 0);
-            }
-        }
-
+        this.gameboard = new Gameboard(grid_x, grid_y);
         // Remove snake location from gameboard map
         for (Point p: solid.get_location()) {
-            game_board.get((int) p.getX()).remove((int) p.getY());
-            // Remove columns containing only snake
-            if (game_board.get((int) p.getX()).isEmpty()) {
-                game_board.remove((int) p.getX());
-            }
+            gameboard.remove(p);
         }
-
         // Create mouse
-        this.mickey = new Mouse(grid_x, grid_y);
+        this.mickey = new Mouse(gameboard.get_board());
     }
 
     /**
@@ -88,12 +73,9 @@ public class SimpleSnake {
             // Grow snake
             solid.move((int) newHead.getX(), (int) newHead.getY(), true);
             // Update map
-            game_board.get((int) newHead.getX()).remove((int) newHead.getY());
-            if (game_board.get((int) newHead.getX()).isEmpty()) {
-                game_board.remove((int) newHead.getX());
-            }
+            gameboard.remove(newHead);
             // Update mouse location
-            mickey.update_location(game_board);
+            mickey.update_location(gameboard.get_board());
         }
 
         // Check for impossible action - otherwise move snake
@@ -101,11 +83,8 @@ public class SimpleSnake {
             // Move snake and define tail
             Point tail = solid.move((int) newHead.getX(), (int) newHead.getY(), false);
             // Update map
-            game_board.get((int) newHead.getX()).remove((int) newHead.getY());
-            if (game_board.get((int) newHead.getX()).isEmpty()) {
-                game_board.remove((int) newHead.getX());
-            }
-            game_board.putIfAbsent((int) tail.getX(), new LinkedHashMap<>()).put((int) tail.getY(), 0);
+            gameboard.remove(newHead);
+            gameboard.add(tail);
         }
     }
 
