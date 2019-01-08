@@ -29,7 +29,7 @@ public class Mouse {
      * @return mouse objects x-coordinate
      * @author  Nicolai Verbaarschot
      */
-    public int get_x_coordinates() {
+    public int get_x_coordinate() {
         return this.x;
     }
 
@@ -38,7 +38,7 @@ public class Mouse {
      * @return mouse objects y-coordinate
      * @author  Nicolai Verbaarschot
      */
-    public int get_y_coordinates() {
+    public int get_y_coordinate() {
         return this.y;
     }
 
