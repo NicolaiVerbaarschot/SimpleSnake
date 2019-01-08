@@ -70,6 +70,10 @@ public class SimpleSnake {
             solid.move((int) newHead.getX(), (int) newHead.getY(), false);
         }
     }
+
+    public List<Point> get_snake_location() {
+        return solid.get_location();
+    }
 }
 
 
