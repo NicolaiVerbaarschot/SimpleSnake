@@ -22,6 +22,7 @@ public class SimpleSnake {
         this.mickey = new Mouse(grid_x, grid_y);
         this.game_board = new LinkedHashMap<>();
 
+        // Create gameboard map
         for (int i = 0; i < grid_x; i++) {
             game_board.put(i, new LinkedHashMap<>());
             for (int j = 0; j < grid_y; j++) {
@@ -29,8 +30,13 @@ public class SimpleSnake {
             }
         }
 
+        // Remove snake location from gameboard map
         for (Point p: solid.get_location()) {
             game_board.get((int) p.getX()).remove((int) p.getY());
+            // Remove columns containing only snake
+            if (game_board.get((int) p.getX).isEmpty()) {
+                game_board.remove((int) p.getX);
+            }
         }
     }
 
@@ -73,18 +79,21 @@ public class SimpleSnake {
 
         // Check for mouse
         if (newHead.getX() == mickey.get_x_coordinate() && newHead.getY() == mickey.get_y_coordinate()) {
+            // Grow snake
             solid.move((int) newHead.getX(), (int) newHead.getY(), true);
-            game_board.get((int) newHead.getX()).put((int) newHead.getY(), 0);
+            //
+
+
             // Update local snake location
             snake_location = solid.get_location();
-            mickey.update_location(grid_x, grid_y, snake_location);
+            mickey.update_location(game_board);
         }
 
         // Check for impossible action - otherwise move snake
         else if (newHead.getLocation() != snake_location.get(snake_location.size() - 2)) {
             Point tail = solid.move((int) newHead.getX(), (int) newHead.getY(), false);
-            game_board.get((int) newHead.getX()).put((int) newHead.getY(), 0);
-            game_board.get((int) tail.getX()).remove((int) tail.getY());
+            game_board.get((int) newHead.getX()).remove((int) newHead.getY(), 0);
+            game_board.get((int) tail.getX()).put((int) tail.getY());
         }
     }
 
