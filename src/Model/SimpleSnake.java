@@ -81,9 +81,7 @@ public class SimpleSnake {
         if (newHead.getX() == mickey.get_x_coordinate() && newHead.getY() == mickey.get_y_coordinate()) {
             // Grow snake
             solid.move((int) newHead.getX(), (int) newHead.getY(), true);
-            //
-
-
+            game_board.get((int) newHead.getX()).remove((int) newHead.getY());
             // Update local snake location
             snake_location = solid.get_location();
             mickey.update_location(game_board);
@@ -92,8 +90,8 @@ public class SimpleSnake {
         // Check for impossible action - otherwise move snake
         else if (newHead.getLocation() != snake_location.get(snake_location.size() - 2)) {
             Point tail = solid.move((int) newHead.getX(), (int) newHead.getY(), false);
-            game_board.get((int) newHead.getX()).remove((int) newHead.getY(), 0);
-            game_board.get((int) tail.getX()).put((int) tail.getY());
+            game_board.get((int) newHead.getX()).remove((int) newHead.getY());
+            game_board.get((int) tail.getX()).put((int) tail.getY(), 0);
         }
     }
 
