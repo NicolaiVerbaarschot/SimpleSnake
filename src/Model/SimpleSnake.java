@@ -1,12 +1,15 @@
 package Model;
 import java.awt.Point;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SimpleSnake {
 
 
     private Snake solid;
     private Mouse mickey;
+    private Map<Integer, Map<Integer, Integer>> game_board;
 
     /**
      * Constructor
@@ -17,7 +20,18 @@ public class SimpleSnake {
     public SimpleSnake(int grid_x, int grid_y) {
         this.solid = new Snake(grid_x, grid_y);
         this.mickey = new Mouse(grid_x, grid_y);
+        this.game_board = new LinkedHashMap<>();
 
+        for (int i = 0; i < grid_x; i++) {
+            game_board.put(i, new LinkedHashMap<>());
+            for (int j = 0; j < grid_y; j++) {
+                game_board.get(i).put(j, 0);
+            }
+        }
+
+        for (Point p: solid.get_location()) {
+            game_board.get(p.getX()).remove(p.getY());
+        }
     }
 
     /**
@@ -60,6 +74,7 @@ public class SimpleSnake {
         // Check for mouse
         if (newHead.getX() == mickey.get_x_coordinate() && newHead.getY() == mickey.get_y_coordinate()) {
             solid.move((int) newHead.getX(), (int) newHead.getY(), true);
+            game_board.get(newHead.getX()).put(Integer.valueOf((int) newHead.getY()), 0);
             // Update local snake location
             snake_location = solid.get_location();
             mickey.update_location(grid_x, grid_y, snake_location);
@@ -67,7 +82,9 @@ public class SimpleSnake {
 
         // Check for impossible action - otherwise move snake
         else if (newHead.getLocation() != snake_location.get(snake_location.size() - 2)) {
-            solid.move((int) newHead.getX(), (int) newHead.getY(), false);
+            Point tail = solid.move((int) newHead.getX(), (int) newHead.getY(), false);
+            game_board.get(newHead.getX()).put(Integer.valueOf((int) newHead.getY()), 0);
+            game_board.get(tail.getX()).remove(tail.getY());
         }
     }
 }

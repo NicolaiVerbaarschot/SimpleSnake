@@ -29,13 +29,18 @@ public class Snake {
      * @param will_grow True if the snake is supposed to grow
      * @author Andreas Goll Rossau
      */
-    public void move(int x, int y, boolean will_grow) {
+    public Point move(int x, int y, boolean will_grow) {
+        Point tail = new Point();
+
         snake_location.add(0, new Point(x, y));
 
         // If the snake does not grow, the tail is deleted
         if (!will_grow) {
+            tail = snake_location.get(snake_location.size() - 1);
             snake_location.remove(snake_location.size() - 1);
         }
+
+        return tail;
     }
 
     /**
