@@ -44,7 +44,7 @@ public class SimpleSnake {
     public String gameAction(String key_input) {
 
         List<Point> snake_location = solid.get_location();
-        Point new_head = snake_location.get(0);
+        Point new_head = new Point(snake_location.get(0));
 
         // Determine new_head coordinates
         switch (key_input) {
