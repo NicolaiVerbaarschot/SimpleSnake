@@ -72,7 +72,7 @@ public class SimpleSnake {
         if (snake_location.contains(new_head)) {
             // TODO: implement gameOver() as a method in SimpleSnake;
             // This should return game over, but at this point the game always game overs, so it is disabled for now
-            return "Game Overx";
+            return "Game Over";
         }
 
         // Check for mouse
