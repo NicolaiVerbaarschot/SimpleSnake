@@ -44,7 +44,7 @@ public class SimpleSnake {
     public String gameAction(String key_input) {
 
         List<Point> snake_location = solid.get_location();
-        Point new_head = snake_location.get(snake_location.size() - 1);
+        Point new_head = snake_location.get(0);
 
         // Determine new_head coordinates
         switch (key_input) {
@@ -86,7 +86,7 @@ public class SimpleSnake {
         }
 
         // Check for impossible action - otherwise move snake
-        else if (new_head.getLocation() != snake_location.get(snake_location.size() - 2)) {
+        else if (new_head.getLocation() != snake_location.get(1)) {
             // Move snake and define tail
             Point tail = solid.move((int) new_head.getX(), (int) new_head.getY(), false);
             // Update map
@@ -116,7 +116,7 @@ public class SimpleSnake {
         if(coordinate == -1) {
             coordinate = coordinate_max;
         }
-        else if (coordinate == coordinate_max){
+        else if (coordinate == coordinate_max + 1){
             coordinate = 0;
         }
         return coordinate;
