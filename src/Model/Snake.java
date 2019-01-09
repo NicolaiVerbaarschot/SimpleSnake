@@ -37,7 +37,7 @@ public class Snake {
         // If the snake does not grow, the tail is deleted
         if (!will_grow) {
             tail = snake_location.get(snake_location.size() - 1);
-            snake_location.remove(snake_location.size() - 1);
+            //snake_location.remove(snake_location.size() - 1);
         }
 
         return tail;

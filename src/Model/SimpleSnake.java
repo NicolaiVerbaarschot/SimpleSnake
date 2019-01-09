@@ -86,7 +86,7 @@ public class SimpleSnake {
         }
 
         // Check for impossible action - otherwise move snake
-        else if (new_head.getLocation() != snake_location.get(1)) {
+        else if (!new_head.getLocation().equals(snake_location.get(1))) {
             // Move snake and define tail
             Point tail = solid.move((int) new_head.getX(), (int) new_head.getY(), false);
             // Update map
