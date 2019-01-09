@@ -41,7 +41,7 @@ public class SimpleSnake {
      * @param key_input
      * @author Thea Birk Berger
      */
-    public void gameAction(String key_input) {
+    public String gameAction(String key_input) {
 
         List<Point> snake_location = solid.get_location();
         Point new_head = snake_location.get(snake_location.size() - 1);
@@ -71,6 +71,7 @@ public class SimpleSnake {
         // Check for snake collision
         if (snake_location.contains(new_head)) {
             // TODO: implement gameOver() as a method in SimpleSnake;
+            return "Game Overx";
         }
 
         // Check for mouse
@@ -91,10 +92,16 @@ public class SimpleSnake {
             gameboard.remove(new_head);
             gameboard.add(tail);
         }
+
+        return "Ok";
     }
 
     public List<Point> get_snake_location() {
         return solid.get_location();
+    }
+
+    public Point get_mouse_location() {
+        return new Point(mickey.get_x_coordinate(), mickey.get_y_coordinate());
     }
 
 
