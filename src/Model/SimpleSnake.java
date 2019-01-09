@@ -41,10 +41,11 @@ public class SimpleSnake {
      * @param key_input
      * @author Thea Birk Berger
      */
-    public void gameAction(String key_input) {
+    public String gameAction(String key_input) {
 
         // Extracting current snake information and calculating new_head ("målfeltet")
         List<Point> snake_location = solid.get_location();
+        Point new_head = new Point(snake_location.get(0));
         Point new_head = creating_new_head(key_input, snake_location);
 
         // Updating new_head coordinates in the event of wall collision
@@ -92,6 +93,11 @@ public class SimpleSnake {
         return new_head;
     }
 
+        // Check for snake collision
+        if (snake_location.contains(new_head)) {
+            // TODO: implement gameOver() as a method in SimpleSnake;
+            // This should return game over, but at this point the game always game overs, so it is disabled for now
+            return "Game Overx";
     /**
      * wall_collision_check
      * @param coordinate
@@ -124,6 +130,16 @@ public class SimpleSnake {
         mickey.update_location(gameboard.get_board());
     }
 
+        // Check for impossible action - otherwise move snake
+        else if (!new_head.getLocation().equals(snake_location.get(1))) {
+            // Move snake and define tail
+            Point tail = solid.move((int) new_head.getX(), (int) new_head.getY(), false);
+            // Update map
+            gameboard.remove(new_head);
+            gameboard.add(tail);
+        }
+
+        return "Ok";
     /**
      * move_snake
      * @param new_head
@@ -140,6 +156,27 @@ public class SimpleSnake {
     // for testing
     public List<Point> get_snake_location() {
         return solid.get_location();
+    }
+
+    public Point get_mouse_location() {
+        return new Point(mickey.get_x_coordinate(), mickey.get_y_coordinate());
+    }
+
+
+    /**
+     * @param coordinate
+     * @param coordinate_max
+     * @return
+     * @author Andreas Goll Rossau
+     */
+    private int wall_collision_check(int coordinate, int coordinate_max) {
+        if(coordinate == -1) {
+            coordinate = coordinate_max;
+        }
+        else if (coordinate == coordinate_max + 1){
+            coordinate = 0;
+        }
+        return coordinate;
     }
 }
 
