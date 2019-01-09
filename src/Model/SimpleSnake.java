@@ -45,7 +45,6 @@ public class SimpleSnake {
 
         // Extracting current snake information and calculating new_head ("målfeltet")
         List<Point> snake_location = solid.get_location();
-        Point new_head = new Point(snake_location.get(0));
         Point new_head = creating_new_head(key_input, snake_location);
 
         // Updating new_head coordinates in the event of wall collision
@@ -54,7 +53,9 @@ public class SimpleSnake {
 
         // Ending game in the event of snake collision
         if (snake_location.contains(new_head) && !(new_head.getLocation() == snake_location.get(snake_location.size() - 2))) {
-            // TODO: implement Game Over;
+            // TODO: implement gameOver() as a method in SimpleSnake;
+            // This should return game over, but at this point the game always game overs, so it is disabled for now
+            return "Game Overx";
         }
 
         // Updating fields in the event of mouse presence
@@ -66,6 +67,8 @@ public class SimpleSnake {
         else if (!(new_head.getLocation() == snake_location.get(snake_location.size() - 2))) {
             move_snake(new_head);
         }
+
+        return "Ok";
     }
 
     /**
@@ -77,7 +80,7 @@ public class SimpleSnake {
     // Translate key input to new_head coordinates
     private Point creating_new_head(String key_input, List<Point> snake_location) {
         // Extract current snake head information
-        Point new_head = snake_location.get(snake_location.size() - 1);
+        Point new_head = new Point(snake_location.get(0));
 
         switch (key_input) {
             case "up":
@@ -93,11 +96,6 @@ public class SimpleSnake {
         return new_head;
     }
 
-        // Check for snake collision
-        if (snake_location.contains(new_head)) {
-            // TODO: implement gameOver() as a method in SimpleSnake;
-            // This should return game over, but at this point the game always game overs, so it is disabled for now
-            return "Game Overx";
     /**
      * wall_collision_check
      * @param coordinate
@@ -130,16 +128,7 @@ public class SimpleSnake {
         mickey.update_location(gameboard.get_board());
     }
 
-        // Check for impossible action - otherwise move snake
-        else if (!new_head.getLocation().equals(snake_location.get(1))) {
-            // Move snake and define tail
-            Point tail = solid.move((int) new_head.getX(), (int) new_head.getY(), false);
-            // Update map
-            gameboard.remove(new_head);
-            gameboard.add(tail);
-        }
 
-        return "Ok";
     /**
      * move_snake
      * @param new_head
@@ -160,23 +149,6 @@ public class SimpleSnake {
 
     public Point get_mouse_location() {
         return new Point(mickey.get_x_coordinate(), mickey.get_y_coordinate());
-    }
-
-
-    /**
-     * @param coordinate
-     * @param coordinate_max
-     * @return
-     * @author Andreas Goll Rossau
-     */
-    private int wall_collision_check(int coordinate, int coordinate_max) {
-        if(coordinate == -1) {
-            coordinate = coordinate_max;
-        }
-        else if (coordinate == coordinate_max + 1){
-            coordinate = 0;
-        }
-        return coordinate;
     }
 }
 
