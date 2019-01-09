@@ -71,6 +71,7 @@ public class SimpleSnake {
         // Check for snake collision
         if (snake_location.contains(new_head)) {
             // TODO: implement gameOver() as a method in SimpleSnake;
+            // This should return game over, but at this point the game always game overs, so it is disabled for now
             return "Game Overx";
         }
 
@@ -113,7 +114,7 @@ public class SimpleSnake {
      */
     private int wall_collision_check(int coordinate, int coordinate_max) {
         if(coordinate == -1) {
-            coordinate += coordinate_max;
+            coordinate = coordinate_max;
         }
         else if (coordinate == coordinate_max){
             coordinate = 0;

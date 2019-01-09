@@ -16,9 +16,9 @@ public class SnakeTextView {
     }
 
     public void drawBoard(int grid_x, int grid_y, List<Point> snake_location, Point mouse_location) {
-        for (int i = 0; i < grid_x; i++) {
-            for (int j = 0; j < grid_y; j++) {
-                Point p = new Point(i, j);
+        for (int i = 0; i < grid_y; i++) {
+            for (int j = 0; j < grid_x; j++) {
+                Point p = new Point(j, i);
                 if (p.equals(mouse_location)) {
                     System.out.print("M");
                 }
