@@ -14,9 +14,9 @@ public class Main {
             // Create game1
             SimpleSnake game1 = new SimpleSnake(grid_x, grid_y);
             // Pass key action "up"
-            game1.gameAction("up", grid_x, grid_y);
+            game1.gameAction("up");
             // Pass key action "right"
-            game1.gameAction("right", grid_x, grid_y);
+            game1.gameAction("right");
             // Get snake location
             List<Point> snake1 = game1.get_snake_location();
             // Print snake location
