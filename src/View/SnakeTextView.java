@@ -9,13 +9,15 @@ import java.util.Scanner;
  * @author Andreas Goll Rossau
  */
 public class SnakeTextView {
-    Scanner console = new Scanner(System.in);
+    Scanner console;
 
     /**
      * Constructor
      * @author Andreas Goll Rossau
      */
-    public SnakeTextView() {}
+    public SnakeTextView() {
+        this.console = new Scanner(System.in);
+    }
 
     /**
      * Method gets input from console
@@ -34,7 +36,9 @@ public class SnakeTextView {
      * @param mouse_location location of the mouse
      * @author Andreas Goll Rossau
      */
-    public void drawBoard(int grid_x, int grid_y, List<Point> snake_location, Point mouse_location) {
+    public void drawBoard(int grid_x, int grid_y, List<Point> snake_location, Point mouse_location, int points) {
+        print_spaces(grid_x/2);
+        System.out.println(points);
         for (int i = 0; i < grid_y; i++) {
             for (int j = 0; j < grid_x; j++) {
                 Point p = new Point(j, i);
@@ -49,6 +53,17 @@ public class SnakeTextView {
                 }
             }
             System.out.println();
+        }
+    }
+
+    /**
+     * Helper method for printing a variable number of spaces
+     * @param n number of spaces to print
+     * @author Andreas Goll Rossau
+     */
+    private void print_spaces(int n) {
+        for (int i = 0; i < n; i++) {
+            System.out.print(" ");
         }
     }
 }

@@ -6,12 +6,12 @@ import java.util.List;
 
 public class SimpleSnake {
 
-
     private Snake solid;
     private Mouse mickey;
     private Mousetrack mousetrack;
     private int grid_x;
     private int grid_y;
+    private int points = 0;
 
     /**
      * Constructor
@@ -74,6 +74,7 @@ public class SimpleSnake {
         // Updating fields in the event of mouse presence
         if (new_head.getX() == mickey.get_x_coordinate() && new_head.getY() == mickey.get_y_coordinate()) {
             grow_snake(new_head);
+            points++;
             if ((mousetrack.get_track().isEmpty())) {
                 // TODO: implement gameWon();
                 return "Game Won";
@@ -150,6 +151,15 @@ public class SimpleSnake {
      */
     public Point get_mouse_location() {
         return new Point(mickey.get_x_coordinate(), mickey.get_y_coordinate());
+    }
+
+    /**
+     * Getter method for points
+     * @return current points
+     * @author Andreas Goll Rossau
+     */
+    public int get_points() {
+        return points;
     }
 }
 
