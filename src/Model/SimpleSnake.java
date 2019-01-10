@@ -1,5 +1,4 @@
 package Model;
-import Controller.SnakeController;
 
 import java.awt.Point;
 import java.util.List;
@@ -48,7 +47,7 @@ public class SimpleSnake {
         List<Point> snake_location = solid.get_location();
         Point target_cell = new Point(snake_location.get(0));
 
-        switch (key_input) {
+        switch (key_input.toLowerCase()) {
             case "up":
                 target_cell.setLocation(target_cell.getX(), target_cell.getY() - 1); break;
             case "down":
