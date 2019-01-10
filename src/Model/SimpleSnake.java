@@ -1,15 +1,13 @@
 package Model;
 import java.awt.Point;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SimpleSnake {
 
 
     private Snake solid;
     private Mouse mickey;
-    private Gameboard gameboard;
+    private Mousetrack mousetrack;
     private int grid_x;
     private int grid_y;
 
@@ -21,19 +19,19 @@ public class SimpleSnake {
      */
     public SimpleSnake(int grid_x, int grid_y) {
 
-        // Set gameboard size
+        // Set mousetrack size
         this.grid_x = grid_x;
         this.grid_y = grid_y;
         // Create snake
         this.solid = new Snake(grid_x, grid_y);
-        // Create gameboard
-        this.gameboard = new Gameboard(grid_x, grid_y);
-        // Remove snake location from gameboard map
+        // Create mousetrack
+        this.mousetrack = new Mousetrack(grid_x, grid_y);
+        // Remove snake location from mousetrack map
         for (Point p: solid.get_location()) {
-            gameboard.remove(p);
+            mousetrack.remove(p);
         }
         // Create mouse
-        this.mickey = new Mouse(gameboard.get_board());
+        this.mickey = new Mouse(mousetrack.get_board());
     }
 
 
@@ -104,7 +102,7 @@ public class SimpleSnake {
 
 
     /**
-     * grow_snake
+     * grow_snake (mouse-function)
      * @param new_head
      * @author Thea Birk Berger
      */
@@ -112,9 +110,9 @@ public class SimpleSnake {
         // Grow snake
         solid.move((int) new_head.getX(), (int) new_head.getY(), true);
         // Update map
-        gameboard.remove(new_head);
+        mousetrack.remove(new_head);
         // Update mouse location
-        mickey.update_location(gameboard.get_board());
+        mickey.update_location(mousetrack.get_board());
     }
 
 
@@ -127,8 +125,8 @@ public class SimpleSnake {
         // Move snake and extract tail
         Point tail = solid.move((int) new_head.getX(), (int) new_head.getY(), false);
         // Update map
-        gameboard.remove(new_head);
-        gameboard.add(tail);
+        mousetrack.remove(new_head);
+        mousetrack.add(tail);
     }
 
 
