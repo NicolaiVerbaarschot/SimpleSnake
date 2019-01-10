@@ -36,6 +36,7 @@ public class SimpleSnake {
         this.mickey = new Mouse(gameboard.get_board());
     }
 
+
     /**
      * gameAction
      * @param key_input
@@ -55,7 +56,7 @@ public class SimpleSnake {
         if (snake_location.contains(new_head) && !(new_head.getLocation() == snake_location.get(snake_location.size() - 2))) {
             // TODO: implement gameOver() as a method in SimpleSnake;
             // This should return game over, but at this point the game always game overs, so it is disabled for now
-            return "Game Overx";
+            return "Game Over";
         }
 
         // Updating fields in the event of mouse presence
@@ -70,6 +71,7 @@ public class SimpleSnake {
 
         return "Ok";
     }
+
 
     /**
      * creating_new_head
@@ -96,6 +98,7 @@ public class SimpleSnake {
         return new_head;
     }
 
+
     /**
      * wall_collision_check
      * @param coordinate
@@ -112,6 +115,7 @@ public class SimpleSnake {
         }
         return coordinate;
     }
+
 
     /**
      * grow_snake
@@ -141,6 +145,7 @@ public class SimpleSnake {
         gameboard.remove(new_head);
         gameboard.add(tail);
     }
+
 
     // for testing
     public List<Point> get_snake_location() {
