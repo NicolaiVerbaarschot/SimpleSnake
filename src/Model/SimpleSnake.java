@@ -99,6 +99,11 @@ public class SimpleSnake {
     }
 
 
+        // Check for snake collision
+        if (snake_location.contains(new_head) && !new_head.equals(snake_location.get(1))) {
+            // TODO: implement gameOver() as a method in SimpleSnake;
+            // This should return game over, but at this point the game always game overs, so it is disabled for now
+            return "Game Over";
     /**
      * wall_collision_check
      * @param coordinate
