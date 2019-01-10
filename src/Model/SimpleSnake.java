@@ -84,10 +84,10 @@ public class SimpleSnake {
 
 
     /**
-     * wall_collision_check
-     * @param coordinate
-     * @param coordinate_max
-     * @return coordinate
+     * Method checks for snake head colliding with walls and updates coordinates if needed
+     * @param coordinate coordinate of snake head
+     * @param coordinate_max maximum coordinate in dimension
+     * @return possibly corrected coordinate
      * @author Andreas Goll Rossau
      */
     private int wall_collision_check(int coordinate, int coordinate_max) {
@@ -135,6 +135,11 @@ public class SimpleSnake {
         return solid.get_location();
     }
 
+    /**
+     * Helper method to get mouse position
+     * @return Point which has the coordinates of the mouse
+     * @author Andreas Goll Rossau
+     */
     public Point get_mouse_location() {
         return new Point(mickey.get_x_coordinate(), mickey.get_y_coordinate());
     }
