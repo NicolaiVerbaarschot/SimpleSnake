@@ -24,7 +24,7 @@ public class Mousetrack {
     }
 
     public void add(Point p) {
-        track.putIfAbsent((int) p.getX(), new LinkedHashMap<>()).put((int) p.getY(), 0);
+        track.computeIfAbsent((int) p.getX(), k -> new LinkedHashMap<>()).put((int) p.getY(), 0);
     }
 
     public void remove(Point p) {
