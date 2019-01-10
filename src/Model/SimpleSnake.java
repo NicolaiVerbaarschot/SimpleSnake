@@ -84,32 +84,6 @@ public class SimpleSnake {
         return "Ok";
     }
 
-//
-//    /**
-//     * creating_new_head
-//     * @param key_input
-//     * @param snake_location
-//     * @author Thea Birk Berger
-//     */
-//    // Translate key input to new_head coordinates
-//    private Point creating_new_head(String key_input, List<Point> snake_location) {
-//        // Extract current snake head information
-//        Point new_head = new Point(snake_location.get(0));
-//
-//        switch (key_input) {
-//            case "up":
-//                new_head.setLocation(new_head.getX(), new_head.getY() - 1); break;
-//            case "down":
-//                new_head.setLocation(new_head.getX(), new_head.getY() + 1); break;
-//            case "left":
-//                new_head.setLocation(new_head.getX() - 1, new_head.getY()); break;
-//            case "right":
-//                new_head.setLocation(new_head.getX() + 1, new_head.getY()); break;
-//            default: break;
-//        }
-//        return new_head;
-//    }
-
 
     /**
      * wall_collision_check
