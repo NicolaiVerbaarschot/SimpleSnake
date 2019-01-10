@@ -45,6 +45,9 @@ public class SnakeTextView {
                 if (p.equals(mouse_location)) {
                     System.out.print("M");
                 }
+                else if (p.equals(snake_location.get(0))) {
+                    System.out.print("H");
+                }
                 else if (snake_location.contains(p)) {
                     System.out.print("S");
                 }

@@ -44,36 +44,36 @@ public class SimpleSnake {
      */
     public String gameAction(String key_input) {
 
-        // Extracting current snake information and calculating new_head ("målfeltet")
+        // Extracting current snake information and calculating target_cell ("målfeltet")
         List<Point> snake_location = solid.get_location();
-        Point new_head = new Point(snake_location.get(0));
+        Point target_cell = new Point(snake_location.get(0));
 
         switch (key_input) {
             case "up":
-                new_head.setLocation(new_head.getX(), new_head.getY() - 1); break;
+                target_cell.setLocation(target_cell.getX(), target_cell.getY() - 1); break;
             case "down":
-                new_head.setLocation(new_head.getX(), new_head.getY() + 1); break;
+                target_cell.setLocation(target_cell.getX(), target_cell.getY() + 1); break;
             case "left":
-                new_head.setLocation(new_head.getX() - 1, new_head.getY()); break;
+                target_cell.setLocation(target_cell.getX() - 1, target_cell.getY()); break;
             case "right":
-                new_head.setLocation(new_head.getX() + 1, new_head.getY()); break;
+                target_cell.setLocation(target_cell.getX() + 1, target_cell.getY()); break;
             default: return "Playing";
         }
 
-        // Updating new_head coordinates in the event of wall collision
-        new_head.x = wall_collision_check((int) new_head.getX(), grid_x-1);
-        new_head.y = wall_collision_check((int) new_head.getY(), grid_y-1);
+        // Updating target_cell coordinates in the event of wall collision
+        target_cell.x = wall_collision_check((int) target_cell.getX(), grid_x-1);
+        target_cell.y = wall_collision_check((int) target_cell.getY(), grid_y-1);
 
         // Ending game in the event of snake collision
-        if (snake_location.contains(new_head) && !new_head.equals(snake_location.get(1)) && !new_head.equals(snake_location.get(snake_location.size()-1))) {
+        if (snake_location.contains(target_cell) && !target_cell.equals(snake_location.get(1)) && !target_cell.equals(snake_location.get(snake_location.size()-1))) {
             // TODO: implement gameOver();
             // This should return game over, but at this point the game always game overs, so it is disabled for now
             return "Game Over";
         }
 
         // Updating fields in the event of mouse presence
-        if (new_head.getX() == mickey.get_x_coordinate() && new_head.getY() == mickey.get_y_coordinate()) {
-            grow_snake(new_head);
+        if (target_cell.getX() == mickey.get_x_coordinate() && target_cell.getY() == mickey.get_y_coordinate()) {
+            grow_snake(target_cell);
             points++;
             if ((mousetrack.get_track().isEmpty())) {
                 // TODO: implement gameWon();
@@ -82,8 +82,8 @@ public class SimpleSnake {
         }
 
         // Updating fields in the event of no opposite direction attempt
-        else if (!new_head.getLocation().equals(snake_location.get(1))) {
-            move_snake(new_head);
+        else if (!target_cell.getLocation().equals(snake_location.get(1))) {
+            move_snake(target_cell);
         }
 
         return "Playing";
@@ -110,14 +110,14 @@ public class SimpleSnake {
 
     /**
      * grow_snake (mouse-function)
-     * @param new_head
+     * @param target_cell
      * @author Thea Birk Berger
      */
-    private void grow_snake(Point new_head) {
+    private void grow_snake(Point target_cell) {
         // Grow snake
-        solid.move((int) new_head.getX(), (int) new_head.getY(), true);
+        solid.move((int) target_cell.getX(), (int) target_cell.getY(), true);
         // Update mousetrack
-        mousetrack.remove(new_head);
+        mousetrack.remove(target_cell);
         if (!(mousetrack.get_track().isEmpty())) {
             // Update mouse location/create new mouse
             mickey.update_location(mousetrack.get_track());
