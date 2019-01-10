@@ -1,4 +1,6 @@
 package Model;
+import Controller.SnakeController;
+
 import java.awt.Point;
 import java.util.List;
 
@@ -31,7 +33,7 @@ public class SimpleSnake {
             mousetrack.remove(p);
         }
         // Create mouse
-        this.mickey = new Mouse(mousetrack.get_board());
+        this.mickey = new Mouse(mousetrack.get_track());
     }
 
 
@@ -55,7 +57,7 @@ public class SimpleSnake {
                 new_head.setLocation(new_head.getX() - 1, new_head.getY()); break;
             case "right":
                 new_head.setLocation(new_head.getX() + 1, new_head.getY()); break;
-            default: return "Ok";
+            default: return "Playing";
         }
 
         // Updating new_head coordinates in the event of wall collision
@@ -63,8 +65,8 @@ public class SimpleSnake {
         new_head.y = wall_collision_check((int) new_head.getY(), grid_y-1);
 
         // Ending game in the event of snake collision
-        if (snake_location.contains(new_head) && !new_head.equals(snake_location.get(1))) {
-            // TODO: implement gameOver() as a method in SimpleSnake;
+        if (snake_location.contains(new_head) && !new_head.equals(snake_location.get(1)) && !new_head.equals(snake_location.get(snake_location.size()-1))) {
+            // TODO: implement gameOver();
             // This should return game over, but at this point the game always game overs, so it is disabled for now
             return "Game Over";
         }
@@ -72,6 +74,10 @@ public class SimpleSnake {
         // Updating fields in the event of mouse presence
         if (new_head.getX() == mickey.get_x_coordinate() && new_head.getY() == mickey.get_y_coordinate()) {
             grow_snake(new_head);
+            if ((mousetrack.get_track().isEmpty())) {
+                // TODO: implement gameWon();
+                return "Game Won";
+            }
         }
 
         // Updating fields in the event of no opposite direction attempt
@@ -79,7 +85,7 @@ public class SimpleSnake {
             move_snake(new_head);
         }
 
-        return "Ok";
+        return "Playing";
     }
 
 
@@ -111,8 +117,10 @@ public class SimpleSnake {
         solid.move((int) new_head.getX(), (int) new_head.getY(), true);
         // Update mousetrack
         mousetrack.remove(new_head);
-        // Update mouse location
-        mickey.update_location(mousetrack.get_board());
+        if (!(mousetrack.get_track().isEmpty())) {
+            // Update mouse location/create new mouse
+            mickey.update_location(mousetrack.get_track());
+        }
     }
 
 

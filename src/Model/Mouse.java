@@ -56,7 +56,7 @@ public class Mouse {
         int outer_index = random_number_generator.nextInt(map_size);
 
         // Retrieve nested map
-        LinkedHashMap nested_map = (LinkedHashMap) getElementByIndex(possible_locations, outer_index);
+        LinkedHashMap nested_map = possible_locations.get((possible_locations.keySet().toArray())[outer_index]);
 
         // Calculate nested map size and corresponding index
         int nested_map_size = nested_map.size();
@@ -65,16 +65,5 @@ public class Mouse {
         // Update coordinate fields
         this.x = (Integer) possible_locations.keySet().toArray()[outer_index];
         this.y = (Integer) nested_map.keySet().toArray()[inner_index];
-    }
-
-    /**
-     * This is a helper method that relates a maps key with an index
-     * @param map A nested LinkedHashMap containing all grid cells not occupied by the snake
-     * @param index Used to get map values not by key but by index
-     * @return the Object linked by the map, given by the index
-     * @author Nicolai Verbaarschot
-     */
-    private Object getElementByIndex(LinkedHashMap map, int index) {
-        return map.get((map.keySet().toArray())[index]);
     }
 }

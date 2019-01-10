@@ -36,7 +36,7 @@ public class Mousetrack {
         }
     }
 
-    public LinkedHashMap<Integer, LinkedHashMap<Integer, Integer>> get_board() {
+    public LinkedHashMap<Integer, LinkedHashMap<Integer, Integer>> get_track() {
         return track;
     }
 
