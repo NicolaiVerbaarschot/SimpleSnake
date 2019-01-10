@@ -26,7 +26,7 @@ public class SimpleSnake {
         this.solid = new Snake(grid_x, grid_y);
         // Create mousetrack
         this.mousetrack = new Mousetrack(grid_x, grid_y);
-        // Remove snake location from mousetrack map
+        // Remove snake location from mousetrack
         for (Point p: solid.get_location()) {
             mousetrack.remove(p);
         }
@@ -109,7 +109,7 @@ public class SimpleSnake {
     private void grow_snake(Point new_head) {
         // Grow snake
         solid.move((int) new_head.getX(), (int) new_head.getY(), true);
-        // Update map
+        // Update mousetrack
         mousetrack.remove(new_head);
         // Update mouse location
         mickey.update_location(mousetrack.get_board());
@@ -124,7 +124,7 @@ public class SimpleSnake {
     private void move_snake(Point new_head) {
         // Move snake and extract tail
         Point tail = solid.move((int) new_head.getX(), (int) new_head.getY(), false);
-        // Update map
+        // Update mousetrack
         mousetrack.remove(new_head);
         mousetrack.add(tail);
     }
