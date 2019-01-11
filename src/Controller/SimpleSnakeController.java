@@ -25,7 +25,7 @@ public class SimpleSnakeController {
      */
     public SimpleSnakeController(int grid_x, int grid_y, Scene scene, GridPane gridPane) {
         this.game = new SimpleSnake(grid_x, grid_y);
-        this.view = new SimpleSnakeView(grid_x, grid_y, scene,  gridPane);
+        this.view = new SimpleSnakeView(grid_x, grid_y, scene, gridPane);
         this.grid_x = grid_x;
         this.grid_y = grid_y;
 

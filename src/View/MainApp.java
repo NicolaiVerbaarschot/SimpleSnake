@@ -1,5 +1,6 @@
-package Controller;
+package View;
 
+import Controller.SimpleSnakeController;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -22,6 +23,9 @@ public class MainApp extends Application {
 
         SimpleSnakeController controller = new SimpleSnakeController(Integer.parseInt(args.get(0)), Integer.parseInt(args.get(1)), scene, grid_pane);
 
+        // Constantly detects key pressed
+        // Converts keycode to descriptive string and sends it to controller via. the method key_press
+        // Controller calls for View action based on keycode string - which is saved for scene?
         scene.setOnKeyPressed(
                 new EventHandler<KeyEvent>() {
                     @Override
