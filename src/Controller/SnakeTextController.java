@@ -25,7 +25,7 @@ public class SnakeTextController {
         // This is the game loop only exited on game over
         do {
             view.drawBoard(grid_x, grid_y, game.get_snake_location(), game.get_mouse_location(), game.get_points());
-            this.game_status = game.gameAction(view.getInput());
+            this.game_status = game.game_action(view.getInput());
         }
         while(game_status.equals("Playing"));
 

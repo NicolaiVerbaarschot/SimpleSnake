@@ -1,8 +1,7 @@
 package Controller;
 
 import Model.SimpleSnake;
-import View.SnakeTextViewKeyPress;
-import View.SnakeView;
+import View.SimpleSnakeView;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 
@@ -10,10 +9,10 @@ import javafx.scene.layout.GridPane;
  * Class controls the Simple Snake game
  * @author Andreas Goll Rossau
  */
-public class SnakeController {
+public class SimpleSnakeController {
     SimpleSnake game;
     // SnakeTextViewKeyPress view;
-    SnakeView view;
+    SimpleSnakeView view;
     String game_status;
     int grid_x;
     int grid_y;
@@ -24,19 +23,19 @@ public class SnakeController {
      * @param grid_y The grid size in the y dimension
      * @author Andreas Goll Rossau
      */
-    public SnakeController(int grid_x, int grid_y, Scene scene, GridPane gridPane) {
+    public SimpleSnakeController(int grid_x, int grid_y, Scene scene, GridPane gridPane) {
         this.game = new SimpleSnake(grid_x, grid_y);
-        this.view = new SnakeView(scene, grid_x, grid_y, gridPane);
+        this.view = new SimpleSnakeView(grid_x, grid_y, scene,  gridPane);
         this.grid_x = grid_x;
         this.grid_y = grid_y;
 
-        view.drawBoard(game.get_snake_location(), game.get_mouse_location(), game.get_points());
+        view.draw_board(game.get_snake_location(), game.get_mouse_location(), game.get_points());
     }
 
-    public void keyPress(String code) {
-        game_status = game.gameAction(code);
+    public void key_press(String code) {
+        game_status = game.game_action(code);
         if (game_status.equals("Playing")) {
-            view.drawBoard(game.get_snake_location(), game.get_mouse_location(), game.get_points());
+            view.draw_board(game.get_snake_location(), game.get_mouse_location(), game.get_points());
         }
         else {
             view.print_status(game_status);

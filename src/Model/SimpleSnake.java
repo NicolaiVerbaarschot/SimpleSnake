@@ -10,7 +10,7 @@ public class SimpleSnake {
     private Mousetrack mousetrack;
     private int grid_x;
     private int grid_y;
-    private int points = 0;
+    private int points;
 
     /**
      * Constructor sets SimpleSnake fields
@@ -33,6 +33,8 @@ public class SimpleSnake {
         }
         // Create mouse
         this.mickey = new Mouse(mousetrack.get_track());
+        // Set points
+        this.points = 0;
     }
 
 
@@ -42,9 +44,9 @@ public class SimpleSnake {
      * @return game status to SnakeController
      * @author Thea Birk Berger
      */
-    public String gameAction(String key_input) {
+    public String game_action(String key_input) {
 
-        // Extracting current snake information and calculating target_cell ("målfeltet")
+        // Extracting current snake information and calculating target cell ("målfeltet")
         List<Point> snake_location = solid.get_location();
         Point target_cell = new Point(snake_location.get(0));
 
