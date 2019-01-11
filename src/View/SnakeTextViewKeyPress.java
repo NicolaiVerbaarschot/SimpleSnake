@@ -2,30 +2,21 @@ package View;
 
 import java.awt.*;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * Class displays the Simple Snake game as text in the console and takes text input from user
  * @author Andreas Goll Rossau
  */
-public class SnakeTextView {
-    Scanner console;
+public class SnakeTextViewKeyPress {
 
     /**
      * Constructor
      * @author Andreas Goll Rossau
      */
-    public SnakeTextView() {
-        this.console = new Scanner(System.in);
-    }
+    public SnakeTextViewKeyPress() { }
 
-    /**
-     * Method gets input from console
-     * @return input string
-     * @author Andreas Goll Rossau
-     */
-    public String getInput() {
-        return console.next();
+    public void print_status(String status) {
+        System.out.println(status);
     }
 
     /**

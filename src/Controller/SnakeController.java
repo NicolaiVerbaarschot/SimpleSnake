@@ -1,7 +1,7 @@
 package Controller;
 
 import Model.SimpleSnake;
-import View.SnakeTextView;
+import View.SnakeTextViewKeyPress;
 
 /**
  * Class controls the Simple Snake game
@@ -9,8 +9,10 @@ import View.SnakeTextView;
  */
 public class SnakeController {
     SimpleSnake game;
-    SnakeTextView view;
+    SnakeTextViewKeyPress view;
     String game_status;
+    int grid_x;
+    int grid_y;
 
     /**
      * Constructor. The program never leaves this constructor unless the game ends
@@ -20,16 +22,21 @@ public class SnakeController {
      */
     public SnakeController(int grid_x, int grid_y) {
         this.game = new SimpleSnake(grid_x, grid_y);
-        this.view = new SnakeTextView();
+        this.view = new SnakeTextViewKeyPress();
+        this.grid_x = grid_x;
+        this.grid_y = grid_y;
 
-        // This is the game loop only exited on game over
-        do {
-            view.drawBoard(grid_x, grid_y, game.get_snake_location(), game.get_mouse_location());
-            this.game_status = game.gameAction(view.getInput());
+        view.drawBoard(grid_x, grid_y, game.get_snake_location(), game.get_mouse_location(), game.get_points());
+    }
+
+    public void keyPress(String code) {
+        game_status = game.gameAction(code);
+        if (game_status.equals("Playing")) {
+            view.drawBoard(grid_x, grid_y, game.get_snake_location(), game.get_mouse_location(), game.get_points());
         }
-        while(game_status.equals("Playing"));
-
-        System.out.println(game_status);
-
+        else {
+            view.print_status(game_status);
+            System.exit(0);
+        }
     }
 }
