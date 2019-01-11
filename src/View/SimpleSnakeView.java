@@ -4,11 +4,14 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import javafx.scene.paint.Color;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +23,7 @@ import java.util.List;
 public class SimpleSnakeView {
     int grid_x;
     int grid_y;
+    int cell_size;
     Stage primary_stage;
     Scene scene;
     HashMap<Integer, HashMap<Integer, Canvas>> display_map;
@@ -37,6 +41,7 @@ public class SimpleSnakeView {
     public SimpleSnakeView(int grid_x, int grid_y, Scene scene, GridPane grid_pane, Stage primary_stage) {
         this.grid_x = grid_x;
         this.grid_y = grid_y;
+        this.cell_size = 100;
         this.scene = scene;
         this.display_map = new HashMap<>();
         this.grid_pane = grid_pane;
@@ -48,23 +53,17 @@ public class SimpleSnakeView {
         grid_pane.add(score_bar, 0, grid_y + 1, 2, 1);
 
         // Set window size
-        primary_stage.setWidth(grid_x * 100);
-        primary_stage.setHeight((grid_y * 100) + 50);
+        primary_stage.setWidth(grid_x * cell_size);
+        primary_stage.setHeight((grid_y * cell_size) + cell_size/2);
 
         // Add canvas cells to display_map and add display_map to grid_pane
         for (int i = 0; i < grid_x; i++) {
             display_map.put(i, new HashMap<>());
             for (int j = 0; j < grid_y; j++) {
-                display_map.get(i).put(j, new Canvas(100, 100));
+                display_map.get(i).put(j, new Canvas(cell_size, cell_size));
                 grid_pane.add(display_map.get(i).get(j), i, j, 1, 1);
             }
         }
-    }
-
-
-    // Prints Game Over and Game Won to the console
-    public void print_status(String status) {
-        System.out.println(status);
     }
 
     /**
@@ -101,6 +100,38 @@ public class SimpleSnakeView {
     }
 
     /**
+     * Method displays game Over and game Won
+     * @param status denotes either "Game Over" or "Game Won"
+     * @author Thes Birk Berger
+     */
+    public void print_status(String status) {
+
+        Text status_text = new Text();
+
+        // Set text
+        if (status.equals("Game Over")) {
+            status_text.setText("YOU HAVE\nLOST THE GAME");
+        } else {
+            status_text.setText("CONGRATULATIONS!\n YOU HAVE WON THE GAME");
+
+        }
+        // Set text position
+        status_text.setTextAlignment(TextAlignment.CENTER);
+        status_text.setWrappingWidth(grid_x * cell_size);
+
+        // Set text font
+        status_text.setFont(Font.font("Verdana", FontWeight.BOLD, cell_size/4));
+        status_text.setFill(Color.CHOCOLATE);
+        status_text.setStroke(Color.BLACK);
+
+        // Add rectangle and text to grid_pane
+        Rectangle rectangle = new Rectangle(grid_x * cell_size, grid_y * cell_size, Color.CADETBLUE);
+        grid_pane.add(rectangle, 0, 0, grid_x, grid_y);
+        grid_pane.add(status_text, 0,0, grid_x, grid_y);
+    }
+
+
+    /**
      * Method updates the text of the score bar to match the current game state
      * @param points denotes how many mice have been eaten
      * @author Thea Birk Berger
@@ -109,7 +140,7 @@ public class SimpleSnakeView {
         // Set score bar text
         score_bar.setText("SCORE" + "   " + points);
         // Set score bar font
-        score_bar.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
+        score_bar.setFont(Font.font("Verdana", FontWeight.BOLD, cell_size/5));
         score_bar.setFill(Color.PINK);
         score_bar.setStroke(Color.BLACK);
     }

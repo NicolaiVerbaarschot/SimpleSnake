@@ -44,7 +44,7 @@ public class SimpleSnakeController {
         }
         else {
             view.print_status(game_status);
-            System.exit(0);
+            //System.exit(0);
         }
     }
 }
