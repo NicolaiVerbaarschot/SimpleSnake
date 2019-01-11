@@ -14,10 +14,10 @@ public class SimpleSnake {
     private int grid_y;
 
     /**
-     * Constructor
-     * @param grid_x
-     * @param grid_y
-     * @author  Thea Birk Berger
+     * Constructor sets SimpleSnake fields
+     * @param grid_x denotes the game frame width
+     * @param grid_y denotes the game frame height
+     * @author Thea Birk Berger
      */
     public SimpleSnake(int grid_x, int grid_y) {
 
@@ -38,8 +38,9 @@ public class SimpleSnake {
 
 
     /**
-     * gameAction
-     * @param key_input
+     * Method determines whether snake should grow or move and notifies the controller if the game should continue of finish
+     * @param key_input is a string representing a key pressed by user during the game
+     * @return game status to SnakeController
      * @author Thea Birk Berger
      */
     public String gameAction(String key_input) {
