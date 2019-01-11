@@ -4,6 +4,7 @@ import Model.SimpleSnake;
 import View.SimpleSnakeView;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
 /**
  * Class controls the Simple Snake game
@@ -23,19 +24,23 @@ public class SimpleSnakeController {
      * @param grid_y The grid size in the y dimension
      * @author Andreas Goll Rossau
      */
-    public SimpleSnakeController(int grid_x, int grid_y, Scene scene, GridPane gridPane) {
+    public SimpleSnakeController(int grid_x, int grid_y, Scene scene, GridPane gridPane, Stage primary_stage) {
         this.game = new SimpleSnake(grid_x, grid_y);
-        this.view = new SimpleSnakeView(grid_x, grid_y, scene, gridPane);
+        this.view = new SimpleSnakeView(grid_x, grid_y, scene, gridPane, primary_stage);
         this.grid_x = grid_x;
         this.grid_y = grid_y;
 
-        view.draw_board(game.get_snake_location(), game.get_mouse_location(), game.get_points());
+        // Initialize window
+        view.draw_board(game.get_snake_location(), game.get_mouse_location());
+        view.set_score_bar(game.get_points());
     }
 
+    // Modify window according to key input
     public void key_press(String code) {
         game_status = game.game_action(code);
         if (game_status.equals("Playing")) {
-            view.draw_board(game.get_snake_location(), game.get_mouse_location(), game.get_points());
+            view.draw_board(game.get_snake_location(), game.get_mouse_location());
+            view.set_score_bar(game.get_points());
         }
         else {
             view.print_status(game_status);

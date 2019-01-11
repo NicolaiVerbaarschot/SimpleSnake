@@ -21,7 +21,7 @@ public class MainApp extends Application {
 
         primary_stage.show();
 
-        SimpleSnakeController controller = new SimpleSnakeController(Integer.parseInt(args.get(0)), Integer.parseInt(args.get(1)), scene, grid_pane);
+        SimpleSnakeController controller = new SimpleSnakeController(Integer.parseInt(args.get(0)), Integer.parseInt(args.get(1)), scene, grid_pane, primary_stage);
 
         // Constantly detects key pressed
         // Converts keycode to descriptive string and sends it to controller via. the method key_press
