@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.util.List;
@@ -12,13 +13,14 @@ import java.util.List;
 public class MainApp extends Application {
     public void start(Stage primaryStage) {
         List<String> args = getParameters().getRaw();
-        SnakeController controller = new SnakeController(Integer.parseInt(args.get(0)), Integer.parseInt(args.get(1)));
 
-        Group root = new Group();
-        Scene scene = new Scene(root);
+        GridPane gridPane = new GridPane();
+        Scene scene = new Scene(gridPane);
         primaryStage.setScene(scene);
 
         primaryStage.show();
+
+        SnakeController controller = new SnakeController(Integer.parseInt(args.get(0)), Integer.parseInt(args.get(1)), scene, gridPane);
 
         scene.setOnKeyPressed(
                 new EventHandler<KeyEvent>() {
