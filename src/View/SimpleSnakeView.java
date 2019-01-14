@@ -59,7 +59,6 @@ public class SimpleSnakeView {
         // Initialize score bar and add it to grid_pane
         set_score_bar(0);
         grid_pane.add(score_bar, 0, grid_y + 1, grid_x, 1);
-
         // Set window size
         primary_stage.setWidth(grid_x * cell_size);
         primary_stage.setHeight((grid_y * cell_size) + 65);
@@ -164,6 +163,10 @@ public class SimpleSnakeView {
         this.grid_pane.add(this.endgame_text, 0,0, grid_x, grid_y);
     }
 
+    /**
+     * Method clears the endgame state by removing the text and background
+     * @author Nicolai Verbaarschot
+     */
     public void clear_endgame () {
         grid_pane.getChildren().remove(endgame_text);
         grid_pane.getChildren().remove(endgame_background);

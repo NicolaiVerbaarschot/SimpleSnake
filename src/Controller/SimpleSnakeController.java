@@ -41,16 +41,24 @@ public class SimpleSnakeController {
      * @author
      */
     public void key_press(String code) {
+
         game_status = game.game_action(code);
+
         if (game_status.equals("Playing")) {
             view.update_board(game.get_snake_location().get(0), game.get_tail(), game.get_mouse_location());
             view.set_score_bar(game.get_points());
-        } else if (game_status.equals("Restart")) {
+        }
+        else if (game_status.equals("Restart")) {
             game.reset_game();
             view.clear_endgame();
             view.draw_board(game.get_snake_location(), game.get_mouse_location());
             view.set_score_bar(game.get_points());
-        } else {
+
+        }
+        else if (game_status.equals("Exit")){
+            System.exit(0);
+        }
+        else {
             view.print_status(game_status);
         }
     }
