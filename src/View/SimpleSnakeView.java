@@ -33,6 +33,7 @@ public class SimpleSnakeView {
     Image snake = new Image("/image/snake.png");
     Image head = new Image("/image/head.png");
     Image emptyCell = new Image("/image/emptyCell.png");
+    Point old_mouse_location;
 
     /**
      * Constructor
@@ -79,23 +80,32 @@ public class SimpleSnakeView {
                 if (p.equals(mouse_location)) {
                     // Draw mouse
                     display_map.get(j).get(i).getGraphicsContext2D().drawImage(mouse, 0, 0);
+                    old_mouse_location.setLocation(mouse_location);
                 }
                 else if (p.equals(snake_location.get(0))) {
                     // Draw snake head
                     display_map.get(j).get(i).getGraphicsContext2D().drawImage(head, 0, 0);
-
                 }
                 else if (snake_location.contains(p)) {
                     // Draw snake body
                     display_map.get(j).get(i).getGraphicsContext2D().drawImage(snake, 0, 0);
-
                 }
                 else {
                     // Draw empty cell
                     display_map.get(j).get(i).getGraphicsContext2D().drawImage(emptyCell, 0, 0);
-
                 }
             }
+        }
+    }
+
+    public void update_board(Point snake_head, Point old_snake_tail, Point mouse_location) {
+        // No mouse has been eaten
+        if (mouse_location.equals(old_mouse_location)) {
+            display_map.get((int) old_mouse_location.getX()).get((int) old_mouse_location.getY()).getGraphicsContext2D().drawImage(emptyCell, 0, 0, cell_size, cell_size);
+
+        }
+        else {
+
         }
     }
 

@@ -27,12 +27,7 @@ public class MainApp extends Application {
         // Converts keycode to descriptive string and sends it to controller via. the method key_press
         // Controller calls for View action based on keycode string - which is saved for scene?
         scene.setOnKeyPressed(
-                new EventHandler<KeyEvent>() {
-                    @Override
-                    public void handle(KeyEvent event) {
-                        controller.key_press(event.getCode().toString());
-                    }
-                }
+                event -> controller.key_press(event.getCode().toString())
         );
     }
 
