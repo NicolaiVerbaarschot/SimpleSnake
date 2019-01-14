@@ -1,5 +1,4 @@
 package Model;
-import Controller.SnakeController;
 
 import java.awt.Point;
 import java.util.List;
@@ -11,13 +10,13 @@ public class SimpleSnake {
     private Mousetrack mousetrack;
     private int grid_x;
     private int grid_y;
-    private int points = 0;
+    private int points;
 
     /**
-     * Constructor
-     * @param grid_x
-     * @param grid_y
-     * @author  Thea Birk Berger
+     * Constructor sets SimpleSnake fields
+     * @param grid_x denotes the game frame width
+     * @param grid_y denotes the game frame height
+     * @author Thea Birk Berger
      */
     public SimpleSnake(int grid_x, int grid_y) {
 
@@ -34,21 +33,24 @@ public class SimpleSnake {
         }
         // Create mouse
         this.mickey = new Mouse(mousetrack.get_track());
+        // Set points
+        this.points = 0;
     }
 
 
     /**
-     * gameAction
-     * @param key_input
+     * Method determines whether snake should grow or move and notifies the controller if the game should continue of finish
+     * @param key_input is a string representing a key pressed by user during the game
+     * @return game status to SnakeController
      * @author Thea Birk Berger
      */
-    public String gameAction(String key_input) {
+    public String game_action(String key_input) {
 
-        // Extracting current snake information and calculating target_cell ("målfeltet")
+        // Extracting current snake information and calculating target cell ("målfeltet")
         List<Point> snake_location = solid.get_location();
         Point target_cell = new Point(snake_location.get(0));
 
-        switch (key_input) {
+        switch (key_input.toLowerCase()) {
             case "up":
                 target_cell.setLocation(target_cell.getX(), target_cell.getY() - 1); break;
             case "down":
