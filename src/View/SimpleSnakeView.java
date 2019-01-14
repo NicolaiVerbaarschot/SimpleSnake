@@ -114,17 +114,17 @@ public class SimpleSnakeView {
      * @author Andreas Goll Rossau
      */
     public void update_board(Point snake_head, Point old_snake_tail, Point mouse_location) {
-        // A mouse has been eaten
-        if (!mouse_location.equals(old_mouse_location)) {
-            display_map.get((int) mouse_location.getX()).get((int) mouse_location.getY()).getGraphicsContext2D().drawImage(mouse, 0, 0, cell_size, cell_size);
-            old_mouse_location.setLocation(mouse_location);
-        }
-        // No mouse has been eaten
-        else {
-            display_map.get((int) old_snake_tail.getX()).get((int) old_snake_tail.getY()).getGraphicsContext2D().drawImage(emptyCell, 0, 0, cell_size, cell_size);
-        }
-
         if (!snake_head.equals(old_snake_head)) {
+            // A mouse has been eaten
+            if (!mouse_location.equals(old_mouse_location)) {
+                display_map.get((int) mouse_location.getX()).get((int) mouse_location.getY()).getGraphicsContext2D().drawImage(mouse, 0, 0, cell_size, cell_size);
+                old_mouse_location.setLocation(mouse_location);
+            }
+            // No mouse has been eaten
+            else {
+                display_map.get((int) old_snake_tail.getX()).get((int) old_snake_tail.getY()).getGraphicsContext2D().drawImage(emptyCell, 0, 0, cell_size, cell_size);
+            }
+
             display_map.get((int) old_snake_head.getX()).get((int) old_snake_head.getY()).getGraphicsContext2D().drawImage(snake, 0, 0, cell_size, cell_size);
             display_map.get((int) snake_head.getX()).get((int) snake_head.getY()).getGraphicsContext2D().drawImage(head, 0, 0, cell_size, cell_size);
             old_snake_head.setLocation(snake_head);

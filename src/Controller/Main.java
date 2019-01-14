@@ -9,7 +9,7 @@ public class Main {
      * @param args command line arguments should be x and y dimensions of game grid
      * @author Andreas Goll Rossau
      */
-        public static void main(String[] args) {
-            SnakeTextController controller = new SnakeTextController(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
-        }
+    public static void main(String[] args) {
+        SnakeTextController controller = new SnakeTextController(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
+    }
 }
