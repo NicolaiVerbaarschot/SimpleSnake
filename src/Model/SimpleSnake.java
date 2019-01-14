@@ -48,17 +48,18 @@ public class SimpleSnake {
 
         // Extracting current snake information and calculating target cell ("målfeltet")
         List<Point> snake_location = solid.get_location();
-        Point target_cell = new Point(snake_location.get(0));
+        Point current_head = new Point(snake_location.get(0));
+        Point target_cell = new Point();
 
         switch (key_input.toLowerCase()) {
             case "up":
-                target_cell.setLocation(target_cell.getX(), target_cell.getY() - 1); break;
+                target_cell.setLocation(current_head.getX(), current_head.getY() - 1); break;
             case "down":
-                target_cell.setLocation(target_cell.getX(), target_cell.getY() + 1); break;
+                target_cell.setLocation(current_head.getX(), current_head.getY() + 1); break;
             case "left":
-                target_cell.setLocation(target_cell.getX() - 1, target_cell.getY()); break;
+                target_cell.setLocation(current_head.getX() - 1, current_head.getY()); break;
             case "right":
-                target_cell.setLocation(target_cell.getX() + 1, target_cell.getY()); break;
+                target_cell.setLocation(current_head.getX() + 1, current_head.getY()); break;
             default: return "Playing";
         }
 

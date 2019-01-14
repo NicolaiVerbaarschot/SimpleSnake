@@ -21,18 +21,18 @@ import java.util.List;
  * @author Andreas Goll Rossau
  */
 public class SimpleSnakeView {
-    int grid_x;
-    int grid_y;
-    int cell_size;
-    Stage primary_stage;
-    Scene scene;
-    HashMap<Integer, HashMap<Integer, Canvas>> display_map;
-    GridPane grid_pane;
-    Text score_bar;
-    Image mouse = new Image("/image/mouse.png");
-    Image snake = new Image("/image/snake.png");
-    Image head = new Image("/image/head.png");
-    Image emptyCell = new Image("/image/emptyCell.png");
+    private int grid_x;
+    private int grid_y;
+    private int cell_size;
+    private Stage primary_stage;
+    private Scene scene;
+    private HashMap<Integer, HashMap<Integer, Canvas>> display_map;
+    private GridPane grid_pane;
+    private Text score_bar;
+    private Image mouse = new Image("/image/mouse.png");
+    private Image snake = new Image("/image/snake.png");
+    private Image head = new Image("/image/head.png");
+    private Image emptyCell = new Image("/image/emptyCell.png");
 
     /**
      * Constructor
