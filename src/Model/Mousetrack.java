@@ -23,7 +23,7 @@ public class Mousetrack {
         // Create mousetrack
         this.track = new LinkedHashMap<>();
 
-        // Create mousetrack map
+        // Create mousetrack map of all X times Y cells
         for (int i = 0; i < grid_x; i++) {
             track.put(i, new LinkedHashMap<>());
             for (int j = 0; j < grid_y; j++) {

@@ -11,12 +11,12 @@ import javafx.stage.Stage;
  * @author Andreas Goll Rossau
  */
 public class SimpleSnakeController {
-    SimpleSnake game;
+    private SimpleSnake game;
     // SnakeTextViewKeyPress view;
-    SimpleSnakeView view;
-    String game_status;
-    int grid_x;
-    int grid_y;
+    private SimpleSnakeView view;
+    private  String game_status;
+    private int grid_x;
+    private int grid_y;
 
     /**
      * Constructor. The program never leaves this constructor unless the game ends
