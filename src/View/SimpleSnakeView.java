@@ -41,7 +41,7 @@ public class SimpleSnakeView {
     public SimpleSnakeView(int grid_x, int grid_y, Scene scene, GridPane grid_pane, Stage primary_stage) {
         this.grid_x = grid_x;
         this.grid_y = grid_y;
-        this.cell_size = 100;
+        this.cell_size = Math.min( (100/Math.max(grid_x,grid_y))*9, 100 );
         this.scene = scene;
         this.display_map = new HashMap<>();
         this.grid_pane = grid_pane;
@@ -50,11 +50,11 @@ public class SimpleSnakeView {
 
         // Initialize score bar and add it to grid_pane
         set_score_bar(0);
-        grid_pane.add(score_bar, 0, grid_y + 1, 2, 1);
+        grid_pane.add(score_bar, 0, grid_y + 1, grid_x, 1);
 
         // Set window size
         primary_stage.setWidth(grid_x * cell_size);
-        primary_stage.setHeight((grid_y * cell_size) + cell_size/2);
+        primary_stage.setHeight((grid_y * cell_size) + 50);
 
         // Add canvas cells to display_map and add display_map to grid_pane
         for (int i = 0; i < grid_x; i++) {
@@ -78,21 +78,21 @@ public class SimpleSnakeView {
                 Point p = new Point(j, i);
                 if (p.equals(mouse_location)) {
                     // Draw mouse
-                    display_map.get(j).get(i).getGraphicsContext2D().drawImage(mouse, 0, 0);
+                    display_map.get(j).get(i).getGraphicsContext2D().drawImage(mouse, 0, 0, cell_size, cell_size);
                 }
                 else if (p.equals(snake_location.get(0))) {
                     // Draw snake head
-                    display_map.get(j).get(i).getGraphicsContext2D().drawImage(head, 0, 0);
+                    display_map.get(j).get(i).getGraphicsContext2D().drawImage(head, 0, 0,  cell_size, cell_size);
 
                 }
                 else if (snake_location.contains(p)) {
                     // Draw snake body
-                    display_map.get(j).get(i).getGraphicsContext2D().drawImage(snake, 0, 0);
+                    display_map.get(j).get(i).getGraphicsContext2D().drawImage(snake, 0, 0,  cell_size, cell_size);
 
                 }
                 else {
                     // Draw empty cell
-                    display_map.get(j).get(i).getGraphicsContext2D().drawImage(emptyCell, 0, 0);
+                    display_map.get(j).get(i).getGraphicsContext2D().drawImage(emptyCell, 0, 0, cell_size, cell_size);
 
                 }
             }
@@ -120,7 +120,7 @@ public class SimpleSnakeView {
         status_text.setWrappingWidth(grid_x * cell_size);
 
         // Set text font
-        status_text.setFont(Font.font("Verdana", FontWeight.BOLD, cell_size/4));
+        status_text.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
         status_text.setFill(Color.CHOCOLATE);
         status_text.setStroke(Color.BLACK);
 
@@ -140,7 +140,7 @@ public class SimpleSnakeView {
         // Set score bar text
         score_bar.setText("SCORE" + "   " + points);
         // Set score bar font
-        score_bar.setFont(Font.font("Verdana", FontWeight.BOLD, cell_size/5));
+        score_bar.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
         score_bar.setFill(Color.PINK);
         score_bar.setStroke(Color.BLACK);
     }

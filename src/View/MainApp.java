@@ -32,6 +32,7 @@ public class MainApp extends Application {
                     public void handle(KeyEvent event) {
                         controller.key_press(event.getCode().toString());
                     }
+
                 }
         );
     }
