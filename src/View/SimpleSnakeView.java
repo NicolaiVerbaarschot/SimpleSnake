@@ -56,7 +56,7 @@ public class SimpleSnakeView {
 
         // Set window size
         primary_stage.setWidth(grid_x * cell_size);
-        primary_stage.setHeight((grid_y * cell_size) + 50);
+        primary_stage.setHeight((grid_y * cell_size) + 65);
 
         // Add canvas cells to display_map and add display_map to grid_pane
         for (int i = 0; i < grid_x; i++) {
