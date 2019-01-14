@@ -39,7 +39,7 @@ public class SimpleSnakeController {
     public void key_press(String code) {
         game_status = game.game_action(code);
         if (game_status.equals("Playing")) {
-            view.draw_board(game.get_snake_location(), game.get_mouse_location());
+            view.update_board(game.get_snake_location().get(0), game.get_tail(), game.get_mouse_location());
             view.set_score_bar(game.get_points());
         }
         else {

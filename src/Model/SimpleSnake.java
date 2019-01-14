@@ -11,6 +11,7 @@ public class SimpleSnake {
     private int grid_x;
     private int grid_y;
     private int points;
+    private Point tail;
 
     /**
      * Constructor sets SimpleSnake fields
@@ -134,10 +135,14 @@ public class SimpleSnake {
      */
     private void move_snake(Point new_head) {
         // Move snake and extract tail
-        Point tail = solid.move((int) new_head.getX(), (int) new_head.getY(), false);
+        tail = solid.move((int) new_head.getX(), (int) new_head.getY(), false);
         // Update mousetrack
         mousetrack.remove(new_head);
         mousetrack.add(tail);
+    }
+
+    public Point get_tail() {
+        return tail;
     }
 
 
