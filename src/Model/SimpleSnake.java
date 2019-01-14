@@ -60,6 +60,8 @@ public class SimpleSnake {
                 target_cell.setLocation(current_head.getX() - 1, current_head.getY()); break;
             case "right":
                 target_cell.setLocation(current_head.getX() + 1, current_head.getY()); break;
+            case "r":
+                return "Restart";
             default: return "Playing";
         }
 
@@ -164,6 +166,20 @@ public class SimpleSnake {
     public int get_points() {
         return points;
     }
+
+
+    public void reset_game() {
+        // Create new mousetrack (gameboard)
+        this.mousetrack = new Mousetrack(grid_x, grid_y);
+        // Create new (initial) snake
+        this.solid = new Snake(grid_x, grid_y);
+        // Remove snake location from mousetrack
+        for (Point p: solid.get_location()) {
+            mousetrack.remove(p);
+        }
+        // Create mouse
+        this.mickey = new Mouse(mousetrack.get_track());
+        // Reset points
+        this.points = 0;
+    }
 }
-
-

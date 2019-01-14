@@ -41,8 +41,11 @@ public class SimpleSnakeController {
         if (game_status.equals("Playing")) {
             view.draw_board(game.get_snake_location(), game.get_mouse_location());
             view.set_score_bar(game.get_points());
-        }
-        else {
+        } else if (game_status.equals("Restart")) {
+            game.reset_game();
+            view.draw_board(game.get_snake_location(), game.get_mouse_location());
+            view.set_score_bar(game.get_points());
+        } else {
             view.print_status(game_status);
             //System.exit(0);
         }
