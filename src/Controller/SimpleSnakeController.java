@@ -35,7 +35,11 @@ public class SimpleSnakeController {
         view.set_score_bar(game.get_points());
     }
 
-    // Modify window according to key input
+    /**
+     * Method passes key input code to model and updates view according to game status returned from model
+     * @param code key input code
+     * @author
+     */
     public void key_press(String code) {
         game_status = game.game_action(code);
         if (game_status.equals("Playing")) {
@@ -47,7 +51,6 @@ public class SimpleSnakeController {
             view.set_score_bar(game.get_points());
         } else {
             view.print_status(game_status);
-            //System.exit(0);
         }
     }
 }

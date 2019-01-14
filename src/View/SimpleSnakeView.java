@@ -38,6 +38,11 @@ public class SimpleSnakeView {
 
     /**
      * Constructor
+     * @param grid_x
+     * @param grid_y
+     * @param scene
+     * @param grid_pane
+     * @param primary_stage
      * @author Andreas Goll Rossau
      */
     public SimpleSnakeView(int grid_x, int grid_y, Scene scene, GridPane grid_pane, Stage primary_stage) {
@@ -69,7 +74,7 @@ public class SimpleSnakeView {
     }
 
     /**
-     * Method 'draws' the game as characters in the console
+     * Method draws the game board for a new game
      * @param snake_location list of locations of parts of the snake
      * @param mouse_location location of the mouse
      * @author Andreas Goll Rossau
@@ -100,6 +105,13 @@ public class SimpleSnakeView {
         }
     }
 
+    /**
+     * Method updates game window by only redrawing as needed
+     * @param snake_head position of the snake's head
+     * @param old_snake_tail old position of the snake's tail
+     * @param mouse_location location of the mouse
+     * @author Andreas Goll Rossau
+     */
     public void update_board(Point snake_head, Point old_snake_tail, Point mouse_location) {
         // A mouse has been eaten
         if (!mouse_location.equals(old_mouse_location)) {

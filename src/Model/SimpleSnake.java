@@ -11,7 +11,7 @@ public class SimpleSnake {
     private int grid_x;
     private int grid_y;
     private int points;
-    private Point tail;
+    private Point old_snake_tail;
 
     /**
      * Constructor sets SimpleSnake fields
@@ -138,18 +138,27 @@ public class SimpleSnake {
      */
     private void move_snake(Point new_head) {
         // Move snake and extract tail
-        tail = solid.move((int) new_head.getX(), (int) new_head.getY(), false);
+        old_snake_tail = solid.move((int) new_head.getX(), (int) new_head.getY(), false);
         // Update mousetrack
         mousetrack.remove(new_head);
-        mousetrack.add(tail);
+        mousetrack.add(old_snake_tail);
     }
 
+    /**
+     * Helper method to pass old position of snake's tail
+     * @return point where the has just moved from
+     * @author Andreas Goll Rossau
+     */
     public Point get_tail() {
-        return tail;
+        return old_snake_tail;
     }
 
 
-    // for testing
+    /**
+     * Helper method to get location of the snake
+     * @return Array of Point objects with the location of the snake
+     * @author Andreas Goll Rossau
+     */
     public List<Point> get_snake_location() {
         return solid.get_location();
     }
@@ -173,6 +182,9 @@ public class SimpleSnake {
     }
 
 
+    /**
+     * @author
+     */
     public void reset_game() {
         // Create new mousetrack (gameboard)
         this.mousetrack = new Mousetrack(grid_x, grid_y);
