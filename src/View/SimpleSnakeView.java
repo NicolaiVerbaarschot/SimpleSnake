@@ -4,7 +4,6 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.shape.Rectangle;
@@ -28,6 +27,8 @@ public class SimpleSnakeView {
     private Scene scene;
     private HashMap<Integer, HashMap<Integer, Canvas>> display_map;
     private GridPane grid_pane;
+    private Text endgame_text = new Text();
+    private Rectangle endgame_background = new Rectangle();
     private Text score_bar;
     private Image mouse = new Image("/image/mouse.png");
     private Image snake = new Image("/image/snake.png");
@@ -137,28 +138,35 @@ public class SimpleSnakeView {
      */
     public void print_status(String status) {
 
-        Text status_text = new Text();
-
         // Set text
         if (status.equals("Game Over")) {
-            status_text.setText("YOU HAVE\nLOST THE GAME");
+            this.endgame_text.setText("YOU HAVE\nLOST THE GAME");
         } else {
-            status_text.setText("CONGRATULATIONS!\n YOU HAVE WON THE GAME");
+            this.endgame_text.setText("CONGRATULATIONS!\n YOU HAVE WON THE GAME");
 
         }
         // Set text position
-        status_text.setTextAlignment(TextAlignment.CENTER);
-        status_text.setWrappingWidth(grid_x * cell_size);
+        this.endgame_text.setTextAlignment(TextAlignment.CENTER);
+        this.endgame_text.setWrappingWidth(grid_x * cell_size);
 
         // Set text font
-        status_text.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
-        status_text.setFill(Color.CHOCOLATE);
-        status_text.setStroke(Color.BLACK);
+        this.endgame_text.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
+        this.endgame_text.setFill(Color.CHOCOLATE);
+        this.endgame_text.setStroke(Color.BLACK);
 
-        // Add rectangle and text to grid_pane
-        Rectangle rectangle = new Rectangle(grid_x * cell_size, grid_y * cell_size, Color.CADETBLUE);
-        grid_pane.add(rectangle, 0, 0, grid_x, grid_y);
-        grid_pane.add(status_text, 0,0, grid_x, grid_y);
+        // Set rectangle parameters
+        endgame_background.setHeight(grid_y*cell_size);
+        endgame_background.setWidth(grid_x*cell_size);
+        endgame_background.setFill(Color.CADETBLUE);
+
+        // Add endgame_background and text to grid_pane
+        this.grid_pane.add(endgame_background, 0, 0, grid_x, grid_y);
+        this.grid_pane.add(this.endgame_text, 0,0, grid_x, grid_y);
+    }
+
+    public void clear_endgame () {
+        grid_pane.getChildren().remove(endgame_text);
+        grid_pane.getChildren().remove(endgame_background);
     }
 
 
