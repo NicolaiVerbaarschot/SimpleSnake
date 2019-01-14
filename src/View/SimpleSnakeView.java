@@ -33,6 +33,8 @@ public class SimpleSnakeView {
     private Image snake = new Image("/image/snake.png");
     private Image head = new Image("/image/head.png");
     private Image emptyCell = new Image("/image/emptyCell.png");
+    private Point old_mouse_location;
+    private Point old_snake_head;
 
     /**
      * Constructor
@@ -54,7 +56,7 @@ public class SimpleSnakeView {
 
         // Set window size
         primary_stage.setWidth(grid_x * cell_size);
-        primary_stage.setHeight((grid_y * cell_size) + 50);
+        primary_stage.setHeight((grid_y * cell_size) + 65);
 
         // Add canvas cells to display_map and add display_map to grid_pane
         for (int i = 0; i < grid_x; i++) {
@@ -79,23 +81,39 @@ public class SimpleSnakeView {
                 if (p.equals(mouse_location)) {
                     // Draw mouse
                     display_map.get(j).get(i).getGraphicsContext2D().drawImage(mouse, 0, 0, cell_size, cell_size);
+                    old_mouse_location = new Point(mouse_location);
                 }
                 else if (p.equals(snake_location.get(0))) {
                     // Draw snake head
                     display_map.get(j).get(i).getGraphicsContext2D().drawImage(head, 0, 0,  cell_size, cell_size);
-
+                    old_snake_head = new Point(snake_location.get(0));
                 }
                 else if (snake_location.contains(p)) {
                     // Draw snake body
                     display_map.get(j).get(i).getGraphicsContext2D().drawImage(snake, 0, 0,  cell_size, cell_size);
-
                 }
                 else {
                     // Draw empty cell
                     display_map.get(j).get(i).getGraphicsContext2D().drawImage(emptyCell, 0, 0, cell_size, cell_size);
-
                 }
             }
+        }
+    }
+
+    public void update_board(Point snake_head, Point old_snake_tail, Point mouse_location) {
+        if (!snake_head.equals(old_snake_head)) {
+            display_map.get((int) old_snake_head.getX()).get((int) old_snake_head.getY()).getGraphicsContext2D().drawImage(snake, 0, 0, cell_size, cell_size);
+            display_map.get((int) snake_head.getX()).get((int) snake_head.getY()).getGraphicsContext2D().drawImage(head, 0, 0, cell_size, cell_size);
+            old_snake_head.setLocation(snake_head);
+        }
+        // A mouse has been eaten
+        if (!mouse_location.equals(old_mouse_location)) {
+            display_map.get((int) mouse_location.getX()).get((int) mouse_location.getY()).getGraphicsContext2D().drawImage(mouse, 0, 0, cell_size, cell_size);
+            old_mouse_location.setLocation(mouse_location);
+        }
+        // No mouse has been eaten
+        else {
+            display_map.get((int) old_snake_tail.getX()).get((int) old_snake_tail.getY()).getGraphicsContext2D().drawImage(emptyCell, 0, 0, cell_size, cell_size);
         }
     }
 
@@ -143,16 +161,5 @@ public class SimpleSnakeView {
         score_bar.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
         score_bar.setFill(Color.PINK);
         score_bar.setStroke(Color.BLACK);
-    }
-
-    /**
-     * Helper method for printing a variable number of spaces
-     * @param n number of spaces to print
-     * @author Andreas Goll Rossau
-     */
-    private void print_spaces(int n) {
-        for (int i = 0; i < n; i++) {
-            System.out.print(" ");
-        }
     }
 }
