@@ -17,6 +17,7 @@ public class SimpleSnakeController {
     private  String game_status;
     private int grid_x;
     private int grid_y;
+    private boolean endgame_flag;
 
     /**
      * Constructor. The program never leaves this constructor unless the game ends
@@ -29,6 +30,7 @@ public class SimpleSnakeController {
         this.view = new SimpleSnakeView(grid_x, grid_y, scene, gridPane, primary_stage);
         this.grid_x = grid_x;
         this.grid_y = grid_y;
+        endgame_flag = false;
 
         // Initialize window
         view.draw_board(game.get_snake_location(), game.get_mouse_location());
@@ -41,7 +43,9 @@ public class SimpleSnakeController {
      * @author
      */
     public void key_press(String code) {
-
+        if (endgame_flag && !(code.equals("R") || code.equals("ESCAPE"))) {
+            return;
+        }
         game_status = game.game_action(code);
 
         if (game_status.equals("Playing")) {
@@ -53,13 +57,14 @@ public class SimpleSnakeController {
             view.clear_endgame();
             view.draw_board(game.get_snake_location(), game.get_mouse_location());
             view.set_score_bar(game.get_points());
-
+            endgame_flag = false;
         }
         else if (game_status.equals("Exit")){
             System.exit(0);
         }
         else {
             view.print_status(game_status);
+            endgame_flag = true;
         }
     }
 }
