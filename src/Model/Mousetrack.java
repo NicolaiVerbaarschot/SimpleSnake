@@ -49,11 +49,13 @@ public class Mousetrack {
      * @author Andreas Goll Rossau
      */
     public void remove(Point p) {
-        // Remove Y from X map
-        track.get((int) p.getX()).remove((int) p.getY());
-        // Remove nested map if empty
-        if (track.get((int) p.getX()).isEmpty()) {
-            track.remove((int) p.getX());
+        if (track.get((int) p.getX()) != null) {
+            // Remove Y from X map
+            track.get((int) p.getX()).remove((int) p.getY());
+            // Remove nested map if empty
+            if (track.get((int) p.getX()).isEmpty()) {
+                track.remove((int) p.getX());
+            }
         }
     }
 
