@@ -25,7 +25,7 @@ public class SimpleSnakeController {
      * @param grid_y The grid size in the y dimension
      * @author Andreas Goll Rossau
      */
-    public SimpleSnakeController(int grid_x, int grid_y, Scene scene, GridPane gridPane, Stage primary_stage) {
+    public SimpleSnakeController(int grid_x, int grid_y, GridPane gridPane, Stage primary_stage) {
         this.game = new SimpleSnake(grid_x, grid_y);
         this.view = new SimpleSnakeView(grid_x, grid_y, gridPane, primary_stage);
         this.grid_x = grid_x;
