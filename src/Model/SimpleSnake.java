@@ -10,7 +10,7 @@ public class SimpleSnake {
     private Mousetrack mousetrack;
     private int grid_x;
     private int grid_y;
-    private int points;
+    private int score;
 
     /**
      * Constructor sets SimpleSnake fields
@@ -33,8 +33,8 @@ public class SimpleSnake {
         }
         // Create mouse
         this.mickey = new Mouse(mousetrack.get_track());
-        // Set points
-        this.points = 0;
+        // Set score
+        this.score = 0;
     }
 
 
@@ -77,7 +77,7 @@ public class SimpleSnake {
         // Updating fields in the event of mouse presence
         if (target_cell.getX() == mickey.get_x_coordinate() && target_cell.getY() == mickey.get_y_coordinate()) {
             grow_snake(target_cell);
-            points++;
+            score++;
             if ((mousetrack.get_track().isEmpty())) {
                 // TODO: implement gameWon();
                 return "Game Won";
@@ -157,12 +157,12 @@ public class SimpleSnake {
     }
 
     /**
-     * Getter method for points
-     * @return current points
+     * Getter method for score
+     * @return current score
      * @author Andreas Goll Rossau
      */
-    public int get_points() {
-        return points;
+    public int get_score() {
+        return score;
     }
 }
 

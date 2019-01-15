@@ -24,15 +24,15 @@ public class SimpleSnakeController {
      * @param grid_y The grid size in the y dimension
      * @author Andreas Goll Rossau
      */
-    public SimpleSnakeController(int grid_x, int grid_y, Scene scene, GridPane gridPane, Stage primary_stage) {
+    public SimpleSnakeController(int grid_x, int grid_y, GridPane gridPane, Stage primary_stage) {
         this.game = new SimpleSnake(grid_x, grid_y);
-        this.view = new SimpleSnakeView(grid_x, grid_y, scene, gridPane, primary_stage);
+        this.view = new SimpleSnakeView(grid_x, grid_y, gridPane, primary_stage);
         this.grid_x = grid_x;
         this.grid_y = grid_y;
 
         // Initialize window
         view.draw_board(game.get_snake_location(), game.get_mouse_location());
-        view.set_score_bar(game.get_points());
+        view.set_score_bar(game.get_score());
     }
 
     // Modify window according to key input
@@ -40,7 +40,7 @@ public class SimpleSnakeController {
         game_status = game.game_action(code);
         if (game_status.equals("Playing")) {
             view.draw_board(game.get_snake_location(), game.get_mouse_location());
-            view.set_score_bar(game.get_points());
+            view.set_score_bar(game.get_score());
         }
         else {
             view.print_status(game_status);

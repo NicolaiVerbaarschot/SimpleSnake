@@ -25,7 +25,7 @@ public class SimpleSnakeView {
     private int grid_y;
     private int cell_size;
     private Stage primary_stage;
-    private Scene scene;
+    //private Scene scene;
     private HashMap<Integer, HashMap<Integer, Canvas>> display_map;
     private GridPane grid_pane;
     private Text score_bar;
@@ -38,11 +38,10 @@ public class SimpleSnakeView {
      * Constructor
      * @author Andreas Goll Rossau
      */
-    public SimpleSnakeView(int grid_x, int grid_y, Scene scene, GridPane grid_pane, Stage primary_stage) {
+    public SimpleSnakeView(int grid_x, int grid_y, GridPane grid_pane, Stage primary_stage) {
         this.grid_x = grid_x;
         this.grid_y = grid_y;
         this.cell_size = Math.min( (100/Math.max(grid_x,grid_y))*9, 100 );
-        this.scene = scene;
         this.display_map = new HashMap<>();
         this.grid_pane = grid_pane;
         this.primary_stage = primary_stage;
@@ -133,12 +132,12 @@ public class SimpleSnakeView {
 
     /**
      * Method updates the text of the score bar to match the current game state
-     * @param points denotes how many mice have been eaten
+     * @param score denotes how many mice have been eaten
      * @author Thea Birk Berger
      */
-    public void set_score_bar(int points) {
+    public void set_score_bar(int score) {
         // Set score bar text
-        score_bar.setText("SCORE" + "   " + points);
+        score_bar.setText("SCORE" + "   " + score);
         // Set score bar font
         score_bar.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
         score_bar.setFill(Color.PINK);
