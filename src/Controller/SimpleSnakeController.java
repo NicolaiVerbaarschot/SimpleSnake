@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 /**
  * This Class controls the Simple Snake game
  *
- * @author Andreas Goll Rossau
+ * @author  Andreas Goll Rossau
  */
 public class SimpleSnakeController {
 
@@ -19,11 +19,11 @@ public class SimpleSnakeController {
     /**
      * Constructor. The program never leaves this constructor unless the game ends
      *
-     * @param grid_x        The grid size in the x dimension
-     * @param grid_y        The grid size in the y dimension
-     * @param gridPane      JavaFX Node
-     * @param primary_stage JavaFX Node
-     * @author Andreas Goll Rossau
+     * @param   grid_x: The grid size in the x dimension
+     * @param   grid_y: The grid size in the y dimension
+     * @param   gridPane: JavaFX Node
+     * @param   primary_stage: JavaFX Node
+     * @author  Andreas Goll Rossau
      */
     public SimpleSnakeController(int grid_x, int grid_y, GridPane gridPane, Stage primary_stage) {
 
@@ -40,8 +40,8 @@ public class SimpleSnakeController {
     /**
      * Method passes key input code to model and updates view according to game status returned from model
      *
-     * @param code key input code
-     * @author Andread Goll Rossau
+     * @param   code key: Input code
+     * @author  Andreas Goll Rossau
      */
     public void key_press(String code) {
 
@@ -70,4 +70,5 @@ public class SimpleSnakeController {
                 break;
         }
     }
+
 }

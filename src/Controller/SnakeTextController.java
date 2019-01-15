@@ -6,16 +6,16 @@ import View.SnakeTextView;
 /**
  * This Class controls the Simple Snake game
  *
- * @author Andreas Goll Rossau
+ * @author  Andreas Goll Rossau
  */
 public class SnakeTextController {
 
     /**
      * Constructor. The program never leaves this constructor unless the game ends
      *
-     * @param grid_x The grid size in the x dimension
-     * @param grid_y The grid size in the y dimension
-     * @author Andreas Goll Rossau
+     * @param   grid_x: The grid size in the x dimension
+     * @param   grid_y: The grid size in the y dimension
+     * @author  Andreas Goll Rossau
      */
     public SnakeTextController(int grid_x, int grid_y) {
 
@@ -32,6 +32,6 @@ public class SnakeTextController {
         while (game_status.equals("Playing"));
 
         System.out.println(game_status);
-
     }
+
 }

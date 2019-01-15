@@ -1,7 +1,5 @@
 package Model;
 
-import sun.awt.image.ImageWatched;
-
 import java.util.Random;
 import java.util.LinkedHashMap;
 
@@ -19,6 +17,8 @@ class Mouse {
 
     /**
      * Constructor
+     *
+     * @param   possible_locations: Nested map providing the possible mouse locations
      * @author  Nicolai Verbaarschot
      */
     Mouse(LinkedHashMap<Integer, LinkedHashMap<Integer, Integer>> possible_locations) {
@@ -27,7 +27,8 @@ class Mouse {
 
     /**
      * get-method returns the value contained in the private coordinate field: x
-     * @return mouse objects x-coordinate
+     *
+     * @return  mouse instances x-coordinate
      * @author  Nicolai Verbaarschot
      */
     int get_x_coordinate() {
@@ -36,7 +37,8 @@ class Mouse {
 
     /**
      * get-method returns the value contained in the private coordinate field: y
-     * @return mouse objects y-coordinate
+     *
+     * @return  mouse instances y-coordinate
      * @author  Nicolai Verbaarschot
      */
     int get_y_coordinate() {
@@ -45,7 +47,8 @@ class Mouse {
 
     /**
      * This method will calculate a new and valid location for the mouse
-     * @param possible_locations nested map providing the possible mouse locations
+     *
+     * @param   possible_locations: Nested map providing the possible mouse locations
      * @author  Nicolai Verbaarschot
      */
     void update_location(LinkedHashMap<Integer, LinkedHashMap<Integer, Integer>> possible_locations) {
@@ -65,4 +68,5 @@ class Mouse {
         this.x = (Integer) possible_locations.keySet().toArray()[outer_index];
         this.y = (Integer) nested_map.keySet().toArray()[inner_index];
     }
+
 }

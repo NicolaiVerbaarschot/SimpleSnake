@@ -15,39 +15,84 @@ public class SimpleSnake {
 
     /**
      * Constructor sets SimpleSnake fields
-     * @param grid_x denotes the game frame width
-     * @param grid_y denotes the game frame height
-     * @author Thea Birk Berger
+     *
+     * @param   grid_x: denotes the game frame width
+     * @param   grid_y: denotes the game frame height
+     * @author  Thea Birk Berger
      */
     public SimpleSnake(int grid_x, int grid_y) {
 
         // Set mousetrack size
         this.grid_x = grid_x;
         this.grid_y = grid_y;
+
         // Create snake
         this.solid = new Snake(grid_x, grid_y);
+
         // Create mousetrack
         this.mousetrack = new Mousetrack(grid_x, grid_y);
+
         // Remove snake location from mousetrack
-        for (Point p: solid.get_location()) {
+        for (Point p : solid.get_location()) {
             mousetrack.remove(p);
         }
         // Create mouse
         this.mickey = new Mouse(mousetrack.get_track());
+
         // Set score
         this.score = 0;
     }
 
+    /**
+     * Helper method to pass old position of snake's tail
+     *
+     * @return  point where the has just moved from
+     * @author  Andreas Goll Rossau
+     */
+    public Point get_tail() {
+        return old_snake_tail;
+    }
+
+    /**
+     * Helper method to get location of the snake
+     *
+     * @return  Array of Point objects with the location of the snake
+     * @author  Andreas Goll Rossau
+     */
+    public List<Point> get_snake_location() {
+        return solid.get_location();
+    }
+
+    /**
+     * Helper method to get mouse position
+     *
+     * @return  Point which has the coordinates of the mouse
+     * @author  Andreas Goll Rossau
+     */
+    public Point get_mouse_location() {
+        return new Point(mickey.get_x_coordinate(), mickey.get_y_coordinate());
+    }
+
+    /**
+     * Getter method for score
+     *
+     * @return  current score
+     * @author  Andreas Goll Rossau
+     */
+    public int get_score() {
+        return score;
+    }
 
     /**
      * Method determines whether snake should grow or move and notifies the controller if the game should continue of finish
-     * @param key_input is a string representing a key pressed by user during the game
-     * @return game status to SnakeController
-     * @author Thea Birk Berger
+     *
+     * @param    key_input: String representing a key pressed by user during the game
+     * @return   game status to SnakeController
+     * @author   Thea Birk Berger
      */
     public String game_action(String key_input) {
 
-        // Extracting current snake information and calculating target cell ("målfeltet")
+        // Extracting current snake information and calculating target cell ("maalfeltet")
         List<Point> snake_location = solid.get_location();
         Point current_head = new Point(snake_location.get(0));
         Point target_cell = new Point();
@@ -61,70 +106,62 @@ public class SimpleSnake {
                 target_cell.setLocation(current_head.getX() - 1, current_head.getY()); break;
             case "right":
                 target_cell.setLocation(current_head.getX() + 1, current_head.getY()); break;
-            case "r":
-                return "Restart";
-            case "escape":
-                return "Exit";
-            default:
-                return "Playing";
+            case "r": return "Restart";
+            case "escape": return "Exit";
+            default: return "Playing";
         }
-
         // Updating target_cell coordinates in the event of wall collision
-        target_cell.x = wall_collision_check((int) target_cell.getX(), grid_x-1);
-        target_cell.y = wall_collision_check((int) target_cell.getY(), grid_y-1);
+        target_cell.x = wall_collision_check((int) target_cell.getX(), grid_x - 1);
+        target_cell.y = wall_collision_check((int) target_cell.getY(), grid_y - 1);
 
         // Ending game in the event of snake collision
-        if (snake_location.contains(target_cell) && !target_cell.equals(snake_location.get(1)) && !target_cell.equals(snake_location.get(snake_location.size()-1))) {
-            // TODO: implement gameOver();
-            // This should return game over, but at this point the game always game overs, so it is disabled for now
+        if (snake_location.contains(target_cell) && !target_cell.equals(snake_location.get(1)) && !target_cell.equals(snake_location.get(snake_location.size() - 1))) {
             return "Game Over";
         }
-
         // Updating fields in the event of mouse presence
         if (target_cell.getX() == mickey.get_x_coordinate() && target_cell.getY() == mickey.get_y_coordinate()) {
             grow_snake(target_cell);
             score++;
             if ((mousetrack.get_track().isEmpty())) {
-                // TODO: implement gameWon();
                 return "Game Won";
             }
         }
-
         // Updating fields in the event of no opposite direction attempt
         else if (!target_cell.getLocation().equals(snake_location.get(1))) {
             move_snake(target_cell);
         }
-
         return "Playing";
     }
 
-
     /**
      * Method checks for snake head colliding with walls and updates coordinates if needed
-     * @param coordinate coordinate of snake head
-     * @param coordinate_max maximum coordinate in dimension
-     * @return possibly corrected coordinate
-     * @author Andreas Goll Rossau
+     *
+     * @param   coordinate: coordinate of snake head
+     * @param   coordinate_max: maximum coordinate in dimension
+     * @return  possibly corrected coordinate
+     * @author  Andreas Goll Rossau
      */
     private int wall_collision_check(int coordinate, int coordinate_max) {
-        if(coordinate == -1) {
+
+        if (coordinate == -1) {
             coordinate = coordinate_max;
-        }
-        else if (coordinate == coordinate_max + 1){
+        } else if (coordinate == coordinate_max + 1) {
             coordinate = 0;
         }
         return coordinate;
     }
 
-
     /**
-     * grow_snake (mouse-function)
-     * @param target_cell
-     * @author Thea Birk Berger
+     * This method grows the snake by one unit and updates the mousetrack accordingly
+     *
+     * @param   target_cell: The cell to be moved into
+     * @author  Thea Birk Berger
      */
     private void grow_snake(Point target_cell) {
+
         // Grow snake
         solid.move((int) target_cell.getX(), (int) target_cell.getY(), true);
+
         // Update mousetrack
         mousetrack.remove(target_cell);
         if (!(mousetrack.get_track().isEmpty())) {
@@ -133,72 +170,42 @@ public class SimpleSnake {
         }
     }
 
-
     /**
-     * move_snake
-     * @param new_head
-     * @author Thea Birk Berger
+     * This method moves the snake and frees previously occupied cells
+     *
+     * @param   new_head: The location of the snake head post-movement
+     * @author  Thea Birk Berger
      */
     private void move_snake(Point new_head) {
+
         // Move snake and extract tail
         old_snake_tail = solid.move((int) new_head.getX(), (int) new_head.getY(), false);
+
         // Update mousetrack
         mousetrack.add(old_snake_tail);
         mousetrack.remove(new_head);
     }
 
     /**
-     * Helper method to pass old position of snake's tail
-     * @return point where the has just moved from
-     * @author Andreas Goll Rossau
-     */
-    public Point get_tail() {
-        return old_snake_tail;
-    }
-
-
-    /**
-     * Helper method to get location of the snake
-     * @return Array of Point objects with the location of the snake
-     * @author Andreas Goll Rossau
-     */
-    public List<Point> get_snake_location() {
-        return solid.get_location();
-    }
-
-    /**
-     * Helper method to get mouse position
-     * @return Point which has the coordinates of the mouse
-     * @author Andreas Goll Rossau
-     */
-    public Point get_mouse_location() {
-        return new Point(mickey.get_x_coordinate(), mickey.get_y_coordinate());
-    }
-
-    /**
-     * Getter method for score
-     * @return current score
-     * @author Andreas Goll Rossau
-     */
-    public int get_score() {
-        return score;
-    }
-
-
-    /**
-     * @author Nicolai Verbaarschot
+     * This method resets the game by creating new instances of each game element, removing the previous snake locations, and resetting the points
+     *
+     * @author  Nicolai Verbaarschot
      */
     public void reset_game() {
+
         // Create new mousetrack (gameboard)
         this.mousetrack = new Mousetrack(grid_x, grid_y);
+
         // Create new (initial) snake
         this.solid = new Snake(grid_x, grid_y);
+
         // Remove snake location from mousetrack
-        for (Point p: solid.get_location()) {
+        for (Point p : solid.get_location()) {
             mousetrack.remove(p);
         }
         // Create mouse
         this.mickey = new Mouse(mousetrack.get_track());
+
         // Reset points
         this.score = 0;
     }
