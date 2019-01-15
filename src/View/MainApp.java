@@ -2,17 +2,16 @@ package View;
 
 import Controller.SimpleSnakeController;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.util.List;
 
 /**
- * Run this class to play Simple Snake
- * @author Andreas Goll Rossau
+ * Main class of Simple Snake game
+ *
+ * @author  Andreas Goll Rossau
  */
 public class MainApp extends Application {
 
@@ -21,10 +20,12 @@ public class MainApp extends Application {
      * Creates Stage, Scene and GridPane to show game onan
      * Creates SimpleSnakeController
      * Handles key input
-     * @param primary_stage primary stage to show game on
-     * @author Andreas Goll Rossau
+     *
+     * @param   primary_stage: primary stage to show game on
+     * @author  Andreas Goll Rossau
      */
     public void start(Stage primary_stage) {
+
         // Pass command line arguments to list
         List<String> args = getParameters().getRaw();
 
@@ -45,9 +46,10 @@ public class MainApp extends Application {
     }
 
     /**
-     * main method launches javafx application and passes command line arguments
-     * @param args command line arguments should be x and y dimensions of game grid
-     * @author Andreas Goll Rossau
+     * Main method launches javafx application and passes command line arguments
+     *
+     * @param    args: command line arguments should be x and y dimensions of game grid
+     * @author  Andreas Goll Rossau
      */
     public static void main(String[] args) {
         launch(args);

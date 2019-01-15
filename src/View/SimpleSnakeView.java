@@ -1,6 +1,5 @@
 package View;
 
-import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
@@ -11,20 +10,20 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import java.awt.*;
+import java.awt.Point;
 import java.util.HashMap;
 import java.util.List;
 
 /**
- * Class displays the Simple Snake game as text in the console and takes text input from user
- * @author Andreas Goll Rossau
+ * This class displays the Simple Snake game as text in the console and takes text input from user
+ *
+ * @author  Andreas Goll Rossau
  */
 public class SimpleSnakeView {
+
     private int grid_x;
     private int grid_y;
     private int cell_size;
-    private Stage primary_stage;
-    //private Scene scene;
     private HashMap<Integer, HashMap<Integer, Canvas>> display_map;
     private GridPane grid_pane;
     private Text endgame_text = new Text();
@@ -38,12 +37,13 @@ public class SimpleSnakeView {
     private Point old_snake_head;
 
     /**
-     * Constructor
-     * @param grid_x
-     * @param grid_y
-     * @param grid_pane
-     * @param primary_stage
-     * @author Andreas Goll Rossau
+     * Constructor initializes the view, setting the scene dimensions, and adding a gridpane of canvases
+     *
+     * @param   grid_x: Horizontal dimension
+     * @param   grid_y: Vertical dimension
+     * @param   grid_pane: JavaFX Node
+     * @param   primary_stage: JavaFX Node
+     * @author  Andreas Goll Rossau
      */
     public SimpleSnakeView(int grid_x, int grid_y, GridPane grid_pane, Stage primary_stage) {
         this.grid_x = grid_x;
@@ -51,12 +51,12 @@ public class SimpleSnakeView {
         this.cell_size = Math.min( (100/Math.max(grid_x,grid_y))*9, 100 );
         this.display_map = new HashMap<>();
         this.grid_pane = grid_pane;
-        this.primary_stage = primary_stage;
         this.score_bar = new Text();
 
         // Initialize score bar and add it to grid_pane
         set_score_bar(0);
         grid_pane.add(score_bar, 0, grid_y + 1, grid_x, 1);
+
         // Set window size
         primary_stage.setWidth(grid_x * cell_size);
         primary_stage.setHeight((grid_y * cell_size) + 65);
@@ -73,9 +73,10 @@ public class SimpleSnakeView {
 
     /**
      * Method draws the game board for a new game
-     * @param snake_location list of locations of parts of the snake
-     * @param mouse_location location of the mouse
-     * @author Andreas Goll Rossau
+     *
+     * @param   snake_location: list of locations of parts of the snake
+     * @param   mouse_location: location of the mouse
+     * @author  Andreas Goll Rossau
      */
     public void draw_board(List<Point> snake_location, Point mouse_location) {
         for (int i = 0; i < grid_y; i++) {
@@ -105,10 +106,11 @@ public class SimpleSnakeView {
 
     /**
      * Method updates game window by only redrawing as needed
-     * @param snake_head position of the snake's head
-     * @param old_snake_tail old position of the snake's tail
-     * @param mouse_location location of the mouse
-     * @author Andreas Goll Rossau
+     *
+     * @param   snake_head: position of the snake's head
+     * @param   old_snake_tail: old position of the snake's tail
+     * @param   mouse_location: location of the mouse
+     * @author  Andreas Goll Rossau
      */
     public void update_board(Point snake_head, Point old_snake_tail, Point mouse_location) {
         if (!snake_head.equals(old_snake_head)) {
@@ -130,8 +132,9 @@ public class SimpleSnakeView {
 
     /**
      * Method displays game Over and game Won
-     * @param status denotes either "Game Over" or "Game Won"
-     * @author Thes Birk Berger
+     *
+     * @param   status: denotes either "Game Over" or "Game Won"
+     * @author  Thea Birk Berger
      */
     public void print_status(String status) {
 
@@ -163,7 +166,8 @@ public class SimpleSnakeView {
 
     /**
      * Method clears the endgame state by removing the text and background
-     * @author Nicolai Verbaarschot
+     *
+     * @author  Nicolai Verbaarschot
      */
     public void clear_endgame () {
         grid_pane.getChildren().remove(endgame_text);
@@ -173,8 +177,9 @@ public class SimpleSnakeView {
 
     /**
      * Method updates the text of the score bar to match the current game state
-     * @param score denotes how many mice have been eaten
-     * @author Thea Birk Berger
+     *
+     * @param   score: denotes how many mice have been eaten
+     * @author  Thea Birk Berger
      */
     public void set_score_bar(int score) {
         // Set score bar text
