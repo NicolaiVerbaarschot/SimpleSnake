@@ -63,7 +63,10 @@ public class SimpleSnake {
                 target_cell.setLocation(current_head.getX() + 1, current_head.getY()); break;
             case "r":
                 return "Restart";
-            default: return "Playing";
+            case "escape":
+                return "Exit";
+            default:
+                return "Playing";
         }
 
         // Updating target_cell coordinates in the event of wall collision
