@@ -10,8 +10,7 @@ public class SimpleSnake {
     private Mousetrack mousetrack;
     private int grid_x;
     private int grid_y;
-    private int points;
-    private Point old_snake_tail;
+    private int score;
 
     /**
      * Constructor sets SimpleSnake fields
@@ -34,8 +33,8 @@ public class SimpleSnake {
         }
         // Create mouse
         this.mickey = new Mouse(mousetrack.get_track());
-        // Set points
-        this.points = 0;
+        // Set score
+        this.score = 0;
     }
 
 
@@ -61,12 +60,7 @@ public class SimpleSnake {
                 target_cell.setLocation(current_head.getX() - 1, current_head.getY()); break;
             case "right":
                 target_cell.setLocation(current_head.getX() + 1, current_head.getY()); break;
-            case "r":
-                return "Restart";
-            case "escape":
-                return "Exit";
-            default:
-                return "Playing";
+            default: return "Playing";
         }
 
         // Updating target_cell coordinates in the event of wall collision
@@ -83,7 +77,7 @@ public class SimpleSnake {
         // Updating fields in the event of mouse presence
         if (target_cell.getX() == mickey.get_x_coordinate() && target_cell.getY() == mickey.get_y_coordinate()) {
             grow_snake(target_cell);
-            points++;
+            score++;
             if ((mousetrack.get_track().isEmpty())) {
                 // TODO: implement gameWon();
                 return "Game Won";
@@ -141,27 +135,14 @@ public class SimpleSnake {
      */
     private void move_snake(Point new_head) {
         // Move snake and extract tail
-        old_snake_tail = solid.move((int) new_head.getX(), (int) new_head.getY(), false);
+        Point tail = solid.move((int) new_head.getX(), (int) new_head.getY(), false);
         // Update mousetrack
-        mousetrack.add(old_snake_tail);
         mousetrack.remove(new_head);
-    }
-
-    /**
-     * Helper method to pass old position of snake's tail
-     * @return point where the has just moved from
-     * @author Andreas Goll Rossau
-     */
-    public Point get_tail() {
-        return old_snake_tail;
+        mousetrack.add(tail);
     }
 
 
-    /**
-     * Helper method to get location of the snake
-     * @return Array of Point objects with the location of the snake
-     * @author Andreas Goll Rossau
-     */
+    // for testing
     public List<Point> get_snake_location() {
         return solid.get_location();
     }
@@ -176,30 +157,13 @@ public class SimpleSnake {
     }
 
     /**
-     * Getter method for points
-     * @return current points
+     * Getter method for score
+     * @return current score
      * @author Andreas Goll Rossau
      */
-    public int get_points() {
-        return points;
-    }
-
-
-    /**
-     * @author
-     */
-    public void reset_game() {
-        // Create new mousetrack (gameboard)
-        this.mousetrack = new Mousetrack(grid_x, grid_y);
-        // Create new (initial) snake
-        this.solid = new Snake(grid_x, grid_y);
-        // Remove snake location from mousetrack
-        for (Point p: solid.get_location()) {
-            mousetrack.remove(p);
-        }
-        // Create mouse
-        this.mickey = new Mouse(mousetrack.get_track());
-        // Reset points
-        this.points = 0;
+    public int get_score() {
+        return score;
     }
 }
+
+
