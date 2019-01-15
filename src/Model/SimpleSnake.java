@@ -140,8 +140,8 @@ public class SimpleSnake {
         // Move snake and extract tail
         old_snake_tail = solid.move((int) new_head.getX(), (int) new_head.getY(), false);
         // Update mousetrack
-        mousetrack.remove(new_head);
         mousetrack.add(old_snake_tail);
+        mousetrack.remove(new_head);
     }
 
     /**
