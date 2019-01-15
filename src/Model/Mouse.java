@@ -8,11 +8,10 @@ import java.util.LinkedHashMap;
 /**
  * The Mouse Class implements the 'food' for the SimpleSnake game.
  * Instances are instantiated with random coordinates, which can be obtained publicly through get methods.
- * There exits a public 'randomizer' method which will shuffle the mouses coordinates.
  *
  * @author  Nicolai Verbaarschot
  */
-public class Mouse {
+class Mouse {
 
     private Random random_number_generator = new Random();
     private int x;
@@ -22,7 +21,7 @@ public class Mouse {
      * Constructor
      * @author  Nicolai Verbaarschot
      */
-    public Mouse(LinkedHashMap<Integer, LinkedHashMap<Integer, Integer>> possible_locations) {
+    Mouse(LinkedHashMap<Integer, LinkedHashMap<Integer, Integer>> possible_locations) {
         update_location(possible_locations);
     }
 
@@ -31,7 +30,7 @@ public class Mouse {
      * @return mouse objects x-coordinate
      * @author  Nicolai Verbaarschot
      */
-    public int get_x_coordinate() {
+    int get_x_coordinate() {
         return this.x;
     }
 
@@ -40,7 +39,7 @@ public class Mouse {
      * @return mouse objects y-coordinate
      * @author  Nicolai Verbaarschot
      */
-    public int get_y_coordinate() {
+    int get_y_coordinate() {
         return this.y;
     }
 
@@ -49,7 +48,7 @@ public class Mouse {
      * @param possible_locations nested map providing the possible mouse locations
      * @author  Nicolai Verbaarschot
      */
-    public void update_location(LinkedHashMap<Integer, LinkedHashMap<Integer, Integer>> possible_locations) {
+    void update_location(LinkedHashMap<Integer, LinkedHashMap<Integer, Integer>> possible_locations) {
 
         // Calculate outer map size and corresponding index
         int map_size = possible_locations.size();

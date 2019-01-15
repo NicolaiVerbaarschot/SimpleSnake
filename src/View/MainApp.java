@@ -18,7 +18,7 @@ public class MainApp extends Application {
 
     /**
      * Initializer method for javafx application
-     * Creates Stage, Scene and GridPane to show game on
+     * Creates Stage, Scene and GridPane to show game onan
      * Creates SimpleSnakeController
      * Handles key input
      * @param primary_stage primary stage to show game on
