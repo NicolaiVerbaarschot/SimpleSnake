@@ -39,6 +39,7 @@ public class SnakeTextView {
      * @param   grid_y: grid size in y dimension
      * @param   snake_location: list of locations of parts of the snake
      * @param   mouse_location: location of the mouse
+     * @param   points: players score
      * @author  Andreas Goll Rossau
      */
     public void drawBoard(int grid_x, int grid_y, List<Point> snake_location, Point mouse_location, int points) {

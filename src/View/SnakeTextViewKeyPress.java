@@ -17,13 +17,15 @@ public class SnakeTextViewKeyPress {
     /**
      * Constructor
      *
+     * @param   scene:
+     * @param   grid_x: grid size in x dimension
+     * @param   grid_y: grid size in y dimension
      * @author  Andreas Goll Rossau
      */
     public SnakeTextViewKeyPress(Scene scene, int grid_x, int grid_y) {
         this.grid_x = grid_x;
         this.grid_y = grid_y;
     }
-
 
     public void print_status(String status) {
         System.out.println(status);
@@ -34,6 +36,7 @@ public class SnakeTextViewKeyPress {
      *
      * @param   snake_location: list of locations of parts of the snake
      * @param   mouse_location: location of the mouse
+     * @param   points: players score
      * @author  Andreas Goll Rossau
      */
     public void drawBoard(List<Point> snake_location, Point mouse_location, int points) {

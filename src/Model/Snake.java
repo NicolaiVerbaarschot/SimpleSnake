@@ -30,6 +30,7 @@ class Snake {
      * @param   x: New x coordinate for snake head
      * @param   y: New y coordinate for snake head
      * @param   will_grow: True if the snake is supposed to grow
+     * @return  location of the snakes tail
      * @author  Andreas Goll Rossau
      */
     Point move(int x, int y, boolean will_grow) {
