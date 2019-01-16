@@ -44,10 +44,15 @@ class Snake {
     Point move(int x, int y, boolean will_grow) {
 
         SnakeSegment tail = new SnakeSegment();
+        Point new_head_previous_cell = snake.get(0).get_coordinates();
 
-        snake.add(0, new SnakeSegment(new Point(x, y), snake.get(0).get_coordinates(), null));
+        snake.add(0, new SnakeSegment(new Point(x, y), new_head_previous_cell, null));
         snake.get(0).set_head(true);
         snake.get(1).set_head(false);
+
+        // Update previous head to include next_coordinates
+        snake.get(1).set_next_coordinates(snake.get(0).get_coordinates());
+
 
         // If the snake does not grow, the tail is deleted
         if (!will_grow) {
@@ -55,11 +60,9 @@ class Snake {
             snake.remove(snake.size() - 1);
 
             // remove tail coordinates from new tail
-            snake.get(snake.size()-2).set_previous_coordinates(null);
-            snake.get(snake.size()-2).set_tail(true);
+            snake.get(snake.size()-1).set_previous_coordinates(null);
+            snake.get(snake.size()-1).set_tail(true);
         }
-
-
 
         return tail.get_coordinates();
     }
