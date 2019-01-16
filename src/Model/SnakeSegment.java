@@ -17,7 +17,25 @@ public class SnakeSegment {
         this.next_coordinates = null;
     }
 
-    SnakeSegment(Point coordinates, Point previous_coordinates, Point next_coordinates) {
+    public SnakeSegment(SnakeSegment s) {
+        this.coordinates = new Point(s.get_coordinates());
+
+        if (s.get_previous_coordinates() != null) {
+            this.previous_coordinates = new Point(s.get_previous_coordinates());
+        }
+        else {
+            is_tail = true;
+        }
+
+        if (s.get_next_coordinates() != null) {
+            this.next_coordinates = new Point(s.get_next_coordinates());
+        }
+        else {
+            is_head = true;
+        }
+    }
+
+    public SnakeSegment(Point coordinates, Point previous_coordinates, Point next_coordinates) {
 
         this.coordinates = coordinates;
         this.previous_coordinates = previous_coordinates;

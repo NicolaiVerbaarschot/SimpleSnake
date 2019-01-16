@@ -63,6 +63,10 @@ public class SimpleSnake {
         return solid.get_location();
     }
 
+    public List<SnakeSegment> get_snake_segments() {
+        return solid.get_segments();
+    }
+
     /**
      * Helper method to get mouse position
      *

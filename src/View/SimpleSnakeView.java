@@ -1,5 +1,6 @@
 package View;
 
+import Model.SnakeSegment;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
@@ -38,7 +39,7 @@ public class SimpleSnakeView {
     private Image head = new Image("/image/head.png");
     private Image emptyCell;
     private Point old_mouse_location;
-    private Point old_snake_head;
+    private SnakeSegment old_snake_head;
 
     /**
      * Constructor initializes the view, setting the scene dimensions, and adding a gridpane of canvases
@@ -94,8 +95,25 @@ public class SimpleSnakeView {
      * @param   mouse_location: location of the mouse
      * @author  Andreas Goll Rossau
      */
-    public void draw_board(List<Point> snake_location, Point mouse_location) {
+    public void draw_board(List<SnakeSegment> snake_location, Point mouse_location) {
+        // Clear avatar grid
         for (int i = 0; i < grid_y; i++) {
+            for (int j = 0; j < grid_x; j++) {
+                avatar_map.get(j).get(i).getGraphicsContext2D().clearRect(0, 0, cell_size, cell_size);
+            }
+        }
+
+        avatar_map.get((int) mouse_location.getX()).get((int) mouse_location.getY()).getGraphicsContext2D().drawImage(mouse, 0, 0 , cell_size, cell_size);
+        old_mouse_location = new Point(mouse_location);
+
+        for (SnakeSegment s : snake_location) {
+            draw_snake_segment(avatar_map.get((int) s.get_coordinates().getX()).get((int) s.get_coordinates().getY()), s);
+            if (s.is_head()) {
+                old_snake_head = new SnakeSegment(s);
+            }
+        }
+
+        /*for (int i = 0; i < grid_y; i++) {
             for (int j = 0; j < grid_x; j++) {
                 Point p = new Point(j, i);
                 avatar_map.get(j).get(i).getGraphicsContext2D().clearRect(0, 0, cell_size, cell_size);
@@ -104,17 +122,17 @@ public class SimpleSnakeView {
                     avatar_map.get(j).get(i).getGraphicsContext2D().drawImage(mouse, 0, 0, cell_size, cell_size);
                     old_mouse_location = new Point(mouse_location);
                 }
-                else if (p.equals(snake_location.get(0))) {
+                else if (p.equals(snake_location.get(0).get_coordinates())) {
                     // Draw snake head
                     avatar_map.get(j).get(i).getGraphicsContext2D().drawImage(head, 0, 0,  cell_size, cell_size);
-                    old_snake_head = new Point(snake_location.get(0));
+                    old_snake_head = new Point(snake_location.get(0).get_coordinates());
                 }
                 else if (snake_location.contains(p)) {
                     // Draw snake body
                     avatar_map.get(j).get(i).getGraphicsContext2D().drawImage(snake, 0, 0,  cell_size, cell_size);
                 }
             }
-        }
+        }*/
     }
 
     /**
@@ -125,8 +143,10 @@ public class SimpleSnakeView {
      * @param   mouse_location: location of the mouse
      * @author  Andreas Goll Rossau
      */
-    public void update_board(Point snake_head, Point old_snake_tail, Point mouse_location) {
-        if (!snake_head.equals(old_snake_head)) {
+    public void update_board(SnakeSegment snake_head, Point old_snake_tail, Point mouse_location) {
+        if (!snake_head.get_coordinates().equals(old_snake_head.get_coordinates())) {
+            SnakeSegment s = new SnakeSegment(old_snake_head.get_coordinates(), old_snake_head.get_previous_coordinates() , snake_head.get_coordinates());
+
             // A mouse has been eaten
             if (!mouse_location.equals(old_mouse_location)) {
                 avatar_map.get((int) mouse_location.getX()).get((int) mouse_location.getY()).getGraphicsContext2D().drawImage(mouse, 0, 0, cell_size, cell_size);
@@ -138,10 +158,10 @@ public class SimpleSnakeView {
                 avatar_map.get((int) old_snake_tail.getX()).get((int) old_snake_tail.getY()).getGraphicsContext2D().clearRect(0, 0, cell_size, cell_size);
             }
 
-            avatar_map.get((int) old_snake_head.getX()).get((int) old_snake_head.getY()).getGraphicsContext2D().clearRect(0, 0, cell_size, cell_size);
-            avatar_map.get((int) old_snake_head.getX()).get((int) old_snake_head.getY()).getGraphicsContext2D().drawImage(snake, 0, 0, cell_size, cell_size);
-            avatar_map.get((int) snake_head.getX()).get((int) snake_head.getY()).getGraphicsContext2D().drawImage(head, 0, 0, cell_size, cell_size);
-            old_snake_head.setLocation(snake_head);
+            avatar_map.get((int) old_snake_head.get_coordinates().getX()).get((int) old_snake_head.get_coordinates().getY()).getGraphicsContext2D().clearRect(0, 0, cell_size, cell_size);
+            draw_snake_segment(avatar_map.get((int) old_snake_head.get_coordinates().getX()).get((int) old_snake_head.get_coordinates().getY()), s);
+            draw_snake_segment(avatar_map.get((int) snake_head.get_coordinates().getX()).get((int) snake_head.get_coordinates().getY()), snake_head);
+            old_snake_head = new SnakeSegment(snake_head);
         }
     }
 
@@ -203,5 +223,38 @@ public class SimpleSnakeView {
         score_bar.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
         score_bar.setFill(Color.PINK);
         score_bar.setStroke(Color.BLACK);
+    }
+
+    private void draw_snake_segment(Canvas canvas, SnakeSegment segment) {
+        if (segment.is_head()) {
+            if (segment.get_coordinates().getX() == segment.get_previous_coordinates().getX()) {
+                if (segment.get_coordinates().getY() < segment.get_previous_coordinates().getY()) {
+                    canvas.getGraphicsContext2D().drawImage(head, 0, 0, cell_size, cell_size);
+                }
+                else {
+                    canvas.getGraphicsContext2D().rotate(180);
+                    canvas.getGraphicsContext2D().drawImage(head, 0, 0, cell_size, cell_size);
+                    canvas.getGraphicsContext2D().restore();
+                }
+            }
+            else {
+                if (segment.get_coordinates().getX() < segment.get_previous_coordinates().getX()) {
+                    canvas.getGraphicsContext2D().rotate(90);
+                    canvas.getGraphicsContext2D().drawImage(head, 0, 0, cell_size, cell_size);
+                    canvas.getGraphicsContext2D().restore();
+                }
+                else {
+                    canvas.getGraphicsContext2D().rotate(270);
+                    canvas.getGraphicsContext2D().drawImage(head, 0, 0, cell_size, cell_size);
+                    canvas.getGraphicsContext2D().restore();
+                }
+            }
+        }
+        else if (segment.is_tail()) {
+            canvas.getGraphicsContext2D().drawImage(snake, 0, 0, cell_size, cell_size);
+        }
+        else {
+            canvas.getGraphicsContext2D().drawImage(snake, 0, 0, cell_size, cell_size);
+        }
     }
 }
