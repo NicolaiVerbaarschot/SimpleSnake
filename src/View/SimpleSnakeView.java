@@ -102,6 +102,7 @@ public class SimpleSnakeView {
         for (int i = 0; i < grid_y; i++) {
             for (int j = 0; j < grid_x; j++) {
                 avatar_map.get(j).get(i).getGraphicsContext2D().clearRect(0, 0, cell_size, cell_size);
+                avatar_map.get(j).get(i).setRotate(0);
             }
         }
 
