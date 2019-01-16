@@ -3,6 +3,7 @@ package Controller;
 import Model.SimpleSnake;
 import View.SimpleSnakeView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 /**
@@ -21,14 +22,14 @@ public class SimpleSnakeController {
      *
      * @param   grid_x: The grid size in the x dimension
      * @param   grid_y: The grid size in the y dimension
-     * @param   gridPane: JavaFX Node
+     * @param   stack_pane: JavaFX Node
      * @param   primary_stage: JavaFX Node
      * @author  Andreas Goll Rossau
      */
-    public SimpleSnakeController(int grid_x, int grid_y, GridPane gridPane, Stage primary_stage) {
+    public SimpleSnakeController(int grid_x, int grid_y, StackPane stack_pane, Stage primary_stage) {
 
         this.game = new SimpleSnake(grid_x, grid_y);
-        this.view = new SimpleSnakeView(grid_x, grid_y, gridPane, primary_stage);
+        this.view = new SimpleSnakeView(grid_x, grid_y, stack_pane, primary_stage);
 
         endgame_flag = false;
 
