@@ -26,8 +26,8 @@ class Snake {
 
         Point initial_head = new Point(grid_x/2, grid_y/2 - 1);
         Point initial_tail = new Point(grid_x/2, grid_y/2);
-        snake.add(0, new SnakeSegment(initial_tail, null, null));
-        snake.add(0, new SnakeSegment(initial_head, null, null));
+        snake.add(0, new SnakeSegment(initial_tail, null, initial_head));
+        snake.add(0, new SnakeSegment(initial_head, initial_tail, null));
     }
 
     /**
@@ -43,13 +43,19 @@ class Snake {
 
         SnakeSegment tail = new SnakeSegment();
 
-        snake.add(0, new SnakeSegment(new Point(x, y), null, null));
+        snake.add(0, new SnakeSegment(new Point(x, y), snake.get(0).get_coordinates(), null));
 
         // If the snake does not grow, the tail is deleted
         if (!will_grow) {
             tail = snake.get(snake.size() - 1);
             snake.remove(snake.size() - 1);
+
+            // remove tail coordinates from new tail
+            snake.get(snake.size()-2).set_previous_coordinates(null);
         }
+
+
+
         return tail.get_coordinates();
     }
 

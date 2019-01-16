@@ -173,17 +173,17 @@ public class SimpleSnake {
     /**
      * This method moves the snake and frees previously occupied cells
      *
-     * @param   new_head: The location of the snake head post-movement
+     * @param   target_cell: The location of the snake head post-movement
      * @author  Thea Birk Berger
      */
-    private void move_snake(Point new_head) {
+    private void move_snake(Point target_cell) {
 
         // Move snake and extract tail
-        old_snake_tail = solid.move((int) new_head.getX(), (int) new_head.getY(), false);
+        old_snake_tail = solid.move((int) target_cell.getX(), (int) target_cell.getY(), false);
 
         // Update mousetrack
         mousetrack.add(old_snake_tail);
-        mousetrack.remove(new_head);
+        mousetrack.remove(target_cell);
     }
 
     /**
