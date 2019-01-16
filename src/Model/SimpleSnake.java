@@ -100,15 +100,21 @@ public class SimpleSnake {
         List<Point> snake_location = solid.get_location();
         Point current_head = new Point(snake_location.get(0));
         Point target_cell = new Point();
+        int dx = 0;
+        int dy = 0;
 
         switch (key_input.toLowerCase()) {
             case "up":
+                dy = -1;
                 target_cell.setLocation(current_head.getX(), current_head.getY() - 1); break;
             case "down":
+                dy = 1;
                 target_cell.setLocation(current_head.getX(), current_head.getY() + 1); break;
             case "left":
+                dx = -1;
                 target_cell.setLocation(current_head.getX() - 1, current_head.getY()); break;
             case "right":
+                dx = 1;
                 target_cell.setLocation(current_head.getX() + 1, current_head.getY()); break;
             case "r": return "Restart";
             case "escape": return "Exit";
@@ -124,7 +130,7 @@ public class SimpleSnake {
         }
         // Updating fields in the event of mouse presence
         if (target_cell.getX() == mickey.get_x_coordinate() && target_cell.getY() == mickey.get_y_coordinate()) {
-            grow_snake(target_cell);
+            grow_snake(target_cell, dx, dy);
             score++;
             if ((mousetrack.get_track().isEmpty())) {
                 return "Game Won";
@@ -132,7 +138,7 @@ public class SimpleSnake {
         }
         // Updating fields in the event of no opposite direction attempt
         else if (!target_cell.getLocation().equals(snake_location.get(1))) {
-            move_snake(target_cell);
+            move_snake(target_cell, dx, dy);
         }
         return "Playing";
     }
@@ -161,10 +167,10 @@ public class SimpleSnake {
      * @param   target_cell: The cell to be moved into
      * @author  Thea Birk Berger
      */
-    private void grow_snake(Point target_cell) {
+    private void grow_snake(Point target_cell, int dx, int dy) {
 
         // Grow snake
-        solid.move((int) target_cell.getX(), (int) target_cell.getY(), true);
+        solid.move((int) target_cell.getX(), (int) target_cell.getY(), dx, dy, true);
 
         // Update mousetrack
         mousetrack.remove(target_cell);
@@ -180,10 +186,10 @@ public class SimpleSnake {
      * @param   target_cell: The location of the snake head post-movement
      * @author  Thea Birk Berger
      */
-    private void move_snake(Point target_cell) {
+    private void move_snake(Point target_cell, int dx, int dy) {
 
         // Move snake and extract tail
-        old_snake_tail = solid.move((int) target_cell.getX(), (int) target_cell.getY(), false);
+        old_snake_tail = solid.move((int) target_cell.getX(), (int) target_cell.getY(), dx, dy, false);
 
         // Update mousetrack
         mousetrack.add(old_snake_tail);

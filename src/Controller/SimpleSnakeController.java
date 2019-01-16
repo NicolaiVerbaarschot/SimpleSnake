@@ -52,7 +52,7 @@ public class SimpleSnakeController {
         String game_status = game.game_action(code);
         switch (game_status) {
             case "Playing":
-                view.update_board(game.get_snake_segments().get(0), game.get_tail(), game.get_mouse_location());
+                view.update_board(game.get_snake_segments(), game.get_tail(), game.get_mouse_location());
                 view.set_score_bar(game.get_score());
                 break;
             case "Restart":

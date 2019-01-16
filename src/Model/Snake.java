@@ -26,9 +26,9 @@ class Snake {
 
         Point initial_head = new Point(grid_x/2, grid_y/2 - 1);
         Point initial_tail = new Point(grid_x/2, grid_y/2);
-        snake.add(0, new SnakeSegment(initial_tail, null, initial_head));
+        snake.add(0, new SnakeSegment(initial_tail, null, new Point(0, -1)));
         snake.get(0).set_tail(true);
-        snake.add(0, new SnakeSegment(initial_head, initial_tail, null));
+        snake.add(0, new SnakeSegment(initial_head, new Point(0, 1), null));
         snake.get(0).set_head(true);
     }
 
@@ -41,17 +41,17 @@ class Snake {
      * @return  location of the snakes tail
      * @author  Andreas Goll Rossau
      */
-    Point move(int x, int y, boolean will_grow) {
+    Point move(int x, int y, int dx, int dy, boolean will_grow) {
 
         SnakeSegment tail = new SnakeSegment();
         Point new_head_previous_cell = snake.get(0).get_coordinates();
 
-        snake.add(0, new SnakeSegment(new Point(x, y), new_head_previous_cell, null));
+        snake.add(0, new SnakeSegment(new Point(x, y), new Point(-dx, -dy), null));
         snake.get(0).set_head(true);
         snake.get(1).set_head(false);
 
         // Update previous head to include next_coordinates
-        snake.get(1).set_next_coordinates(snake.get(0).get_coordinates());
+        snake.get(1).set_next_coordinates(new Point(dx, dy));
 
 
         // If the snake does not grow, the tail is deleted
