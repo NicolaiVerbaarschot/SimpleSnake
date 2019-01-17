@@ -34,7 +34,6 @@ public class SimpleSnakeView {
     private GridPane avatars;
     private Text score_bar;
     private Image mouse = new Image("/image/mouse2.png");
-    private Image snake = new Image("/image/snake.png");
     private Image head = new Image("/image/head.png");
     private Image tail = new Image("/image/tail.png");
     private Image straight_snake = new Image("/image/straightSnake.png");
@@ -106,11 +105,11 @@ public class SimpleSnakeView {
             }
         }
 
-        avatar_map.get((int) mouse_location.getX()).get((int) mouse_location.getY()).getGraphicsContext2D().drawImage(mouse, 0, 0 , cell_size, cell_size);
+        get_canvas(avatar_map, mouse_location).getGraphicsContext2D().drawImage(mouse, 0, 0, cell_size, cell_size);
         old_mouse_location = new Point(mouse_location);
 
         for (SnakeSegment s : snake_location) {
-            draw_snake_segment(avatar_map.get((int) s.get_coordinates().getX()).get((int) s.get_coordinates().getY()), s);
+            draw_snake_segment(get_canvas(avatar_map, s), s);
             if (s.is_head()) {
                 old_snake_head = new SnakeSegment(s);
             }
@@ -132,21 +131,21 @@ public class SimpleSnakeView {
 
             // A mouse has been eaten
             if (!mouse_location.equals(old_mouse_location)) {
-                avatar_map.get((int) mouse_location.getX()).get((int) mouse_location.getY()).getGraphicsContext2D().drawImage(mouse, 0, 0, cell_size, cell_size);
-                avatar_map.get((int) old_mouse_location.getX()).get((int) old_mouse_location.getY()).getGraphicsContext2D().clearRect(0, 0 , cell_size, cell_size);
+                get_canvas(avatar_map, mouse_location).getGraphicsContext2D().drawImage(mouse, 0, 0, cell_size, cell_size);
+                get_canvas(avatar_map, old_mouse_location).getGraphicsContext2D().clearRect(0, 0 , cell_size, cell_size);
                 old_mouse_location.setLocation(mouse_location);
             }
             // No mouse has been eaten
             else {
-                avatar_map.get((int) old_snake_tail.getX()).get((int) old_snake_tail.getY()).getGraphicsContext2D().clearRect(0, 0, cell_size, cell_size);
-                avatar_map.get((int) old_snake_tail.getX()).get((int) old_snake_tail.getY()).setRotate(0);
-                avatar_map.get((int) snake_tail.get_coordinates().getX()).get((int) snake_tail.get_coordinates().getY()).getGraphicsContext2D().clearRect(0, 0, cell_size, cell_size);
-                draw_snake_segment(avatar_map.get((int) snake_tail.get_coordinates().getX()).get((int) snake_tail.get_coordinates().getY()), snake.get(snake.size() - 1));
+                get_canvas(avatar_map, old_snake_tail).getGraphicsContext2D().clearRect(0, 0, cell_size, cell_size);
+                get_canvas(avatar_map, old_snake_tail).setRotate(0);
+                get_canvas(avatar_map, snake_tail).getGraphicsContext2D().clearRect(0, 0, cell_size, cell_size);
+                draw_snake_segment(get_canvas(avatar_map, snake_tail), snake.get(snake.size() - 1));
             }
 
-            avatar_map.get((int) old_snake_head.get_coordinates().getX()).get((int) old_snake_head.get_coordinates().getY()).getGraphicsContext2D().clearRect(0, 0, cell_size, cell_size);
-            draw_snake_segment(avatar_map.get((int) snake.get(1).get_coordinates().getX()).get((int) snake.get(1).get_coordinates().getY()), snake.get(1));
-            draw_snake_segment(avatar_map.get((int) snake_head.get_coordinates().getX()).get((int) snake_head.get_coordinates().getY()), snake.get(0));
+            get_canvas(avatar_map, old_snake_head).getGraphicsContext2D().clearRect(0, 0, cell_size, cell_size);
+            draw_snake_segment(get_canvas(avatar_map, snake.get(1)), snake.get(1));
+            draw_snake_segment(get_canvas(avatar_map, snake_head), snake_head);
             old_snake_head = new SnakeSegment(snake_head);
         }
     }
@@ -217,10 +216,12 @@ public class SimpleSnakeView {
         if (segment.is_head()) {
             img = head;
             coords = segment.get_previous_coordinates();
+            draw_non_bent_segment(canvas, img, coords);
         }
         else if (segment.is_tail()) {
             img = tail;
             coords = segment.get_next_coordinates();
+            draw_non_bent_segment(canvas, img, coords);
         }
         else {
             int x_sum = (int) (Math.abs(segment.get_next_coordinates().getX()) + Math.abs(segment.get_previous_coordinates().getX()));
@@ -228,13 +229,15 @@ public class SimpleSnakeView {
             if (x_sum == 0 || y_sum == 0) {
                 img = straight_snake;
                 coords = new Point(x_sum, y_sum);
+                draw_non_bent_segment(canvas, img, coords);
             }
             else {
                 draw_bent_snake_segment(canvas, segment);
-                return;
             }
         }
+    }
 
+    private void draw_non_bent_segment(Canvas canvas, Image img, Point coords) {
         if (coords.getX() == 0) {
             if (coords.getY() > 0) {
                 canvas.setRotate(180);
@@ -278,5 +281,13 @@ public class SimpleSnakeView {
                 canvas.getGraphicsContext2D().drawImage(bent_snake, 0, 0, cell_size, cell_size);
             }
         }
+    }
+
+    private Canvas get_canvas(HashMap<Integer, HashMap<Integer, Canvas>> map, Point p) {
+        return map.get((int) p.getX()).get((int) p.getY());
+    }
+
+    private Canvas get_canvas(HashMap<Integer, HashMap<Integer, Canvas>> map, SnakeSegment segment) {
+        return map.get((int) segment.get_coordinates().getX()).get((int) segment.get_coordinates().getY());
     }
 }
