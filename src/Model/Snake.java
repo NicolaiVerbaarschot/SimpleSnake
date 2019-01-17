@@ -10,8 +10,6 @@ import java.util.ArrayList;
  * @author Andreas Goll Rossau
  */
 class Snake {
-
-//    private List<Point> snake_location = new ArrayList<>();
     private List<SnakeSegment> snake = new ArrayList<>();
 
     /** Snake constructor determines the initial position of the snake from the size of the grid
@@ -37,6 +35,8 @@ class Snake {
      *
      * @param   x: New x coordinate for snake head
      * @param   y: New y coordinate for snake head
+     * @param   dx: Difference in x dimension ignoring grid borders
+     * @param   dy: Difference in y dimension ignoring grid borders
      * @param   will_grow: True if the snake is supposed to grow
      * @return  location of the snakes tail
      * @author  Andreas Goll Rossau
@@ -81,6 +81,11 @@ class Snake {
         return points;
     }
 
+    /**
+     * Returns list of snake's segments
+     * @return List of snake's segments
+     * @author Andreas Goll Rossau
+     */
     List<SnakeSegment> get_segments() {
         return snake;
     }

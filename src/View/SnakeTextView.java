@@ -55,6 +55,7 @@ public class SnakeTextView {
      * @param   grid_y: grid size in y dimension
      * @param   snake_location: list of locations of parts of the snake
      * @param   mouse_location: location of the mouse
+     * @author Andreas Goll Rossau
      */
     private void fill_spaces(int grid_x, int grid_y, List<Point> snake_location, Point mouse_location) {
         for (int i = 0; i < grid_y; i++) {

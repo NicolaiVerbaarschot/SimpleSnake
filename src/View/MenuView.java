@@ -14,6 +14,10 @@ import javafx.stage.Stage;
 
 import java.awt.*;
 
+/**
+ * View for main menu
+ * @author Andreas Goll Rossau
+ */
 public class MenuView {
     private Scene scene;
     private Stage stage;
@@ -43,6 +47,12 @@ public class MenuView {
     private int cursorHeight;
     private int cursorCanvasWidth;
 
+    /**
+     * Constructor prepares display grids and sets key listener
+     * @param stage Game window
+     * @param menuController Controller for main menu
+     * @author Andreas Goll Rossau
+     */
     public MenuView(Stage stage, MenuController menuController) {
         StackPane stack_pane = new StackPane();
         this.scene = new Scene(stack_pane);
@@ -69,6 +79,10 @@ public class MenuView {
         );
     }
 
+    /**
+     * Initializes middle grid display map and sets and displays initial mouse and snake
+     * @author Andreas Goll Rossau
+     */
     private void middleGridInit() {
         avatar_map = new DisplayMap(grid_x, grid_y, cell_size);
         avatar_map.addToGrid(middleGrid);
@@ -89,6 +103,10 @@ public class MenuView {
         avatar_map.draw(snakeBodyPosition, sprites.getStraightSnakeBody(1));
     }
 
+    /**
+     * Initializes top grid, adds menu text and cursor canvasses
+     * @author Andreas Goll Rossau
+     */
     private void topGridInit() {
         Text title = setTitle("Welcome to Snake");
         topGrid.add(title, 0,0, grid_x, 2);
@@ -114,12 +132,20 @@ public class MenuView {
         }
     }
 
+    /**
+     * Initializes back grid display map, draws background images
+     * @author Andreas Goll Rossau
+     */
     private void backGridInit() {
         DisplayMap background_map = new DisplayMap(grid_x, grid_y, cell_size);
         background_map.addToGrid(backGrid);
         background_map.drawAll(sprites.getEmptyCell());
     }
 
+    /**
+     * Reinitializes menu display
+     * @author Andreas Goll Rossau
+     */
     public void reinitialize() {
         stage.setWidth(menuWidth);
         stage.setHeight(menuHeight);
@@ -127,6 +153,12 @@ public class MenuView {
         timer = 0;
     }
 
+    /**
+     * Updates menu cursor, snake and mouse
+     * @param selected Current menu selection
+     * @param t Animation timer
+     * @author Andreas Goll Rossau
+     */
     public void updateMenu(int selected, long t) {
         for (Canvas c : cursorCanvases) {
             c.getGraphicsContext2D().clearRect(cursorCanvasWidth - cursorWidth, 0, cursorWidth, cursorHeight);
@@ -166,6 +198,12 @@ public class MenuView {
         avatar_map.draw(snakeTailPosition, sprites.getSnakeTail(t));
     }
 
+    /**
+     * Sets parameters for menu option texts
+     * @param text Text for menu option
+     * @return Text object for menu option
+     * @author Andreas Goll Rossau
+     */
     private Text setOption(String text) {
         Text option = new Text(text);
         option.setFont(Font.font("Verdana", FontWeight.MEDIUM, 70));
@@ -176,6 +214,12 @@ public class MenuView {
         return option;
     }
 
+    /**
+     * Method sets parameters for author text
+     * @param text Text for author
+     * @return Text object for authors
+     * @author Andreas Goll Rossau
+     */
     private Text setAuthors(String text) {
         Text authors = new Text(text);
         authors.setTextAlignment(TextAlignment.CENTER);
@@ -187,6 +231,12 @@ public class MenuView {
         return authors;
     }
 
+    /**
+     * Method sets paramenters for title text
+     * @param text Text for title
+     * @return Text object for title
+     * @author Andreas Goll Rossau
+     */
     private Text setTitle(String text) {
         Text title = new Text(text);
         title.setTextAlignment(TextAlignment.CENTER);

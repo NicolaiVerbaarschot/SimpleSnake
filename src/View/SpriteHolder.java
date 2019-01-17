@@ -2,6 +2,10 @@ package View;
 
 import javafx.scene.image.Image;
 
+/**
+ * Library of animated sprites for Snake game
+ * @author Andreas Goll Rossau
+ */
 class SpriteHolder {
     private AnimatedImage cursor;
     private AnimatedImage mouse;
@@ -11,6 +15,11 @@ class SpriteHolder {
     private AnimatedImage bentSnakeBody;
     private Image emptyCell;
 
+    /**
+     * Constructor initializes sprite library based on type
+     * @param type Type of SpriteHolder
+     * @author Andreas Goll Rossau
+     */
     SpriteHolder(String type) {
         switch (type) {
             case "menu":
@@ -22,6 +31,10 @@ class SpriteHolder {
         }
     }
 
+    /**
+     * Initializes sprite library for use in Fancy Snake game
+     * @author Andreas Goll Rossau
+     */
     private void fancyInit() {
         Image[] mouseFrames = new Image[]{new Image("/image/mouse20x20.png")};
         mouse = new AnimatedImage(mouseFrames, 90);
@@ -41,7 +54,10 @@ class SpriteHolder {
         emptyCell = new Image("/image/emptyCell20x20.png");
     }
 
-
+    /**
+     * Initializes sprite library for use in main menu
+     * @author Andreas Goll Rossau
+     */
     private void menuInit() {
         Image[] cursorFrames = new Image[18];
         for (int i = 0; i < 18; i++) {
@@ -64,27 +80,68 @@ class SpriteHolder {
         emptyCell = new Image("/image/emptyCell20x20.png");
     }
 
+    /**
+     * Getter for frame of cursor animation
+     * @param t Animation timer variable
+     * @return Frame of animation
+     * @author Andreas Goll Rossau
+     */
     Image getCursor(long t) {
         return cursor.getFrame(t);
     }
 
+    /**
+     * Getter for frame of mouse animation
+     * @param t Animation timer variable
+     * @return Frame of animation
+     * @author Andreas Goll Rossau
+     */
     Image getMouse(long t) {
         return mouse.getFrame(t);
     }
 
+    /**
+     * Getter for frame of snake head animation
+     * @param t Animation timer variable
+     * @return Frame of animation
+     * @author Andreas Goll Rossau
+     */
     Image getSnakeHead(long t) {
         return snakeHead.getFrame(t);
     }
 
+    /**
+     * Getter for frame of straight snake body animation
+     * @param t Animation timer variable
+     * @return Frame of animation
+     * @author Andreas Goll Rossau
+     */
     Image getStraightSnakeBody(long t) {
         return straightSnakeBody.getFrame(t);
     }
 
+    /**
+     * Getter for frame of snake tail animation
+     * @param t Animation timer variable
+     * @return Frame of animation
+     * @author Andreas Goll Rossau
+     */
     Image getSnakeTail(long t) {
         return snakeTail.getFrame(t);
     }
 
+    /**
+     * Getter for empty cell image
+     * @return Image
+     * @author Andreas Goll Rossau
+     */
     Image getEmptyCell() { return emptyCell;    }
 
+    /**
+     * Getter for frame of bent snake body animation
+     * @param t Animation timer variable
+     * @return Frame of animation
+     * @author Andreas Goll Rossau
+     */
     Image getBentSnakeBody(long t) { return bentSnakeBody.getFrame(t); }
 }

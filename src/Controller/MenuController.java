@@ -9,6 +9,10 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
+/**
+ * Controller for main menu
+ * @author Andreas Goll Rossau
+ */
 public class MenuController {
     private int selected;
     private List<String> args;
@@ -17,6 +21,13 @@ public class MenuController {
     private AnimationTimer timer;
     private long startNanoTime;
 
+    /**
+     * Constructor creates view for menu and starts animation timer
+     * to update view
+     * @param stage : Game window
+     * @param args : List of command line arguments, should be grid dimensions
+     * @author Andreas Goll Rossau
+     */
     public MenuController(Stage stage, List<String> args) {
         this.menuView = new MenuView(stage, this);
         selected = 1;
@@ -33,6 +44,11 @@ public class MenuController {
         timer.start();
     }
 
+    /**
+     * Method handles key input codes
+     * @param code : input code
+     * @author Andreas Goll Rossau
+     */
     public void keyPress(String code) {
         int maxSelected = 3;
 
@@ -57,6 +73,11 @@ public class MenuController {
         }
     }
 
+    /**
+     * Method executes selected menu item
+     * @param selected menu selection
+     * @author Andreas Goll Rossau
+     */
     private void menuSelection(int selected) {
         switch (selected) {
             case 1:
@@ -72,6 +93,10 @@ public class MenuController {
         }
     }
 
+    /**
+     * Method initializes Fancy Snake
+     * @author Andreas Goll Rossau
+     */
     private void playFancySnake() {
         StackPane stack_pane = new StackPane();
         Scene scene = new Scene(stack_pane);
@@ -85,6 +110,10 @@ public class MenuController {
         );
     }
 
+    /**
+     * Method initializes Simple Snake
+     * @author Andreas Goll Rossau
+     */
     private void playSimpleSnake() {
         GridPane gridPane = new GridPane();
         Scene scene = new Scene(gridPane);
@@ -98,6 +127,10 @@ public class MenuController {
     }
 
 
+    /**
+     * Method reinitializes menu
+     * @author Andreas Goll Rossau
+     */
     void reinitialize() {
         selected = 1;
         menuView.reinitialize();

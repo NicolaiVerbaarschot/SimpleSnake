@@ -3,6 +3,10 @@ package Model;
 import java.awt.Point;
 import java.util.List;
 
+/**
+ * Class is main Model in Simple Snake
+ * @author Thea Birk Berger
+ */
 public class SimpleSnake {
 
     private Snake solid;
@@ -63,6 +67,11 @@ public class SimpleSnake {
         return solid.get_location();
     }
 
+    /**
+     * Method returns snake as SnakeSegment objects
+     * @return List of SnakeSegment object in snake
+     * @author Andreas Goll Rossau
+     */
     public List<SnakeSegment> get_snake_segments() {
         return solid.get_segments();
     }
@@ -165,6 +174,8 @@ public class SimpleSnake {
      * This method grows the snake by one unit and updates the mousetrack accordingly
      *
      * @param   target_cell: The cell to be moved into
+     * @param   dx: Difference in x dimension ignoring grid borders
+     * @param   dy: Difference in y dimension ignoring grid borders
      * @author  Thea Birk Berger
      */
     private void grow_snake(Point target_cell, int dx, int dy) {
@@ -184,6 +195,8 @@ public class SimpleSnake {
      * This method moves the snake and frees previously occupied cells
      *
      * @param   target_cell: The location of the snake head post-movement
+     * @param   dx: Difference in x dimension ignoring grid borders
+     * @param   dy: Difference in y dimension ignoring grid borders
      * @author  Thea Birk Berger
      */
     private void move_snake(Point target_cell, int dx, int dy) {

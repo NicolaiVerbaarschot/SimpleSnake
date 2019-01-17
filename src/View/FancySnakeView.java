@@ -196,6 +196,12 @@ public class FancySnakeView {
         score_bar.setStroke(Color.BLACK);
     }
 
+    /**
+     * Method finds correct way to draw snake segment
+     * @param map Map of canvasses to draw on
+     * @param segment Snake segment to draw
+     * @author Andreas Goll Rossau
+     */
     private void draw_snake_segment(DisplayMap map, SnakeSegment segment) {
         Image img;
         Point coords;
@@ -223,6 +229,14 @@ public class FancySnakeView {
         }
     }
 
+    /**
+     * Method draws non bent segments of snake
+     * @param map Map of canvasses to draw on
+     * @param img Image to draw
+     * @param coords Coordinates which determine drawing method
+     * @param segment Segment to draw
+     * @author Andreas Goll Rossau
+     */
     private void draw_non_bent_segment(DisplayMap map, Image img, Point coords, SnakeSegment segment) {
         if (coords.getX() == 0) {
             if (coords.getY() > 0) {
@@ -246,6 +260,12 @@ public class FancySnakeView {
         }
     }
 
+    /**
+     * Method draws bent segments of snake
+     * @param map Map of canvasses to draw on
+     * @param segment Segment to draw
+     * @author Andreas Goll Rossau
+     */
     private void draw_bent_snake_segment(DisplayMap map, SnakeSegment segment) {
         if (segment.get_next_coordinates().getX() < 0 || segment.get_previous_coordinates().getX() < 0) {
             if (segment.get_previous_coordinates().getY() < 0 || segment.get_next_coordinates().getY() < 0) {
