@@ -34,7 +34,7 @@ public class FancySnakeView {
     private GridPane avatars;
     private Text score_bar;
     private Image mouse = new Image("/image/mouse2.png");
-    private Image head = new Image("/image/head.png");
+    private Image head = new Image("/image/head2.png");
     private Image tail = new Image("/image/tail.png");
     private Image straight_snake = new Image("/image/straightSnake.png");
     private Image bent_snake = new Image("/image/bentSnake.png");

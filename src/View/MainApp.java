@@ -1,10 +1,7 @@
 package View;
 
-import Controller.FancySnakeController;
-import Controller.menuController;
+import Controller.MenuController;
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.util.List;
@@ -15,6 +12,8 @@ import java.util.List;
  * @author  Andreas Goll Rossau
  */
 public class MainApp extends Application {
+    List<String> args;
+    MenuController menuController;
 
     /**
      * Initializer method for javafx application
@@ -28,9 +27,9 @@ public class MainApp extends Application {
     public void start(Stage primary_stage) {
 
         // Pass command line arguments to list
-        List<String> args = getParameters().getRaw();
+        args = getParameters().getRaw();
 
-        new menuController(primary_stage, args);
+        menuController = new MenuController(primary_stage, args, this);
 
         /*StackPane stack_pane = new StackPane();
         Scene scene = new Scene(stack_pane);
@@ -57,4 +56,8 @@ public class MainApp extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
+    /*public void reinitialize(Stage stage) {
+        menuController = new MenuController(stage, args, this);
+    }*/
 }

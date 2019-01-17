@@ -1,6 +1,7 @@
 package Controller;
 
-import View.menuView;
+import View.MainApp;
+import View.MenuView;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -8,25 +9,36 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
-public class menuController {
+public class MenuController {
     private int selected;
+    private int maxSelected = 3;
     private List<String> args;
     private Stage stage;
+    private MainApp mainApp;
+    private MenuView menuView;
 
-    public menuController(Stage stage, List<String> args) {
-        new menuView(stage, this);
+    public MenuController(Stage stage, List<String> args, MainApp mainApp) {
+        this.menuView = new MenuView(stage, this);
         selected = 1;
+        menuView.drawMenu(selected);
         this.args = args;
         this.stage = stage;
+        this.mainApp = mainApp;
     }
 
     public void keyPress(String code) {
         switch (code) {
             case "UP":
                 selected--;
+                if (selected < 1) {
+                    selected = maxSelected;
+                }
                 break;
             case "DOWN":
                 selected++;
+                if (selected > maxSelected) {
+                    selected = 1;
+                }
                 break;
             case "ENTER":
                 menuSelection(selected);
@@ -34,7 +46,7 @@ public class menuController {
             case "ESCAPE":
                 System.exit(0);
         }
-        System.out.println(selected);
+        menuView.drawMenu(selected);
     }
 
     private void menuSelection(int selected) {
@@ -53,9 +65,10 @@ public class menuController {
     private void playFancySnake() {
         StackPane stack_pane = new StackPane();
         Scene scene = new Scene(stack_pane);
+
         stage.setScene(scene);
 
-        FancySnakeController fancyController = new FancySnakeController(Integer.parseInt(args.get(0)), Integer.parseInt(args.get(1)), stack_pane, stage);
+        FancySnakeController fancyController = new FancySnakeController(Integer.parseInt(args.get(0)), Integer.parseInt(args.get(1)), stack_pane, stage, this);
 
         scene.setOnKeyPressed(
                 event -> fancyController.key_press(event.getCode().toString())
@@ -67,12 +80,16 @@ public class menuController {
         Scene scene = new Scene(gridPane);
         stage.setScene(scene);
 
-        SimpleSnakeController fancyController = new FancySnakeController(Integer.parseInt(args.get(0)), Integer.parseInt(args.get(1)), stack_pane, stage);
+        SimpleSnakeController simpleController = new SimpleSnakeController(Integer.parseInt(args.get(0)), Integer.parseInt(args.get(1)), gridPane, stage, this);
 
         scene.setOnKeyPressed(
-                event -> fancyController.key_press(event.getCode().toString())
+                event -> simpleController.key_press(event.getCode().toString())
         );
     }
 
 
+    public void reinitialize() {
+        selected = 1;
+        menuView.reinitialize();
+    }
 }
