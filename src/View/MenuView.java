@@ -75,19 +75,19 @@ public class MenuView {
         avatar_map.addToGrid(middleGrid);
 
         mousePosition.setLocation(grid_x - 3, 3);
-        avatar_map.draw(grid_x - 3, 3, sprites.getMouse(1));
+        avatar_map.draw(mousePosition, sprites.getMouse(1));
 
         snakeHeadPosition.setLocation(grid_x - 1, 3);
-        avatar_map.getCanvas(grid_x - 1, 3).setRotate(90);
-        avatar_map.draw(grid_x - 1, 3, sprites.getSnakeHead(1));
+        avatar_map.getCanvas(snakeHeadPosition).setRotate(90);
+        avatar_map.draw(snakeHeadPosition, sprites.getSnakeHead(1));
 
         snakeTailPosition.setLocation(1, 3);
-        avatar_map.getCanvas(1, 3).setRotate(270);
-        avatar_map.draw(1, 3, sprites.getSnakeTail(1));
+        avatar_map.getCanvas(snakeTailPosition).setRotate(270);
+        avatar_map.draw(snakeTailPosition, sprites.getSnakeTail(1));
 
         snakeBodyPosition.setLocation(0, 3);
-        avatar_map.getCanvas(0, 3).setRotate(90);
-        avatar_map.draw(0, 3, sprites.getStraightSnakeBody(1));
+        avatar_map.getCanvas(snakeBodyPosition).setRotate(90);
+        avatar_map.draw(snakeBodyPosition, sprites.getStraightSnakeBody(1));
     }
 
     private void topGridInit() {

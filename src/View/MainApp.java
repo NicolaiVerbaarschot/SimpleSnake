@@ -30,21 +30,6 @@ public class MainApp extends Application {
         args = getParameters().getRaw();
 
         menuController = new MenuController(primary_stage, args, this);
-
-        /*StackPane stack_pane = new StackPane();
-        Scene scene = new Scene(stack_pane);
-        primary_stage.setScene(scene);
-
-        primary_stage.show();
-
-        FancySnakeController controller = new FancySnakeController(Integer.parseInt(args.get(0)), Integer.parseInt(args.get(1)), stack_pane, primary_stage);
-
-        // Constantly detects key pressed
-        // Converts keycode to descriptive string and sends it to controller via. the method key_press
-        // Controller calls for View action based on keycode string - which is saved for scene?
-        scene.setOnKeyPressed(
-                event -> controller.key_press(event.getCode().toString())
-        );*/
     }
 
     /**
@@ -56,8 +41,4 @@ public class MainApp extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
-    /*public void reinitialize(Stage stage) {
-        menuController = new MenuController(stage, args, this);
-    }*/
 }

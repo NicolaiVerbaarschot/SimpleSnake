@@ -24,15 +24,20 @@ public class FancySnakeView {
     private int grid_x;
     private int grid_y;
     private int cell_size;
+
     private DisplayMap background_map;
     private DisplayMap avatar_map;
+
     private StackPane stack_pane;
-    private Text endgame_text = new Text();
-    private Rectangle endgame_background = new Rectangle();
     private GridPane background;
     private GridPane avatars;
+
+    private Text endgame_text = new Text();
     private Text score_bar;
+    private Rectangle endgame_background = new Rectangle();
+
     private SpriteHolder sprites;
+
     private Point old_mouse_location;
     private SnakeSegment old_snake_head;
 
@@ -49,12 +54,16 @@ public class FancySnakeView {
         this.grid_x = grid_x;
         this.grid_y = grid_y;
         this.cell_size = Math.min( (100/Math.max(grid_x,grid_y))*9, 100 );
+
         this.background_map = new DisplayMap(grid_x, grid_y, cell_size);
         this.avatar_map = new DisplayMap(grid_x, grid_y, cell_size);
+
         this.stack_pane = stack_pane;
-        this.score_bar = new Text();
         this.background = new GridPane();
         this.avatars = new GridPane();
+
+        this.score_bar = new Text();
+
         this.sprites = new SpriteHolder("fancy");
 
         stack_pane.getChildren().add(0, background);
