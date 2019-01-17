@@ -1,6 +1,7 @@
 package View;
 
 import Controller.FancySnakeController;
+import Controller.menuController;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
@@ -29,7 +30,9 @@ public class MainApp extends Application {
         // Pass command line arguments to list
         List<String> args = getParameters().getRaw();
 
-        StackPane stack_pane = new StackPane();
+        new menuController(primary_stage, args);
+
+        /*StackPane stack_pane = new StackPane();
         Scene scene = new Scene(stack_pane);
         primary_stage.setScene(scene);
 
@@ -42,7 +45,7 @@ public class MainApp extends Application {
         // Controller calls for View action based on keycode string - which is saved for scene?
         scene.setOnKeyPressed(
                 event -> controller.key_press(event.getCode().toString())
-        );
+        );*/
     }
 
     /**
