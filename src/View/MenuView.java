@@ -132,7 +132,7 @@ public class MenuView {
     private void imageInit() {
         Image[] cursorFrames = new Image[18];
         for (int i = 0; i < 18; i++) {
-            cursorFrames[i] = new Image("/image/cursor" + i + ".png");
+            cursorFrames[i] = new Image("/image/cursor/cursor" + i + ".png");
         }
         cursor = new AnimatedImage(cursorFrames, 1);
 
