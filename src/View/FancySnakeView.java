@@ -1,7 +1,6 @@
 package View;
 
 import Model.SnakeSegment;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -13,9 +12,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
-import javax.swing.text.Segment;
 import java.awt.Point;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -35,12 +32,7 @@ public class FancySnakeView {
     private GridPane background;
     private GridPane avatars;
     private Text score_bar;
-    private Image mouse = new Image("/image/mouse20x20.png");
-    private Image head = new Image("/image/snakeHead20x20.png");
-    private Image tail = new Image("/image/snakeTail20x20.png");
-    private Image straight_snake = new Image("/image/snakeStraight20x20.png");
-    private Image bent_snake = new Image("/image/snakeBent20x20.png");
-    private Image emptyCell;
+    private SpriteHolder sprites;
     private Point old_mouse_location;
     private SnakeSegment old_snake_head;
 
@@ -63,7 +55,7 @@ public class FancySnakeView {
         this.score_bar = new Text();
         this.background = new GridPane();
         this.avatars = new GridPane();
-        this.emptyCell = new Image("/image/emptyCell20x20.png");
+        this.sprites = new SpriteHolder("fancy");
 
         stack_pane.getChildren().add(0, background);
         stack_pane.getChildren().add(1, avatars);
@@ -78,7 +70,7 @@ public class FancySnakeView {
 
         // Add canvas cells to background_map and add background_map to grid_pane
         background_map.addToGrid(background);
-        background_map.drawAll(emptyCell);
+        background_map.drawAll(sprites.getEmptyCell());
         avatar_map.addToGrid(avatars);
     }
 
@@ -94,7 +86,7 @@ public class FancySnakeView {
         avatar_map.clearAll();
         avatar_map.resetRotations();
 
-        avatar_map.draw(mouse_location, mouse);
+        avatar_map.draw(mouse_location, sprites.getMouse(1));
         old_mouse_location = new Point(mouse_location);
 
         for (SnakeSegment s : snake_location) {
@@ -120,7 +112,7 @@ public class FancySnakeView {
 
             // A mouse has been eaten
             if (!mouse_location.equals(old_mouse_location)) {
-                avatar_map.draw(mouse_location, mouse);
+                avatar_map.draw(mouse_location, sprites.getMouse(0));
                 avatar_map.clear(old_mouse_location);
                 old_mouse_location.setLocation(mouse_location);
             }
@@ -152,8 +144,8 @@ public class FancySnakeView {
             this.endgame_text.setText("YOU HAVE\nLOST THE GAME");
         } else {
             this.endgame_text.setText("CONGRATULATIONS!\n YOU HAVE WON THE GAME");
-
         }
+
         // Set text position
         this.endgame_text.setTextAlignment(TextAlignment.CENTER);
         this.endgame_text.setWrappingWidth(grid_x * cell_size);
@@ -203,12 +195,12 @@ public class FancySnakeView {
         Image img;
         Point coords;
         if (segment.is_head()) {
-            img = head;
+            img = sprites.getSnakeHead(1);
             coords = segment.get_previous_coordinates();
             draw_non_bent_segment(map, img, coords, segment);
         }
         else if (segment.is_tail()) {
-            img = tail;
+            img = sprites.getSnakeTail(1);
             coords = segment.get_next_coordinates();
             draw_non_bent_segment(map, img, coords, segment);
         }
@@ -216,7 +208,7 @@ public class FancySnakeView {
             int x_sum = (int) (Math.abs(segment.get_next_coordinates().getX()) + Math.abs(segment.get_previous_coordinates().getX()));
             int y_sum = (int) (Math.abs(segment.get_next_coordinates().getY()) + Math.abs(segment.get_previous_coordinates().getY()));
             if (x_sum == 0 || y_sum == 0) {
-                img = straight_snake;
+                img = sprites.getStraightSnakeBody(1);
                 coords = new Point(x_sum, y_sum);
                 draw_non_bent_segment(map, img, coords, segment);
             }
@@ -266,6 +258,6 @@ public class FancySnakeView {
                 map.getCanvas(segment.get_coordinates()).setRotate(90);
             }
         }
-        map.draw(segment.get_coordinates(), bent_snake);
+        map.draw(segment.get_coordinates(), sprites.getBentSnakeBody(0));
     }
 }

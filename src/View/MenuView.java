@@ -30,7 +30,7 @@ public class MenuView {
     private Point snakeTailPosition = new Point();
     private Point snakeBodyPosition = new Point();
 
-    private SpriteHolder sprites = new SpriteHolder();
+    private SpriteHolder sprites = new SpriteHolder("menu");
 
     private int cell_size = 100;
     private int grid_x = 10;
@@ -87,7 +87,7 @@ public class MenuView {
 
         snakeBodyPosition.setLocation(0, 3);
         avatar_map.getCanvas(0, 3).setRotate(90);
-        avatar_map.draw(0, 3, sprites.getSnakeBody(1));
+        avatar_map.draw(0, 3, sprites.getStraightSnakeBody(1));
     }
 
     private void topGridInit() {
@@ -162,7 +162,7 @@ public class MenuView {
         avatar_map.draw(mousePosition, sprites.getMouse(t));
         avatar_map.getCanvas(snakeHeadPosition).setRotate(90);
         avatar_map.draw(snakeHeadPosition, sprites.getSnakeHead(t));
-        avatar_map.draw(snakeBodyPosition, sprites.getSnakeBody(t));
+        avatar_map.draw(snakeBodyPosition, sprites.getStraightSnakeBody(t));
         avatar_map.getCanvas(snakeTailPosition).setRotate(270);
         avatar_map.draw(snakeTailPosition, sprites.getSnakeTail(t));
     }
