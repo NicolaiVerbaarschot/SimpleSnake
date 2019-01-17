@@ -1,6 +1,7 @@
 package View;
 
 import Controller.MenuController;
+import javafx.animation.AnimationTimer;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -20,6 +21,7 @@ public class MenuView {
     private GridPane gridPane;
     private int menuHeight = 400;
     private int menuWidth = 800;
+    private AnimatedImage cursor;
 
     public MenuView(Stage stage, MenuController menuController) {
         this.gridPane = new GridPane();
@@ -30,9 +32,16 @@ public class MenuView {
         stage.setScene(scene);
         stage.show();
 
+        imageInit();
+
         scene.setOnKeyPressed(
                 event -> menuController.keyPress(event.getCode().toString())
         );
+    }
+
+    private void imageInit() {
+        Image[] cursorFrames = new Image[]{new Image("/image/mouse2.png"), new Image("/image/head2.png")};
+        cursor = new AnimatedImage(cursorFrames, 1);
     }
 
     public void reinitialize() {
@@ -69,9 +78,19 @@ public class MenuView {
         }
 
         int canvasWidth = menuWidth/3 + cursorWidth;
-        Canvas cursor = new Canvas(canvasWidth, cursorHeight);
-        gridPane.add(cursor, 0, 2 + selected, 1, 1);
-        cursor.getGraphicsContext2D().drawImage(new Image("/image/head2.png"), canvasWidth - cursorWidth, 0, cursorWidth, cursorHeight);
+        Canvas cursorCanvas = new Canvas(canvasWidth, cursorHeight);
+        gridPane.add(cursorCanvas, 0, 2 + selected, 1, 1);
+
+        int finalCursorWidth = cursorWidth;
+        int finalCursorHeight = cursorHeight;
+        new AnimationTimer() {
+            @Override
+            public void handle(long nanoTime) {
+                long t = nanoTime / 1000000000;
+                cursorCanvas.getGraphicsContext2D().clearRect(canvasWidth - finalCursorWidth, 0, finalCursorWidth, finalCursorHeight);
+                cursorCanvas.getGraphicsContext2D().drawImage(cursor.getFrame(t), canvasWidth - finalCursorWidth, 0, finalCursorWidth, finalCursorHeight);
+            }
+        }.start();
     }
 
     private Text setOption(String text) {
