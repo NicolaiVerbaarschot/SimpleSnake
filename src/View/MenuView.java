@@ -83,10 +83,11 @@ public class MenuView {
 
         int finalCursorWidth = cursorWidth;
         int finalCursorHeight = cursorHeight;
+        long startNanoTime = System.nanoTime();
         new AnimationTimer() {
             @Override
             public void handle(long nanoTime) {
-                long t = nanoTime / 1000000000;
+                long t = (nanoTime - startNanoTime) / 1000000000;
                 cursorCanvas.getGraphicsContext2D().clearRect(canvasWidth - finalCursorWidth, 0, finalCursorWidth, finalCursorHeight);
                 cursorCanvas.getGraphicsContext2D().drawImage(cursor.getFrame(t), canvasWidth - finalCursorWidth, 0, finalCursorWidth, finalCursorHeight);
             }
