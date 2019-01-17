@@ -143,6 +143,7 @@ public class SimpleSnake {
         return "Playing";
     }
 
+
     /**
      * Method checks for snake head colliding with walls and updates coordinates if needed
      *

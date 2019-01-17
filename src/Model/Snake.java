@@ -14,7 +14,8 @@ class Snake {
 //    private List<Point> snake_location = new ArrayList<>();
     private List<SnakeSegment> snake = new ArrayList<>();
 
-    /** Snake constructor determines the initial position of the snake from the size of the grid
+    /**
+     * Snake constructor determines the initial position of the snake from the size of the grid
      *
      * @param   grid_x: The maximum gridsize in the x direction
      * @param   grid_y: The maximum gridsize in the y direction
@@ -44,7 +45,6 @@ class Snake {
     Point move(int x, int y, int dx, int dy, boolean will_grow) {
 
         SnakeSegment tail = new SnakeSegment();
-        Point new_head_previous_cell = snake.get(0).get_coordinates();
 
         snake.add(0, new SnakeSegment(new Point(x, y), new Point(-dx, -dy), null));
         snake.get(0).set_head(true);

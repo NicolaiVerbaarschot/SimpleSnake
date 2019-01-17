@@ -34,6 +34,7 @@ public class FancySnakeView {
     private GridPane avatars;
     private Text score_bar;
     private Image mouse = new Image("/image/mouse20x20.png");
+    private Image blood = new Image( "/image/blood.png");
     private Image head = new Image("/image/snakeHead20x20.png");
     private Image tail = new Image("/image/snakeTail20x20.png");
     private Image straight_snake = new Image("/image/snakeStraight20x20.png");
@@ -133,6 +134,7 @@ public class FancySnakeView {
             if (!mouse_location.equals(old_mouse_location)) {
                 get_canvas(avatar_map, mouse_location).getGraphicsContext2D().drawImage(mouse, 0, 0, cell_size, cell_size);
                 get_canvas(avatar_map, old_mouse_location).getGraphicsContext2D().clearRect(0, 0 , cell_size, cell_size);
+                draw_mouse_blood(get_canvas(avatar_map, old_mouse_location));
                 old_mouse_location.setLocation(mouse_location);
             }
             // No mouse has been eaten
@@ -281,6 +283,10 @@ public class FancySnakeView {
                 canvas.getGraphicsContext2D().drawImage(bent_snake, 0, 0, cell_size, cell_size);
             }
         }
+    }
+
+    private void draw_mouse_blood(Canvas canvas) {
+        canvas.getGraphicsContext2D().drawImage(blood, 0, 0, cell_size, cell_size);
     }
 
     private Canvas get_canvas(HashMap<Integer, HashMap<Integer, Canvas>> map, Point p) {
