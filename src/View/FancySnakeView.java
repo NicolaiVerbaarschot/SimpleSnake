@@ -33,11 +33,11 @@ public class FancySnakeView {
     private GridPane background;
     private GridPane avatars;
     private Text score_bar;
-    private Image mouse = new Image("/image/mouse2.png");
-    private Image head = new Image("/image/head2.png");
-    private Image tail = new Image("/image/tail.png");
-    private Image straight_snake = new Image("/image/straightSnake.png");
-    private Image bent_snake = new Image("/image/bentSnake.png");
+    private Image mouse = new Image("/image/mouse20x20.png");
+    private Image head = new Image("/image/snakeHead20x20.png");
+    private Image tail = new Image("/image/snakeTail20x20.png");
+    private Image straight_snake = new Image("/image/snakeStraight20x20.png");
+    private Image bent_snake = new Image("/image/snakeBent20x20.png");
     private Image emptyCell;
     private Point old_mouse_location;
     private SnakeSegment old_snake_head;
@@ -61,7 +61,7 @@ public class FancySnakeView {
         this.score_bar = new Text();
         this.background = new GridPane();
         this.avatars = new GridPane();
-        this.emptyCell = new Image("/image/emptyCell.png");
+        this.emptyCell = new Image("/image/emptyCell20x20.png");
 
         stack_pane.getChildren().add(0, background);
         stack_pane.getChildren().add(1, avatars);
