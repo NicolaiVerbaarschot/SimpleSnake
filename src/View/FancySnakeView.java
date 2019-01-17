@@ -80,6 +80,7 @@ public class FancySnakeView {
             avatar_map.put(i, new HashMap<>());
             background_map.put(i, new HashMap<>());
             for (int j = 0; j < grid_y; j++) {
+
                 background_map.get(i).put(j, new Canvas(cell_size, cell_size));
                 background.add(background_map.get(i).get(j), i, j, 1, 1);
                 background_map.get(i).get(j).getGraphicsContext2D().drawImage(emptyCell, 0, 0, cell_size, cell_size);
@@ -101,6 +102,7 @@ public class FancySnakeView {
         // Clear avatar grid
         for (int i = 0; i < grid_y; i++) {
             for (int j = 0; j < grid_x; j++) {
+                background_map.get(i).get(j).getGraphicsContext2D().drawImage(emptyCell, 0, 0, cell_size, cell_size);
                 avatar_map.get(j).get(i).getGraphicsContext2D().clearRect(0, 0, cell_size, cell_size);
                 avatar_map.get(j).get(i).setRotate(0);
             }
@@ -134,7 +136,7 @@ public class FancySnakeView {
             if (!mouse_location.equals(old_mouse_location)) {
                 get_canvas(avatar_map, mouse_location).getGraphicsContext2D().drawImage(mouse, 0, 0, cell_size, cell_size);
                 get_canvas(avatar_map, old_mouse_location).getGraphicsContext2D().clearRect(0, 0 , cell_size, cell_size);
-                draw_mouse_blood(get_canvas(avatar_map, old_mouse_location));
+                get_canvas(background_map, old_mouse_location).getGraphicsContext2D().drawImage(blood, 0, 0, cell_size, cell_size);
                 old_mouse_location.setLocation(mouse_location);
             }
             // No mouse has been eaten
@@ -285,9 +287,6 @@ public class FancySnakeView {
         }
     }
 
-    private void draw_mouse_blood(Canvas canvas) {
-        canvas.getGraphicsContext2D().drawImage(blood, 0, 0, cell_size, cell_size);
-    }
 
     private Canvas get_canvas(HashMap<Integer, HashMap<Integer, Canvas>> map, Point p) {
         return map.get((int) p.getX()).get((int) p.getY());
