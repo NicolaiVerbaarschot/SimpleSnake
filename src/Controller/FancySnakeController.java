@@ -1,8 +1,8 @@
 package Controller;
 
 import Model.SimpleSnake;
-import View.SimpleSnakeView;
-import javafx.scene.layout.GridPane;
+import View.FancySnakeView;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 /**
@@ -10,10 +10,10 @@ import javafx.stage.Stage;
  *
  * @author  Andreas Goll Rossau
  */
-public class SimpleSnakeController {
+public class FancySnakeController {
 
     private SimpleSnake game;
-    private SimpleSnakeView view;
+    private FancySnakeView view;
     private boolean endgame_flag;
     private MenuController menuController;
 
@@ -22,21 +22,21 @@ public class SimpleSnakeController {
      *
      * @param   grid_x : The grid size in the x dimension
      * @param   grid_y : The grid size in the y dimension
-     * @param   gridPane : JavaFX Node
+     * @param   stack_pane : JavaFX Node
      * @param   primary_stage : JavaFX Node
      * @param menuController
      * @author  Andreas Goll Rossau
      */
-    public SimpleSnakeController(int grid_x, int grid_y, GridPane gridPane, Stage primary_stage, MenuController menuController) {
+    public FancySnakeController(int grid_x, int grid_y, StackPane stack_pane, Stage primary_stage, MenuController menuController) {
 
         this.game = new SimpleSnake(grid_x, grid_y);
-        this.view = new SimpleSnakeView(grid_x, grid_y, gridPane, primary_stage);
+        this.view = new FancySnakeView(grid_x, grid_y, stack_pane, primary_stage);
         this.menuController = menuController;
 
         endgame_flag = false;
 
         // Initialize window
-        view.draw_board(game.get_snake_location(), game.get_mouse_location());
+        view.draw_board(game.get_snake_segments(), game.get_mouse_location());
         view.set_score_bar(game.get_score());
     }
 
@@ -54,13 +54,13 @@ public class SimpleSnakeController {
         String game_status = game.game_action(code);
         switch (game_status) {
             case "Playing":
-                view.update_board(game.get_snake_location().get(0), game.get_tail(), game.get_mouse_location());
+                view.update_board(game.get_snake_segments(), game.get_tail(), game.get_mouse_location());
                 view.set_score_bar(game.get_score());
                 break;
             case "Restart":
                 game.reset_game();
                 view.clear_endgame();
-                view.draw_board(game.get_snake_location(), game.get_mouse_location());
+                view.draw_board(game.get_snake_segments(), game.get_mouse_location());
                 view.set_score_bar(game.get_score());
                 view.set_score_bar(game.get_score());
                 endgame_flag = false;
