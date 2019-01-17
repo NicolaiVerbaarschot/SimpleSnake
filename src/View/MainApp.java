@@ -1,9 +1,8 @@
 package View;
 
-import Controller.SimpleSnakeController;
+import Controller.FancySnakeController;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -19,7 +18,7 @@ public class MainApp extends Application {
     /**
      * Initializer method for javafx application
      * Creates Stage, Scene and GridPane to show game onan
-     * Creates SimpleSnakeController
+     * Creates FancySnakeController
      * Handles key input
      *
      * @param   primary_stage: primary stage to show game on
@@ -36,7 +35,7 @@ public class MainApp extends Application {
 
         primary_stage.show();
 
-        SimpleSnakeController controller = new SimpleSnakeController(Integer.parseInt(args.get(0)), Integer.parseInt(args.get(1)), stack_pane, primary_stage);
+        FancySnakeController controller = new FancySnakeController(Integer.parseInt(args.get(0)), Integer.parseInt(args.get(1)), stack_pane, primary_stage);
 
         // Constantly detects key pressed
         // Converts keycode to descriptive string and sends it to controller via. the method key_press

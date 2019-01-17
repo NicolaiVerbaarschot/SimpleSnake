@@ -21,7 +21,7 @@ import java.util.List;
  *
  * @author  Andreas Goll Rossau
  */
-public class SimpleSnakeView {
+public class FancySnakeView {
     private int grid_x;
     private int grid_y;
     private int cell_size;
@@ -51,7 +51,7 @@ public class SimpleSnakeView {
      * @param   primary_stage: JavaFX Node
      * @author  Andreas Goll Rossau
      */
-    public SimpleSnakeView(int grid_x, int grid_y, StackPane stack_pane, Stage primary_stage) {
+    public FancySnakeView(int grid_x, int grid_y, StackPane stack_pane, Stage primary_stage) {
         this.grid_x = grid_x;
         this.grid_y = grid_y;
         this.cell_size = Math.min( (100/Math.max(grid_x,grid_y))*9, 100 );

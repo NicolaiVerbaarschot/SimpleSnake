@@ -1,8 +1,7 @@
 package Controller;
 
 import Model.SimpleSnake;
-import View.SimpleSnakeView;
-import javafx.scene.layout.GridPane;
+import View.FancySnakeView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -11,10 +10,10 @@ import javafx.stage.Stage;
  *
  * @author  Andreas Goll Rossau
  */
-public class SimpleSnakeController {
+public class FancySnakeController {
 
     private SimpleSnake game;
-    private SimpleSnakeView view;
+    private FancySnakeView view;
     private boolean endgame_flag;
 
     /**
@@ -26,10 +25,10 @@ public class SimpleSnakeController {
      * @param   primary_stage: JavaFX Node
      * @author  Andreas Goll Rossau
      */
-    public SimpleSnakeController(int grid_x, int grid_y, StackPane stack_pane, Stage primary_stage) {
+    public FancySnakeController(int grid_x, int grid_y, StackPane stack_pane, Stage primary_stage) {
 
         this.game = new SimpleSnake(grid_x, grid_y);
-        this.view = new SimpleSnakeView(grid_x, grid_y, stack_pane, primary_stage);
+        this.view = new FancySnakeView(grid_x, grid_y, stack_pane, primary_stage);
 
         endgame_flag = false;
 
