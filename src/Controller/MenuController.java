@@ -30,7 +30,7 @@ public class MenuController {
         startNanoTime = System.nanoTime();
         timer = new AnimationTimer() {
             public void handle(long nanoTime) {
-                long t = (nanoTime - startNanoTime) / 1000000000;
+                long t = (nanoTime - startNanoTime) / 100000000;
                 menuView.updateMenu(selected, t);
             }
         };
