@@ -12,8 +12,6 @@ import java.util.List;
  * @author  Andreas Goll Rossau
  */
 public class MainApp extends Application {
-    List<String> args;
-    MenuController menuController;
 
     /**
      * Initializer method for javafx application
@@ -27,9 +25,9 @@ public class MainApp extends Application {
     public void start(Stage primary_stage) {
 
         // Pass command line arguments to list
-        args = getParameters().getRaw();
+        List<String> args = getParameters().getRaw();
 
-        menuController = new MenuController(primary_stage, args, this);
+        new MenuController(primary_stage, args);
     }
 
     /**

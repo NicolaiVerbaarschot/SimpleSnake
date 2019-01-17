@@ -23,7 +23,6 @@ public class MenuView {
 
     private Canvas[] cursorCanvases = new Canvas[3];
     private DisplayMap avatar_map;
-    private DisplayMap background_map;
 
     private Point mousePosition = new Point();
     private Point snakeHeadPosition = new Point();
@@ -116,7 +115,7 @@ public class MenuView {
     }
 
     private void backGridInit() {
-        background_map = new DisplayMap(grid_x, grid_y, cell_size);
+        DisplayMap background_map = new DisplayMap(grid_x, grid_y, cell_size);
         background_map.addToGrid(backGrid);
         background_map.drawAll(sprites.getEmptyCell());
     }

@@ -1,6 +1,5 @@
 package Controller;
 
-import View.MainApp;
 import View.MenuView;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
@@ -12,20 +11,17 @@ import java.util.List;
 
 public class MenuController {
     private int selected;
-    private int maxSelected = 3;
     private List<String> args;
     private Stage stage;
-    private MainApp mainApp;
     private MenuView menuView;
     private AnimationTimer timer;
     private long startNanoTime;
 
-    public MenuController(Stage stage, List<String> args, MainApp mainApp) {
+    public MenuController(Stage stage, List<String> args) {
         this.menuView = new MenuView(stage, this);
         selected = 1;
         this.args = args;
         this.stage = stage;
-        this.mainApp = mainApp;
 
         startNanoTime = System.nanoTime();
         timer = new AnimationTimer() {
@@ -38,6 +34,8 @@ public class MenuController {
     }
 
     public void keyPress(String code) {
+        int maxSelected = 3;
+
         switch (code) {
             case "UP":
                 selected--;
@@ -100,7 +98,7 @@ public class MenuController {
     }
 
 
-    public void reinitialize() {
+    void reinitialize() {
         selected = 1;
         menuView.reinitialize();
         startNanoTime = System.nanoTime();

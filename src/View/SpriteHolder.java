@@ -2,7 +2,7 @@ package View;
 
 import javafx.scene.image.Image;
 
-public class SpriteHolder {
+class SpriteHolder {
     private AnimatedImage cursor;
     private AnimatedImage mouse;
     private AnimatedImage snakeHead;
@@ -11,7 +11,7 @@ public class SpriteHolder {
     private AnimatedImage bentSnakeBody;
     private Image emptyCell;
 
-    public SpriteHolder(String type) {
+    SpriteHolder(String type) {
         switch (type) {
             case "menu":
                 menuInit();
@@ -64,27 +64,27 @@ public class SpriteHolder {
         emptyCell = new Image("/image/emptyCell20x20.png");
     }
 
-    public Image getCursor(long t) {
+    Image getCursor(long t) {
         return cursor.getFrame(t);
     }
 
-    public Image getMouse(long t) {
+    Image getMouse(long t) {
         return mouse.getFrame(t);
     }
 
-    public Image getSnakeHead(long t) {
+    Image getSnakeHead(long t) {
         return snakeHead.getFrame(t);
     }
 
-    public Image getStraightSnakeBody(long t) {
+    Image getStraightSnakeBody(long t) {
         return straightSnakeBody.getFrame(t);
     }
 
-    public Image getSnakeTail(long t) {
+    Image getSnakeTail(long t) {
         return snakeTail.getFrame(t);
     }
 
-    public Image getEmptyCell() { return emptyCell;    }
+    Image getEmptyCell() { return emptyCell;    }
 
-    public Image getBentSnakeBody(long t) { return bentSnakeBody.getFrame(t); }
+    Image getBentSnakeBody(long t) { return bentSnakeBody.getFrame(t); }
 }

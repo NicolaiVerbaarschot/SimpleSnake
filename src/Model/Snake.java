@@ -44,7 +44,6 @@ class Snake {
     Point move(int x, int y, int dx, int dy, boolean will_grow) {
 
         SnakeSegment tail = new SnakeSegment();
-        Point new_head_previous_cell = snake.get(0).get_coordinates();
 
         snake.add(0, new SnakeSegment(new Point(x, y), new Point(-dx, -dy), null));
         snake.get(0).set_head(true);

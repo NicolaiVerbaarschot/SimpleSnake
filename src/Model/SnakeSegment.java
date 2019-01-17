@@ -35,7 +35,7 @@ public class SnakeSegment {
         }
     }
 
-    public SnakeSegment(Point coordinates, Point previous_coordinates, Point next_coordinates) {
+    SnakeSegment(Point coordinates, Point previous_coordinates, Point next_coordinates) {
 
         this.coordinates = coordinates;
         this.previous_coordinates = previous_coordinates;
@@ -58,19 +58,19 @@ public class SnakeSegment {
         this.coordinates = coordinates;
     }
 
-    public void set_next_coordinates(Point next_coordinates) {
+    void set_next_coordinates(Point next_coordinates) {
         this.next_coordinates = next_coordinates;
     }
 
-    public void set_previous_coordinates(Point previous_coordinates) {
+    void set_previous_coordinates(Point previous_coordinates) {
         this.previous_coordinates = previous_coordinates;
     }
 
-    public void set_head(boolean value) {
+    void set_head(boolean value) {
         this.is_head = value;
     }
 
-    public void set_tail(boolean value) {
+    void set_tail(boolean value) {
         this.is_tail = value;
     }
 

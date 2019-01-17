@@ -8,7 +8,7 @@ import View.SnakeTextView;
  *
  * @author  Andreas Goll Rossau
  */
-public class SnakeTextController {
+class SnakeTextController {
 
     /**
      * Constructor. The program never leaves this constructor unless the game ends
@@ -17,7 +17,7 @@ public class SnakeTextController {
      * @param   grid_y: The grid size in the y dimension
      * @author  Andreas Goll Rossau
      */
-    public SnakeTextController(int grid_x, int grid_y) {
+    SnakeTextController(int grid_x, int grid_y) {
 
         SimpleSnake game = new SimpleSnake(grid_x, grid_y);
         SnakeTextView view = new SnakeTextView();

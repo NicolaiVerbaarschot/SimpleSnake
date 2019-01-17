@@ -1,6 +1,5 @@
 package View;
 
-import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -11,7 +10,6 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import java.awt.Point;
-import java.util.HashMap;
 import java.util.List;
 
 /**

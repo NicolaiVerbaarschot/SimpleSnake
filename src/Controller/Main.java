@@ -13,6 +13,6 @@ public class Main {
      * @author  Andreas Goll Rossau
      */
     public static void main(String[] args) {
-        SnakeTextController controller = new SnakeTextController(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
+        new SnakeTextController(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
     }
 }

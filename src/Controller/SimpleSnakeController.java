@@ -10,7 +10,7 @@ import javafx.stage.Stage;
  *
  * @author  Andreas Goll Rossau
  */
-public class SimpleSnakeController {
+class SimpleSnakeController {
 
     private SimpleSnake game;
     private SimpleSnakeView view;
@@ -24,10 +24,10 @@ public class SimpleSnakeController {
      * @param   grid_y : The grid size in the y dimension
      * @param   gridPane : JavaFX Node
      * @param   primary_stage : JavaFX Node
-     * @param menuController
+     * @param   menuController : Controller for main menu
      * @author  Andreas Goll Rossau
      */
-    public SimpleSnakeController(int grid_x, int grid_y, GridPane gridPane, Stage primary_stage, MenuController menuController) {
+    SimpleSnakeController(int grid_x, int grid_y, GridPane gridPane, Stage primary_stage, MenuController menuController) {
 
         this.game = new SimpleSnake(grid_x, grid_y);
         this.view = new SimpleSnakeView(grid_x, grid_y, gridPane, primary_stage);
@@ -46,7 +46,7 @@ public class SimpleSnakeController {
      * @param   code key: Input code
      * @author  Andreas Goll Rossau
      */
-    public void key_press(String code) {
+    void key_press(String code) {
 
         if (endgame_flag && !(code.equals("R") || code.equals("ESCAPE")))
             return;
