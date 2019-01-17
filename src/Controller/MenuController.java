@@ -2,6 +2,7 @@ package Controller;
 
 import View.MainApp;
 import View.MenuView;
+import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -16,14 +17,24 @@ public class MenuController {
     private Stage stage;
     private MainApp mainApp;
     private MenuView menuView;
+    private AnimationTimer timer;
+    private long startNanoTime;
 
     public MenuController(Stage stage, List<String> args, MainApp mainApp) {
         this.menuView = new MenuView(stage, this);
         selected = 1;
-        menuView.drawMenu(selected);
         this.args = args;
         this.stage = stage;
         this.mainApp = mainApp;
+
+        startNanoTime = System.nanoTime();
+        timer = new AnimationTimer() {
+            public void handle(long nanoTime) {
+                long t = (nanoTime - startNanoTime) / 1000000000;
+                menuView.updateMenu(selected, t);
+            }
+        };
+        timer.start();
     }
 
     public void keyPress(String code) {
@@ -46,15 +57,16 @@ public class MenuController {
             case "ESCAPE":
                 System.exit(0);
         }
-        menuView.drawMenu(selected);
     }
 
     private void menuSelection(int selected) {
         switch (selected) {
             case 1:
+                timer.stop();
                 playSimpleSnake();
                 break;
             case 2:
+                timer.stop();
                 playFancySnake();
                 break;
             case 3:
@@ -91,5 +103,7 @@ public class MenuController {
     public void reinitialize() {
         selected = 1;
         menuView.reinitialize();
+        startNanoTime = System.nanoTime();
+        timer.start();
     }
 }
