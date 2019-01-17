@@ -22,26 +22,28 @@ public class MenuView {
     private GridPane topGrid;
     private GridPane middleGrid;
     private GridPane backGrid;
-    private int cell_size = 100;
-    private int grid_x = 10;
-    private int grid_y = 6;
-    private int menuHeight = grid_y*cell_size;
-    private int menuWidth = grid_x*cell_size;
-    private Point mousePosition = new Point();
-    private AnimatedImage cursor;
-    private AnimatedImage mouse;
+
     private Canvas[] cursorCanvases = new Canvas[3];
-    private int cursorWidth;
-    private int cursorHeight;
-    private int canvasWidth;
-    private int timer = 0;
     private HashMap<Integer, HashMap<Integer, Canvas>> avatar_map = new HashMap<>();
-    private AnimatedImage snakeHead;
-    private AnimatedImage snakeBody;
-    private AnimatedImage snakeTail;
+
+    private Point mousePosition = new Point();
     private Point snakeHeadPosition = new Point();
     private Point snakeTailPosition = new Point();
     private Point snakeBodyPosition = new Point();
+
+    private SpriteHolder sprites = new SpriteHolder();
+
+    private int cell_size = 100;
+    private int grid_x = 10;
+    private int grid_y = 6;
+    private int timer = 0;
+
+    private int menuHeight = grid_y*cell_size;
+    private int menuWidth = grid_x*cell_size;
+
+    private int cursorWidth;
+    private int cursorHeight;
+    private int canvasWidth;
 
     public MenuView(Stage stage, MenuController menuController) {
         StackPane stack_pane = new StackPane();
@@ -50,6 +52,7 @@ public class MenuView {
         this.topGrid = new GridPane();
         this.middleGrid = new GridPane();
         this.stage = stage;
+
         stack_pane.getChildren().add(0, backGrid);
         stack_pane.getChildren().add(1,  middleGrid);
         stack_pane.getChildren().add(2, topGrid);
@@ -58,8 +61,6 @@ public class MenuView {
         stage.setHeight(menuHeight);
         stage.setScene(scene);
         stage.show();
-
-        imageInit();
 
         backGridInit();
         middleGridInit();
@@ -79,19 +80,19 @@ public class MenuView {
             }
         }
         mousePosition.setLocation(grid_x - 3, 3);
-        avatar_map.get(grid_x - 3).get(3).getGraphicsContext2D().drawImage(mouse.getFrame(1), 0, 0, cell_size, cell_size);
+        avatar_map.get(grid_x - 3).get(3).getGraphicsContext2D().drawImage(sprites.getMouse(1), 0, 0, cell_size, cell_size);
 
         snakeHeadPosition.setLocation(grid_x - 1, 3);
         avatar_map.get(grid_x - 1).get(3).setRotate(90);
-        avatar_map.get(grid_x - 1).get(3).getGraphicsContext2D().drawImage(snakeHead.getFrame(1), 0, 0, cell_size, cell_size);
+        avatar_map.get(grid_x - 1).get(3).getGraphicsContext2D().drawImage(sprites.getSnakeHead(1), 0, 0, cell_size, cell_size);
 
         snakeTailPosition.setLocation(1, 3);
         avatar_map.get(1).get(3).setRotate(270);
-        avatar_map.get(1).get(3).getGraphicsContext2D().drawImage(snakeTail.getFrame(1), 0, 0, cell_size, cell_size);
+        avatar_map.get(1).get(3).getGraphicsContext2D().drawImage(sprites.getSnakeTail(1), 0, 0, cell_size, cell_size);
 
         snakeBodyPosition.setLocation(0, 3);
         avatar_map.get(0).get(3).setRotate(90);
-        avatar_map.get(0).get(3).getGraphicsContext2D().drawImage(snakeBody.getFrame(1), 0,0, cell_size, cell_size);
+        avatar_map.get(0).get(3).getGraphicsContext2D().drawImage(sprites.getSnakeBody(1), 0,0, cell_size, cell_size);
     }
 
     private void topGridInit() {
@@ -129,26 +130,6 @@ public class MenuView {
         }
     }
 
-    private void imageInit() {
-        Image[] cursorFrames = new Image[18];
-        for (int i = 0; i < 18; i++) {
-            cursorFrames[i] = new Image("/image/cursor/cursor" + i + ".png");
-        }
-        cursor = new AnimatedImage(cursorFrames, 1);
-
-        Image[] mouseFrames = new Image[]{new Image("/image/mouse2.png"), new Image("/image/mouse20x20.png")};
-        mouse = new AnimatedImage(mouseFrames, 90);
-
-        Image[] snakeHeadFrames = new Image[]{new Image("/image/head2.png"), new Image("/image/snakeHead20x20.png")};
-        snakeHead = new AnimatedImage(snakeHeadFrames, 90);
-
-        Image[] snakeBodyFrames = new Image[]{new Image("/image/snake2.png"), new Image("/image/snakeStraight20x20.png")};
-        snakeBody = new AnimatedImage(snakeBodyFrames, 90);
-
-        Image[] snakeTailFrames = new Image[]{new Image("/image/snake2.png"), new Image("/image/snakeTail20x20.png")};
-        snakeTail = new AnimatedImage(snakeTailFrames, 90);
-    }
-
     public void reinitialize() {
         stage.setWidth(menuWidth);
         stage.setHeight(menuHeight);
@@ -160,12 +141,12 @@ public class MenuView {
         for (Canvas c : cursorCanvases) {
             c.getGraphicsContext2D().clearRect(canvasWidth - cursorWidth, 0, cursorWidth, cursorHeight);
         }
-        cursorCanvases[selected - 1].getGraphicsContext2D().drawImage(cursor.getFrame(t), canvasWidth - cursorWidth, 0, cursorWidth, cursorHeight);
+        cursorCanvases[selected - 1].getGraphicsContext2D().drawImage(sprites.getCursor(t), canvasWidth - cursorWidth, 0, cursorWidth, cursorHeight);
 
         avatar_map.get((int) mousePosition.getX()).get((int) mousePosition.getY()).getGraphicsContext2D().clearRect(0, 0, cell_size, cell_size);
         avatar_map.get((int) snakeHeadPosition.getX()).get((int) snakeHeadPosition.getY()).getGraphicsContext2D().clearRect(0, 0, cell_size, cell_size);
-        avatar_map.get((int) snakeTailPosition.getX()).get((int) snakeTailPosition.getY()).getGraphicsContext2D().clearRect(0, 0, cell_size, cell_size);
         avatar_map.get((int) snakeBodyPosition.getX()).get((int) snakeBodyPosition.getY()).getGraphicsContext2D().clearRect(0, 0, cell_size, cell_size);
+        avatar_map.get((int) snakeTailPosition.getX()).get((int) snakeTailPosition.getY()).getGraphicsContext2D().clearRect(0, 0, cell_size, cell_size);
 
         if (t > timer) {
             avatar_map.get((int) snakeTailPosition.getX()).get((int) snakeTailPosition.getY()).setRotate(0);
@@ -187,12 +168,12 @@ public class MenuView {
             }
             timer += 10;
         }
-        avatar_map.get((int) mousePosition.getX()).get((int) mousePosition.getY()).getGraphicsContext2D().drawImage(mouse.getFrame(t), 0, 0, cell_size, cell_size);
+        avatar_map.get((int) mousePosition.getX()).get((int) mousePosition.getY()).getGraphicsContext2D().drawImage(sprites.getMouse(t), 0, 0, cell_size, cell_size);
         avatar_map.get((int) snakeHeadPosition.getX()).get((int) snakeHeadPosition.getY()).setRotate(90);
-        avatar_map.get((int) snakeHeadPosition.getX()).get((int) snakeHeadPosition.getY()).getGraphicsContext2D().drawImage(snakeHead.getFrame(t), 0, 0 , cell_size, cell_size);
-        avatar_map.get((int) snakeBodyPosition.getX()).get((int) snakeBodyPosition.getY()).getGraphicsContext2D().drawImage(snakeBody.getFrame(t), 0, 0, cell_size, cell_size);
+        avatar_map.get((int) snakeHeadPosition.getX()).get((int) snakeHeadPosition.getY()).getGraphicsContext2D().drawImage(sprites.getSnakeHead(t), 0, 0 , cell_size, cell_size);
+        avatar_map.get((int) snakeBodyPosition.getX()).get((int) snakeBodyPosition.getY()).getGraphicsContext2D().drawImage(sprites.getSnakeBody(t), 0, 0, cell_size, cell_size);
         avatar_map.get((int) snakeTailPosition.getX()).get((int) snakeTailPosition.getY()).setRotate(270);
-        avatar_map.get((int) snakeTailPosition.getX()).get((int) snakeTailPosition.getY()).getGraphicsContext2D().drawImage(snakeTail.getFrame(t), 0, 0, cell_size, cell_size);
+        avatar_map.get((int) snakeTailPosition.getX()).get((int) snakeTailPosition.getY()).getGraphicsContext2D().drawImage(sprites.getSnakeTail(t), 0, 0, cell_size, cell_size);
     }
 
     private Text setOption(String text) {
