@@ -16,26 +16,10 @@ public class SpriteHolder {
             case "menu":
                 menuInit();
                 break;
-            case "simple":
-                simpleInit();
-                break;
             case "fancy":
                 fancyInit();
                 break;
         }
-    }
-
-    private void simpleInit() {
-        Image[] snakeHeadFrames = new Image[]{new Image("/image/head2.png")};
-        snakeHead = new AnimatedImage(snakeHeadFrames, 90);
-
-        Image[] mouseFrames = new Image[]{new Image("/image/mouse2.png")};
-        mouse = new AnimatedImage(mouseFrames, 90);
-
-        Image[] straightSnakeBodyFrames = new Image[]{new Image("/image/snake2.png")};
-        straightSnakeBody = new AnimatedImage(straightSnakeBodyFrames, 90);
-
-        emptyCell = new Image("/image/emptyCell20x20.png");
     }
 
     private void fancyInit() {
