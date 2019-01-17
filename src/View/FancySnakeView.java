@@ -136,7 +136,7 @@ public class FancySnakeView {
             if (!mouse_location.equals(old_mouse_location)) {
                 get_canvas(avatar_map, mouse_location).getGraphicsContext2D().drawImage(mouse, 0, 0, cell_size, cell_size);
                 get_canvas(avatar_map, old_mouse_location).getGraphicsContext2D().clearRect(0, 0 , cell_size, cell_size);
-                get_canvas(background_map, old_mouse_location).getGraphicsContext2D().drawImage(blood, 0, 0, cell_size, cell_size);
+                draw_blood_splatter();
                 old_mouse_location.setLocation(mouse_location);
             }
             // No mouse has been eaten
@@ -152,6 +152,28 @@ public class FancySnakeView {
             draw_snake_segment(get_canvas(avatar_map, snake_head), snake_head);
             old_snake_head = new SnakeSegment(snake_head);
         }
+    }
+
+    private void draw_blood_splatter() {
+        Point right_cell = new Point((int) old_mouse_location.getX()+1, (int) old_mouse_location.getY());
+        Point top_right_cell = new Point((int) old_mouse_location.getX()+1, (int) old_mouse_location.getY()-1);
+        Point top_cell = new Point((int) old_mouse_location.getX(), (int) old_mouse_location.getY()-1);
+        Point top_left_cell = new Point((int) old_mouse_location.getX()-1, (int) old_mouse_location.getY()-1);
+        Point left_cell = new Point((int) old_mouse_location.getX()-1, (int) old_mouse_location.getY());
+        Point bottom_left_cell = new Point((int) old_mouse_location.getX()-1, (int) old_mouse_location.getY()+1);
+        Point bottom_cell = new Point((int) old_mouse_location.getX(), (int) old_mouse_location.getY()+1);
+        Point bottom_right_cell = new Point((int) old_mouse_location.getX()+1, (int) old_mouse_location.getY()+1);
+
+        get_canvas(background_map, old_mouse_location).getGraphicsContext2D().drawImage(blood, 0, 0 , cell_size, cell_size);
+        get_canvas(background_map, right_cell).getGraphicsContext2D().drawImage(blood, 0, 0 , cell_size, cell_size);
+        get_canvas(background_map, top_right_cell).getGraphicsContext2D().drawImage(blood, 0, 0 , cell_size, cell_size);
+        get_canvas(background_map, top_cell).getGraphicsContext2D().drawImage(blood, 0, 0 , cell_size, cell_size);
+        get_canvas(background_map, top_left_cell).getGraphicsContext2D().drawImage(blood, 0, 0 , cell_size, cell_size);
+        get_canvas(background_map, left_cell).getGraphicsContext2D().drawImage(blood, 0, 0 , cell_size, cell_size);
+        get_canvas(background_map, bottom_left_cell).getGraphicsContext2D().drawImage(blood, 0, 0 , cell_size, cell_size);
+        get_canvas(background_map, bottom_cell).getGraphicsContext2D().drawImage(blood, 0, 0 , cell_size, cell_size);
+        get_canvas(background_map, bottom_right_cell).getGraphicsContext2D().drawImage(blood, 0, 0 , cell_size, cell_size);
+
     }
 
     /**
