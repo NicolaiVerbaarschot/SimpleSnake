@@ -8,6 +8,7 @@ public class SpriteHolder {
     private AnimatedImage snakeHead;
     private AnimatedImage snakeBody;
     private AnimatedImage snakeTail;
+    private Image emptyCell;
 
     public SpriteHolder() {
         imageInit();
@@ -31,6 +32,8 @@ public class SpriteHolder {
 
         Image[] snakeTailFrames = new Image[]{new Image("/image/snake2.png"), new Image("/image/snakeTail20x20.png")};
         snakeTail = new AnimatedImage(snakeTailFrames, 90);
+
+        emptyCell = new Image("/image/emptyCell20x20.png");
     }
 
     public Image getCursor(long t) {
@@ -52,4 +55,6 @@ public class SpriteHolder {
     public Image getSnakeTail(long t) {
         return snakeTail.getFrame(t);
     }
+
+    public Image getEmptyCell() { return emptyCell;    }
 }
