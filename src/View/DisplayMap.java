@@ -40,7 +40,7 @@ public class DisplayMap {
     public void drawAll(Image img) {
         for (int i = 0; i < map.size(); i++) {
             for (int j = 0; j < map.get(i).size(); j++) {
-                getCanvas(i, j).getGraphicsContext2D().drawImage(img, 0, 0, cell_size, cell_size);
+                draw(i, j, img);
             }
         }
     }
@@ -59,5 +59,21 @@ public class DisplayMap {
 
     public void clear(Point p) {
         getCanvas(p).getGraphicsContext2D().clearRect(0, 0, cell_size, cell_size);
+    }
+
+    public void clearAll() {
+        for (int i = 0; i < map.size(); i++) {
+            for (int j = 0; j < map.get(i).size(); j++) {
+                clear(i, j);
+            }
+        }
+    }
+
+    public void resetRotations() {
+        for (int i = 0; i < map.size(); i++) {
+            for (int j = 0; j < map.get(i).size(); j++) {
+                getCanvas(i, j).setRotate(0);
+            }
+        }
     }
 }

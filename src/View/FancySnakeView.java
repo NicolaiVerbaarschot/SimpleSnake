@@ -12,6 +12,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+
+import javax.swing.text.Segment;
 import java.awt.Point;
 import java.util.HashMap;
 import java.util.List;
@@ -25,8 +27,8 @@ public class FancySnakeView {
     private int grid_x;
     private int grid_y;
     private int cell_size;
-    private HashMap<Integer, HashMap<Integer, Canvas>> background_map;
-    private HashMap<Integer, HashMap<Integer, Canvas>> avatar_map;
+    private DisplayMap background_map;
+    private DisplayMap avatar_map;
     private StackPane stack_pane;
     private Text endgame_text = new Text();
     private Rectangle endgame_background = new Rectangle();
@@ -55,8 +57,8 @@ public class FancySnakeView {
         this.grid_x = grid_x;
         this.grid_y = grid_y;
         this.cell_size = Math.min( (100/Math.max(grid_x,grid_y))*9, 100 );
-        this.background_map = new HashMap<>();
-        this.avatar_map = new HashMap<>();
+        this.background_map = new DisplayMap(grid_x, grid_y, cell_size);
+        this.avatar_map = new DisplayMap(grid_x, grid_y, cell_size);
         this.stack_pane = stack_pane;
         this.score_bar = new Text();
         this.background = new GridPane();
@@ -75,18 +77,9 @@ public class FancySnakeView {
         primary_stage.setHeight((grid_y * cell_size) + 65);
 
         // Add canvas cells to background_map and add background_map to grid_pane
-        for (int i = 0; i < grid_x; i++) {
-            avatar_map.put(i, new HashMap<>());
-            background_map.put(i, new HashMap<>());
-            for (int j = 0; j < grid_y; j++) {
-                background_map.get(i).put(j, new Canvas(cell_size, cell_size));
-                background.add(background_map.get(i).get(j), i, j, 1, 1);
-                background_map.get(i).get(j).getGraphicsContext2D().drawImage(emptyCell, 0, 0, cell_size, cell_size);
-
-                avatar_map.get(i).put(j, new Canvas(cell_size, cell_size));
-                avatars.add(avatar_map.get(i).get(j), i, j, 1, 1);
-            }
-        }
+        background_map.addToGrid(background);
+        background_map.drawAll(emptyCell);
+        avatar_map.addToGrid(avatars);
     }
 
     /**
@@ -98,18 +91,14 @@ public class FancySnakeView {
      */
     public void draw_board(List<SnakeSegment> snake_location, Point mouse_location) {
         // Clear avatar grid
-        for (int i = 0; i < grid_y; i++) {
-            for (int j = 0; j < grid_x; j++) {
-                avatar_map.get(j).get(i).getGraphicsContext2D().clearRect(0, 0, cell_size, cell_size);
-                avatar_map.get(j).get(i).setRotate(0);
-            }
-        }
+        avatar_map.clearAll();
+        avatar_map.resetRotations();
 
-        get_canvas(avatar_map, mouse_location).getGraphicsContext2D().drawImage(mouse, 0, 0, cell_size, cell_size);
+        avatar_map.draw(mouse_location, mouse);
         old_mouse_location = new Point(mouse_location);
 
         for (SnakeSegment s : snake_location) {
-            draw_snake_segment(get_canvas(avatar_map, s), s);
+            draw_snake_segment(avatar_map, s);
             if (s.is_head()) {
                 old_snake_head = new SnakeSegment(s);
             }
@@ -131,21 +120,21 @@ public class FancySnakeView {
 
             // A mouse has been eaten
             if (!mouse_location.equals(old_mouse_location)) {
-                get_canvas(avatar_map, mouse_location).getGraphicsContext2D().drawImage(mouse, 0, 0, cell_size, cell_size);
-                get_canvas(avatar_map, old_mouse_location).getGraphicsContext2D().clearRect(0, 0 , cell_size, cell_size);
+                avatar_map.draw(mouse_location, mouse);
+                avatar_map.clear(old_mouse_location);
                 old_mouse_location.setLocation(mouse_location);
             }
             // No mouse has been eaten
             else {
-                get_canvas(avatar_map, old_snake_tail).getGraphicsContext2D().clearRect(0, 0, cell_size, cell_size);
-                get_canvas(avatar_map, old_snake_tail).setRotate(0);
-                get_canvas(avatar_map, snake_tail).getGraphicsContext2D().clearRect(0, 0, cell_size, cell_size);
-                draw_snake_segment(get_canvas(avatar_map, snake_tail), snake.get(snake.size() - 1));
+                avatar_map.clear(old_snake_tail);
+                avatar_map.getCanvas(old_snake_tail).setRotate(0);
+                avatar_map.clear(snake_tail.get_coordinates());
+                draw_snake_segment(avatar_map, snake.get(snake.size() - 1));
             }
 
-            get_canvas(avatar_map, old_snake_head).getGraphicsContext2D().clearRect(0, 0, cell_size, cell_size);
-            draw_snake_segment(get_canvas(avatar_map, snake.get(1)), snake.get(1));
-            draw_snake_segment(get_canvas(avatar_map, snake_head), snake_head);
+            avatar_map.clear(old_snake_head.get_coordinates());
+            draw_snake_segment(avatar_map, snake.get(1));
+            draw_snake_segment(avatar_map, snake_head);
             old_snake_head = new SnakeSegment(snake_head);
         }
     }
@@ -210,18 +199,18 @@ public class FancySnakeView {
         score_bar.setStroke(Color.BLACK);
     }
 
-    private void draw_snake_segment(Canvas canvas, SnakeSegment segment) {
+    private void draw_snake_segment(DisplayMap map, SnakeSegment segment) {
         Image img;
         Point coords;
         if (segment.is_head()) {
             img = head;
             coords = segment.get_previous_coordinates();
-            draw_non_bent_segment(canvas, img, coords);
+            draw_non_bent_segment(map, img, coords, segment);
         }
         else if (segment.is_tail()) {
             img = tail;
             coords = segment.get_next_coordinates();
-            draw_non_bent_segment(canvas, img, coords);
+            draw_non_bent_segment(map, img, coords, segment);
         }
         else {
             int x_sum = (int) (Math.abs(segment.get_next_coordinates().getX()) + Math.abs(segment.get_previous_coordinates().getX()));
@@ -229,65 +218,54 @@ public class FancySnakeView {
             if (x_sum == 0 || y_sum == 0) {
                 img = straight_snake;
                 coords = new Point(x_sum, y_sum);
-                draw_non_bent_segment(canvas, img, coords);
+                draw_non_bent_segment(map, img, coords, segment);
             }
             else {
-                draw_bent_snake_segment(canvas, segment);
+                draw_bent_snake_segment(map, segment);
             }
         }
     }
 
-    private void draw_non_bent_segment(Canvas canvas, Image img, Point coords) {
+    private void draw_non_bent_segment(DisplayMap map, Image img, Point coords, SnakeSegment segment) {
         if (coords.getX() == 0) {
             if (coords.getY() > 0) {
-                canvas.setRotate(180);
-                canvas.getGraphicsContext2D().drawImage(img, 0, 0, cell_size, cell_size);
+                map.getCanvas(segment.get_coordinates()).setRotate(180);
+                map.draw(segment.get_coordinates(), img);
             }
             else {
-                canvas.setRotate(0);
-                canvas.getGraphicsContext2D().drawImage(img, 0, 0, cell_size, cell_size);
+                map.getCanvas(segment.get_coordinates()).setRotate(0);
+                map.draw(segment.get_coordinates(), img);
             }
         }
         else {
             if (coords.getX() > 0) {
-                canvas.setRotate(90);
-                canvas.getGraphicsContext2D().drawImage(img, 0, 0, cell_size, cell_size);
+                map.getCanvas(segment.get_coordinates()).setRotate(90);
+                map.draw(segment.get_coordinates(), img);
             }
             else {
-                canvas.setRotate(270);
-                canvas.getGraphicsContext2D().drawImage(img, 0, 0, cell_size, cell_size);
+                map.getCanvas(segment.get_coordinates()).setRotate(270);
+                map.draw(segment.get_coordinates(), img);
             }
         }
     }
 
-    private void draw_bent_snake_segment(Canvas canvas, SnakeSegment segment) {
+    private void draw_bent_snake_segment(DisplayMap map, SnakeSegment segment) {
         if (segment.get_next_coordinates().getX() < 0 || segment.get_previous_coordinates().getX() < 0) {
             if (segment.get_previous_coordinates().getY() < 0 || segment.get_next_coordinates().getY() < 0) {
-                canvas.setRotate(270);
-                canvas.getGraphicsContext2D().drawImage(bent_snake, 0, 0, cell_size, cell_size);
+                map.getCanvas(segment.get_coordinates()).setRotate(270);
             }
             else {
-                canvas.setRotate(180);
-                canvas.getGraphicsContext2D().drawImage(bent_snake, 0, 0, cell_size, cell_size);
+                map.getCanvas(segment.get_coordinates()).setRotate(180);
             }
         }
         else {
             if (segment.get_previous_coordinates().getY() < 0 || segment.get_next_coordinates().getY() < 0) {
-                canvas.setRotate(0);
-                canvas.getGraphicsContext2D().drawImage(bent_snake, 0, 0, cell_size, cell_size);
+                map.getCanvas(segment.get_coordinates()).setRotate(0);
             }
             else {
-                canvas.setRotate(90);
-                canvas.getGraphicsContext2D().drawImage(bent_snake, 0, 0, cell_size, cell_size);
+                map.getCanvas(segment.get_coordinates()).setRotate(90);
             }
         }
-    }
-
-    private Canvas get_canvas(HashMap<Integer, HashMap<Integer, Canvas>> map, Point p) {
-        return map.get((int) p.getX()).get((int) p.getY());
-    }
-
-    private Canvas get_canvas(HashMap<Integer, HashMap<Integer, Canvas>> map, SnakeSegment segment) {
-        return map.get((int) segment.get_coordinates().getX()).get((int) segment.get_coordinates().getY());
+        map.draw(segment.get_coordinates(), bent_snake);
     }
 }
