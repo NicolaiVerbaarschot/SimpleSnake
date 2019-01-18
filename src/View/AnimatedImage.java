@@ -30,7 +30,7 @@ class AnimatedImage {
      * @author Andreas Goll Rossau
      */
     Image getFrame(double t) {
-        int i = (int) (t%(frames.length * duration) / duration);
+        int i = (int) ((t%(frames.length * duration)) / duration);
         return frames[i];
     }
 }
