@@ -106,7 +106,7 @@ public class MenuController {
         FancySnakeController fancyController = new FancySnakeController(Integer.parseInt(args.get(0)), Integer.parseInt(args.get(1)), stack_pane, stage, this);
 
         scene.setOnKeyPressed(
-                event -> fancyController.key_press(event.getCode().toString())
+                event -> fancyController.set_direction(event.getCode().toString().toLowerCase())
         );
     }
 

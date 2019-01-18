@@ -6,17 +6,21 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This Class controls the Simple Snake game
  *
  * @author  Andreas Goll Rossau
  */
-class FancySnakeController {
-
+public class FancySnakeController {
     private SimpleSnake game;
     private FancySnakeView view;
     private boolean endgame_flag;
     private MenuController menuController;
+
+    AnimationTimer timer;
 
     public boolean frame_running;
     private String latest_keyboard_input;
@@ -35,7 +39,7 @@ class FancySnakeController {
      * @param   menuController : Controller for main menu
      * @author  Andreas Goll Rossau
      */
-    FancySnakeController(int grid_x, int grid_y, StackPane stack_pane, Stage primary_stage, MenuController menuController) {
+    public FancySnakeController(int grid_x, int grid_y, StackPane stack_pane, Stage primary_stage, MenuController menuController) {
 
         this.game = new SimpleSnake(grid_x, grid_y);
         this.view = new FancySnakeView(grid_x, grid_y, stack_pane, primary_stage);
@@ -44,7 +48,7 @@ class FancySnakeController {
         endgame_flag = false;
 
         this.latest_displayed_direction = "none";
-        this.direction = "down";
+        this.direction = "up";
 
         // Initialize window
         view.draw_board(game.get_snake_segments(), game.get_mouse_location());
@@ -52,6 +56,20 @@ class FancySnakeController {
 
         // Start animation
         animation_loop();
+        timer.start();
+    }
+
+    /**
+     * Method saves keyboard inputs in an array list of size three and keeps track of the most recent input
+     * @param keyboard_input from the user passed from MainFancyApp in lowercase String form
+     * @author Thea Birk Berger
+     */
+    public void set_direction(String keyboard_input){
+
+        latest_keyboard_input = keyboard_input;
+        if (stored_keyboard_inputs.size() < 3) {
+            stored_keyboard_inputs.add(0, keyboard_input);
+        }
     }
 
     /**
@@ -66,6 +84,15 @@ class FancySnakeController {
             return;
 
         String game_status = game.game_action(code);
+
+        // Note the most recently displayed direction
+        latest_displayed_direction = direction;
+
+        // Remove stored input if it has been displayed
+        if (!stored_keyboard_inputs.isEmpty()) {
+            stored_keyboard_inputs.remove(stored_keyboard_inputs.size() - 1);
+        }
+
         switch (game_status) {
             case "Playing":
                 view.update_board(game.get_snake_segments(), game.get_tail(), game.get_mouse_location());
@@ -77,10 +104,12 @@ class FancySnakeController {
                 view.draw_board(game.get_snake_segments(), game.get_mouse_location());
                 view.set_score_bar(game.get_score());
                 view.set_score_bar(game.get_score());
+                direction = "up";
                 endgame_flag = false;
                 break;
             case "Exit":
                 menuController.reinitialize();
+                timer.stop();
                 System.gc();
                 break;
             default:
@@ -100,7 +129,7 @@ class FancySnakeController {
         // Extract timer from System
         final long startNanoTime = System.nanoTime();
 
-        new AnimationTimer() {
+        timer = new AnimationTimer() {
 
             // Initiate outer in-between-frames time keeping variable
             private long last_update_1 = 0 ;
@@ -142,8 +171,10 @@ class FancySnakeController {
                                 direction = requested_direction;
                             }
 
-                            // Update SimpleSnake, Snake, Mouse, and Mousetrack fields and return game_status
-                            game_status = game.game_action(direction);
+                            key_press(direction);
+
+                            /*// Update SimpleSnake, Snake, Mouse, and Mousetrack fields and return game_status
+                            String game_status = game.game_action(direction);
 
                             // Note the most recently displayed direction
                             latest_displayed_direction = direction;
@@ -155,7 +186,7 @@ class FancySnakeController {
 
                             // Perform display by calling View on the updated Model classes
                             if (game_status.equals("Playing")) {
-                                view.update_board(game.get_snake_location().get(0), game.get_tail(), game.get_mouse_location());
+                                view.update_board(game.get_snake_segments().get(0), game.get_tail(), game.get_mouse_location());
                                 view.set_score_bar(game.get_score());
                             } else if (game_status.equals("Restart")) {
                                 game.reset_game();
@@ -169,11 +200,11 @@ class FancySnakeController {
                             } else {
                                 view.print_status(game_status);
                                 endgame_flag = true;
-                            }
+                            }*/
                         } last_update_2 = now;
                     } last_update_1 = now;
                 }
             }
-        }.start();
+        };
     }
 }
