@@ -41,7 +41,6 @@ public class SimpleSnakeView {
      * Constructor
      * @param grid_x
      * @param grid_y
-     * @param scene
      * @param grid_pane
      * @param primary_stage
      * @author Andreas Goll Rossau

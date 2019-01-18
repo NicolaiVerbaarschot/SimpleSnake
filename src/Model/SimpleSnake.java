@@ -75,8 +75,6 @@ public class SimpleSnake {
 
         // Ending game in the event of snake collision
         if (snake_location.contains(target_cell) && !target_cell.equals(snake_location.get(1)) && !target_cell.equals(snake_location.get(snake_location.size()-1))) {
-            // TODO: implement gameOver();
-            // This should return game over, but at this point the game always game overs, so it is disabled for now
             return "Game Over";
         }
 
@@ -85,7 +83,6 @@ public class SimpleSnake {
             grow_snake(target_cell);
             score++;
             if ((mousetrack.get_track().isEmpty())) {
-                // TODO: implement gameWon();
                 return "Game Won";
             }
         }
