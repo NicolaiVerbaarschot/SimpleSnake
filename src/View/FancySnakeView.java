@@ -26,6 +26,8 @@ public class FancySnakeView {
     private int cell_size;
 
     private DisplayMap avatar_map;
+    private DisplayMap background_map;
+    private DisplayMap middle_map;
 
     private GridPane avatars;
 
@@ -53,10 +55,12 @@ public class FancySnakeView {
         this.grid_y = grid_y;
         this.cell_size = Math.min( (100/Math.max(grid_x,grid_y))*9, 100 );
 
-        DisplayMap background_map = new DisplayMap(grid_x, grid_y, cell_size);
+        background_map = new DisplayMap(grid_x, grid_y, cell_size);
+        this.middle_map = new DisplayMap(grid_x, grid_y, cell_size);
         this.avatar_map = new DisplayMap(grid_x, grid_y, cell_size);
 
         GridPane background = new GridPane();
+        GridPane middle = new GridPane();
         this.avatars = new GridPane();
 
         this.score_bar = new Text();
@@ -64,7 +68,8 @@ public class FancySnakeView {
         this.sprites = new SpriteHolder("fancy");
 
         stack_pane.getChildren().add(0, background);
-        stack_pane.getChildren().add(1, avatars);
+        stack_pane.getChildren().add(1, middle);
+        stack_pane.getChildren().add(2, avatars);
 
         // Initialize score bar and add it to grid_pane
         set_score_bar(0);
@@ -77,6 +82,7 @@ public class FancySnakeView {
         // Add canvas cells to background_map and add background_map to grid_pane
         background_map.addToGrid(background);
         background_map.drawAll(sprites.getEmptyCell());
+        middle_map.addToGrid(middle);
         avatar_map.addToGrid(avatars);
     }
 
@@ -148,17 +154,17 @@ public class FancySnakeView {
         Point bottom_cell = new Point(collision_check((int) old_mouse_location.getX(), grid_x-1), collision_check((int) old_mouse_location.getY()+1, grid_y-1));
         Point bottom_right_cell = new Point(collision_check((int) old_mouse_location.getX()+1, grid_x-1), collision_check((int) old_mouse_location.getY()+1, grid_y-1));
 
-        get_canvas(background_map, old_mouse_location).getGraphicsContext2D().drawImage(blood, 0, 0 , cell_size, cell_size);
-        get_canvas(background_map, right_cell).getGraphicsContext2D().drawImage(blood, 0, 0 , cell_size, cell_size);
-        get_canvas(background_map, top_right_cell).getGraphicsContext2D().drawImage(blood, 0, 0 , cell_size, cell_size);
-        get_canvas(background_map, top_cell).getGraphicsContext2D().drawImage(blood, 0, 0 , cell_size, cell_size);
-        get_canvas(background_map, top_left_cell).getGraphicsContext2D().drawImage(blood, 0, 0 , cell_size, cell_size);
-        get_canvas(background_map, left_cell).getGraphicsContext2D().drawImage(blood, 0, 0 , cell_size, cell_size);
-        get_canvas(background_map, bottom_left_cell).getGraphicsContext2D().drawImage(blood, 0, 0 , cell_size, cell_size);
-        get_canvas(background_map, bottom_cell).getGraphicsContext2D().drawImage(blood, 0, 0 , cell_size, cell_size);
-        get_canvas(background_map, bottom_right_cell).getGraphicsContext2D().drawImage(blood, 0, 0 , cell_size, cell_size);
-
+        middle_map.draw(old_mouse_location, blood);
+        middle_map.draw(right_cell, blood);
+        middle_map.draw(top_right_cell, blood);
+        middle_map.draw(top_cell, blood);
+        middle_map.draw(top_left_cell, blood);
+        middle_map.draw(left_cell, blood);
+        middle_map.draw(bottom_left_cell, blood);
+        middle_map.draw(bottom_cell, blood);
+        middle_map.draw(bottom_right_cell, blood);
     }
+
     private int collision_check(int coordinate, int coordinate_max) {
 
         if (coordinate == -1) {
