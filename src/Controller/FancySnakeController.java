@@ -63,9 +63,10 @@ public class FancySnakeController {
      * @param keyboard_input from the user passed from MainFancyApp in lowercase String form
      * @author Thea Birk Berger
      */
+    // endgameT -> r || escape
     public void set_direction(String keyboard_input){
 
-        if (stored_keyboard_inputs.size() < 3) {
+        if (stored_keyboard_inputs.size() < 3 && (!endgame_flag || (keyboard_input.equals("r") || keyboard_input.equals("escape")))) {
             stored_keyboard_inputs.add(0, keyboard_input);
         }
     }
@@ -78,7 +79,7 @@ public class FancySnakeController {
      */
     void key_press(String code) {
 
-        // Do not display display if the game has ended (Game Over or Game Won) unless the display attempt is "r" or "escape"
+        // Do not proceed display if the game has ended (Game Over or Game Won) unless the display attempt is "r" or "escape"
         if (endgame_flag && !(code.equals("r") || code.equals("escape")))
             return;
 
