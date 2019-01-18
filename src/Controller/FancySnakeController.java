@@ -95,7 +95,6 @@ public class FancySnakeController {
 
         switch (game_status) {
             case "Playing":
-                view.update_board(game.get_snake_segments(), game.get_tail(), game.get_mouse_location());
                 view.set_score_bar(game.get_score());
                 break;
             case "Restart":
@@ -136,6 +135,10 @@ public class FancySnakeController {
 
             @Override
             public void handle(long now) {
+
+                long t = (now - startNanoTime) / 100000000;
+
+                view.update_board(game.get_snake_segments(), game.get_tail(), game.get_mouse_location(), t);
 
                 if (now - last_update_1 >= 280000000) {
 
