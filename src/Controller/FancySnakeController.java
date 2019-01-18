@@ -117,6 +117,7 @@ public class FancySnakeController {
                 System.gc();
                 break;
             default:
+                // Display Game Over or Game Won
                 view.print_status(game_status);
                 endgame_flag = true;
                 break;
