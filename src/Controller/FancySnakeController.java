@@ -22,12 +22,11 @@ public class FancySnakeController {
 
     AnimationTimer timer;
 
-    public boolean frame_running;
-    private String latest_keyboard_input;
+
     private List<String> stored_keyboard_inputs = new ArrayList<>();
-    private String requested_direction;
-    private String direction;
-    private String latest_displayed_direction;
+    private String requested_display;
+    private String display;
+    private String last_succeeded_display;
 
     /**
      * Constructor. The program never leaves this constructor unless the game ends
@@ -47,8 +46,8 @@ public class FancySnakeController {
 
         endgame_flag = false;
 
-        this.latest_displayed_direction = "none";
-        this.direction = "up";
+        this.last_succeeded_display = "none";
+        this.display = "up";
 
         // Initialize window
         view.draw_board(game.get_snake_segments(), game.get_mouse_location());
@@ -66,8 +65,6 @@ public class FancySnakeController {
      */
     public void set_direction(String keyboard_input){
 
-        latest_keyboard_input = keyboard_input;
-
         if (stored_keyboard_inputs.size() < 3) {
             stored_keyboard_inputs.add(0, keyboard_input);
         }
@@ -81,14 +78,15 @@ public class FancySnakeController {
      */
     void key_press(String code) {
 
+        // Do not display display if the game has ended (Game Over or Game Won) unless the display attempt is "r" or "escape"
         if (endgame_flag && !(code.equals("r") || code.equals("escape")))
             return;
 
         // Update Model and return game status
         String game_status = game.game_action(code);
 
-        // Note the most recently displayed direction
-        latest_displayed_direction = direction;
+        // Note the most recently displayed display
+        last_succeeded_display = display;
 
         // Remove stored input if it has been displayed
         if (!stored_keyboard_inputs.isEmpty()) {
@@ -106,8 +104,8 @@ public class FancySnakeController {
                 view.draw_board(game.get_snake_segments(), game.get_mouse_location());
                 view.set_score_bar(game.get_score());
                 view.set_score_bar(game.get_score());
-                direction = "up";
-                latest_displayed_direction = "none";
+                display = "up";
+                last_succeeded_display = "none";
                 endgame_flag = false;
                 break;
             case "Exit":
@@ -118,13 +116,14 @@ public class FancySnakeController {
             default:
                 // Display Game Over or Game Won
                 view.print_status(game_status);
+                last_succeeded_display = "none";
                 endgame_flag = true;
                 break;
         }
     }
 
     /**
-     * Method checks validity of the keyboard input's requested direction of the snake, and calls View for displaying accordingly
+     * Method checks validity of the keyboard input's requested display of the snake, and calls View for displaying accordingly
      * Keeps track of the time between each frame displayed to create illusion of movement - animation
      * @author Thea Birk Berger
      */
@@ -155,27 +154,27 @@ public class FancySnakeController {
 
                         if (now - last_update_2 >= 220000000) {
 
-                            // If there has been no new inputs, prepare to check the validity of the most recent shown direction
+                            // If there has been no new inputs, prepare to check the validity of the most recent shown display
                             if (stored_keyboard_inputs.isEmpty()) {
-                                requested_direction = latest_displayed_direction;
+                                requested_display = last_succeeded_display;
                             } // Otherwise prepare to check the validity of the new inputs
                             else {
-                                requested_direction = stored_keyboard_inputs.get(stored_keyboard_inputs.size() - 1);
+                                requested_display = stored_keyboard_inputs.get(stored_keyboard_inputs.size() - 1);
                             }
 
-                            // Check the validity of requested direction
-                            if (requested_direction.equals("up") && !(latest_displayed_direction.equals("down")) ||
-                                    requested_direction.equals("down") && !(latest_displayed_direction.equals("up")) ||
-                                    requested_direction.equals("left") && !(latest_displayed_direction.equals("right")) ||
-                                    requested_direction.equals("right") && !(latest_displayed_direction.equals("left")) ||
-                                    requested_direction.equals("escape") ||
-                                    requested_direction.equals("r")) {
-                                // Set this.direction to be used for displaying
-                                direction = requested_direction;
+                            // Check the validity of requested display
+                            if (requested_display.equals("up") && !(last_succeeded_display.equals("down")) ||
+                                    requested_display.equals("down") && !(last_succeeded_display.equals("up")) ||
+                                    requested_display.equals("left") && !(last_succeeded_display.equals("right")) ||
+                                    requested_display.equals("right") && !(last_succeeded_display.equals("left")) ||
+                                    requested_display.equals("escape") ||
+                                    requested_display.equals("r")) {
+                                // Set this.display to be used for displaying
+                                display = requested_display;
                             }
 
-                            // Display direction
-                            key_press(direction);
+                            // Display display
+                            key_press(display);
 
                         } last_update_2 = now;
                     } last_update_1 = now;
