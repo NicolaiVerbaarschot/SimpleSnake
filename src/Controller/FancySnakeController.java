@@ -67,6 +67,7 @@ public class FancySnakeController {
     public void set_direction(String keyboard_input){
 
         latest_keyboard_input = keyboard_input;
+
         if (stored_keyboard_inputs.size() < 3) {
             stored_keyboard_inputs.add(0, keyboard_input);
         }
@@ -80,9 +81,10 @@ public class FancySnakeController {
      */
     void key_press(String code) {
 
-        if (endgame_flag && !(code.equals("R") || code.equals("ESCAPE")))
+        if (endgame_flag && !(code.equals("r") || code.equals("escape")))
             return;
 
+        // Update Model and return game status
         String game_status = game.game_action(code);
 
         // Note the most recently displayed direction
@@ -93,6 +95,7 @@ public class FancySnakeController {
             stored_keyboard_inputs.remove(stored_keyboard_inputs.size() - 1);
         }
 
+        // Display game according to game status (playing, new game, game over, game won or exit)
         switch (game_status) {
             case "Playing":
                 view.update_board(game.get_snake_segments(), game.get_tail(), game.get_mouse_location());
@@ -105,6 +108,7 @@ public class FancySnakeController {
                 view.set_score_bar(game.get_score());
                 view.set_score_bar(game.get_score());
                 direction = "up";
+                latest_displayed_direction = "none";
                 endgame_flag = false;
                 break;
             case "Exit":
@@ -155,11 +159,6 @@ public class FancySnakeController {
                                 requested_direction = stored_keyboard_inputs.get(stored_keyboard_inputs.size() - 1);
                             }
 
-                            // In case of an "r" or "escape" input
-                            if (endgame_flag && !(direction.equals("r") || direction.equals("escape"))) {
-                                return;
-                            }
-
                             // Check the validity of requested direction
                             if (requested_direction.equals("up") && !(latest_displayed_direction.equals("down")) ||
                                     requested_direction.equals("down") && !(latest_displayed_direction.equals("up")) ||
@@ -171,36 +170,9 @@ public class FancySnakeController {
                                 direction = requested_direction;
                             }
 
+                            // Display direction
                             key_press(direction);
 
-                            /*// Update SimpleSnake, Snake, Mouse, and Mousetrack fields and return game_status
-                            String game_status = game.game_action(direction);
-
-                            // Note the most recently displayed direction
-                            latest_displayed_direction = direction;
-
-                            // Remove stored input if it has been displayed
-                            if (!stored_keyboard_inputs.isEmpty()) {
-                                stored_keyboard_inputs.remove(stored_keyboard_inputs.size() - 1);
-                            }
-
-                            // Perform display by calling View on the updated Model classes
-                            if (game_status.equals("Playing")) {
-                                view.update_board(game.get_snake_segments().get(0), game.get_tail(), game.get_mouse_location());
-                                view.set_score_bar(game.get_score());
-                            } else if (game_status.equals("Restart")) {
-                                game.reset_game();
-                                view.clear_endgame();
-                                view.draw_board(game.get_snake_location(), game.get_mouse_location());
-                                view.set_score_bar(game.get_score());
-                                endgame_flag = false;
-                                direction = "down";
-                            } else if (game_status.equals("Exit")) {
-                                System.exit(0);
-                            } else {
-                                view.print_status(game_status);
-                                endgame_flag = true;
-                            }*/
                         } last_update_2 = now;
                     } last_update_1 = now;
                 }
