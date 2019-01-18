@@ -2,6 +2,7 @@ package Controller;
 
 import Model.SimpleSnake;
 import View.FancySnakeView;
+import javafx.animation.AnimationTimer;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -16,6 +17,13 @@ class FancySnakeController {
     private FancySnakeView view;
     private boolean endgame_flag;
     private MenuController menuController;
+
+    public boolean frame_running;
+    private String latest_keyboard_input;
+    private List<String> stored_keyboard_inputs = new ArrayList<>();
+    private String requested_direction;
+    private String direction;
+    private String latest_displayed_direction;
 
     /**
      * Constructor. The program never leaves this constructor unless the game ends
@@ -35,9 +43,15 @@ class FancySnakeController {
 
         endgame_flag = false;
 
+        this.latest_displayed_direction = "none";
+        this.direction = "down";
+
         // Initialize window
         view.draw_board(game.get_snake_segments(), game.get_mouse_location());
         view.set_score_bar(game.get_score());
+
+        // Start animation
+        animation_loop();
     }
 
     /**
@@ -76,4 +90,90 @@ class FancySnakeController {
         }
     }
 
+    /**
+     * Method checks validity of the keyboard input's requested direction of the snake, and calls View for displaying accordingly
+     * Keeps track of the time between each frame displayed to create illusion of movement - animation
+     * @author Thea Birk Berger
+     */
+    public void animation_loop() {
+
+        // Extract timer from System
+        final long startNanoTime = System.nanoTime();
+
+        new AnimationTimer() {
+
+            // Initiate outer in-between-frames time keeping variable
+            private long last_update_1 = 0 ;
+
+            @Override
+            public void handle(long now) {
+
+                if (now - last_update_1 >= 280000000) {
+
+                    // Initiate inner in-between-frames time keeping variable - in case of more inputs between frames (with a maximum of three)
+                    long last_update_2 = last_update_1;
+
+                    // Display frame for each stored input (with a minimum of one and a maximum of three)
+                    for (int i = 0; i < stored_keyboard_inputs.size() + 1; i++) {
+
+                        if (now - last_update_2 >= 220000000) {
+
+                            // If there has been no new inputs, prepare to check the validity of the most recent shown direction
+                            if (stored_keyboard_inputs.isEmpty()) {
+                                requested_direction = latest_displayed_direction;
+                            } // Otherwise prepare to check the validity of the new inputs
+                            else {
+                                requested_direction = stored_keyboard_inputs.get(stored_keyboard_inputs.size() - 1);
+                            }
+
+                            // In case of an "r" or "escape" input
+                            if (endgame_flag && !(direction.equals("r") || direction.equals("escape"))) {
+                                return;
+                            }
+
+                            // Check the validity of requested direction
+                            if (requested_direction.equals("up") && !(latest_displayed_direction.equals("down")) ||
+                                    requested_direction.equals("down") && !(latest_displayed_direction.equals("up")) ||
+                                    requested_direction.equals("left") && !(latest_displayed_direction.equals("right")) ||
+                                    requested_direction.equals("right") && !(latest_displayed_direction.equals("left")) ||
+                                    requested_direction.equals("escape") ||
+                                    requested_direction.equals("r")) {
+                                // Set this.direction to be used for displaying
+                                direction = requested_direction;
+                            }
+
+                            // Update SimpleSnake, Snake, Mouse, and Mousetrack fields and return game_status
+                            game_status = game.game_action(direction);
+
+                            // Note the most recently displayed direction
+                            latest_displayed_direction = direction;
+
+                            // Remove stored input if it has been displayed
+                            if (!stored_keyboard_inputs.isEmpty()) {
+                                stored_keyboard_inputs.remove(stored_keyboard_inputs.size() - 1);
+                            }
+
+                            // Perform display by calling View on the updated Model classes
+                            if (game_status.equals("Playing")) {
+                                view.update_board(game.get_snake_location().get(0), game.get_tail(), game.get_mouse_location());
+                                view.set_score_bar(game.get_score());
+                            } else if (game_status.equals("Restart")) {
+                                game.reset_game();
+                                view.clear_endgame();
+                                view.draw_board(game.get_snake_location(), game.get_mouse_location());
+                                view.set_score_bar(game.get_score());
+                                endgame_flag = false;
+                                direction = "down";
+                            } else if (game_status.equals("Exit")) {
+                                System.exit(0);
+                            } else {
+                                view.print_status(game_status);
+                                endgame_flag = true;
+                            }
+                        } last_update_2 = now;
+                    } last_update_1 = now;
+                }
+            }
+        }.start();
+    }
 }
