@@ -13,6 +13,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,7 +27,6 @@ public class FancySnakeView {
     private int cell_size;
 
     private DisplayMap avatar_map;
-    private DisplayMap background_map;
     private DisplayMap middle_map;
 
     private GridPane avatars;
@@ -55,7 +55,7 @@ public class FancySnakeView {
         this.grid_y = grid_y;
         this.cell_size = Math.min( (100/Math.max(grid_x,grid_y))*9, 100 );
 
-        background_map = new DisplayMap(grid_x, grid_y, cell_size);
+        DisplayMap background_map = new DisplayMap(grid_x, grid_y, cell_size);
         this.middle_map = new DisplayMap(grid_x, grid_y, cell_size);
         this.avatar_map = new DisplayMap(grid_x, grid_y, cell_size);
 
@@ -145,7 +145,21 @@ public class FancySnakeView {
     }
 
     private void draw_blood_splatter() {
-        Point right_cell = new Point(collision_check((int) old_mouse_location.getX()+1, grid_x-1), collision_check((int) old_mouse_location.getY(), grid_y-1));
+        // Run through all cells in a 3x3 square around eaten mouse
+        for (int i = -1; i < 2; i++) {
+            for (int j = -1; j < 2; j++) {
+                // Create new point from old_mouse_location
+                Point p = new Point(old_mouse_location);
+                // Move point to desired location in 3x3
+                p.translate(i, j);
+                // Fix any wall collisions
+                collision_check(p, grid_x - 1, grid_y - 1);
+                // Draw blood at desired location
+                middle_map.draw(p, blood);
+            }
+        }
+
+        /*Point right_cell = new Point(collision_check((int) old_mouse_location.getX()+1, grid_x-1), collision_check((int) old_mouse_location.getY(), grid_y-1));
         Point top_right_cell = new Point(collision_check((int) old_mouse_location.getX()+1, grid_x-1), collision_check((int) old_mouse_location.getY()-1, grid_y-1));
         Point top_cell = new Point(collision_check((int) old_mouse_location.getX(), grid_x-1), collision_check((int) old_mouse_location.getY()-1, grid_y-1));
         Point top_left_cell = new Point(collision_check((int) old_mouse_location.getX()-1, grid_x-1), collision_check((int) old_mouse_location.getY()-1, grid_y-1));
@@ -163,16 +177,21 @@ public class FancySnakeView {
         middle_map.draw(bottom_left_cell, blood);
         middle_map.draw(bottom_cell, blood);
         middle_map.draw(bottom_right_cell, blood);
+        */
     }
 
-    private int collision_check(int coordinate, int coordinate_max) {
-
-        if (coordinate == -1) {
-            coordinate = coordinate_max;
-        } else if (coordinate == coordinate_max + 1) {
-            coordinate = 0;
+    private void collision_check(Point p, int x_max, int y_max) {
+        if (p.getX() == -1) {
+            p.x = x_max;
+        } else if (p.getX() == x_max + 1) {
+            p.x = 0;
         }
-        return coordinate;
+        if (p.getY() == -1) {
+            p.y = y_max;
+        }
+        else if (p.getY() == y_max + 1) {
+            p.y = 0;
+        }
     }
 
 
