@@ -36,8 +36,8 @@ class SpriteHolder {
      * @author Andreas Goll Rossau
      */
     private void fancyInit() {
-        Image[] mouseFrames = new Image[]{new Image("/image/mouse20x20.png")};
-        mouse = new AnimatedImage(mouseFrames, 90);
+        Image[] mouseFrames = new Image[]{new Image("/image/mouse20x20.png"), new Image("/image/mouse2.png")};
+        mouse = new AnimatedImage(mouseFrames, 5);
 
         Image[] snakeHeadFrames = new Image[]{new Image("/image/snakeHead20x20.png")};
         snakeHead = new AnimatedImage(snakeHeadFrames, 90);
