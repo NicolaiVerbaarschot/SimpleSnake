@@ -12,7 +12,8 @@ import java.util.ArrayList;
 class Snake {
     private List<SnakeSegment> snake = new ArrayList<>();
 
-    /** Snake constructor determines the initial position of the snake from the size of the grid
+    /**
+     * Snake constructor determines the initial position of the snake from the size of the grid
      *
      * @param   grid_x: The maximum gridsize in the x direction
      * @param   grid_y: The maximum gridsize in the y direction
