@@ -38,7 +38,7 @@ public class FancySnakeView {
     private Image blood = new Image( "/image/blood.png");
 
     private Point old_mouse_location;
-    private SnakeSegment old_snake_head;
+    private SnakeSegment old_snake_tail;
 
     /**
      * Constructor initializes the view, setting the scene dimensions, and adding a gridpane of canvases
@@ -102,45 +102,36 @@ public class FancySnakeView {
 
         for (SnakeSegment s : snake_location) {
             draw_snake_segment(avatar_map, s, 1);
-            if (s.is_head()) {
-                old_snake_head = new SnakeSegment(s);
-            }
         }
+        old_snake_tail = new SnakeSegment(snake_location.get(snake_location.size() - 1));
     }
 
     /**
      * Method updates game window by only redrawing as needed
      *
      * @param   snake: position of the snake
-     * @param   old_snake_tail: old position of the snake's tail
      * @param   mouse_location: location of the mouse
      * @author  Andreas Goll Rossau
      */
-    public void update_board(List<SnakeSegment> snake, Point old_snake_tail, Point mouse_location, long t) {
-        if (!snake.get(0).get_coordinates().equals(old_snake_head.get_coordinates())) {
-            SnakeSegment snake_head = snake.get(0);
-            SnakeSegment snake_tail = snake.get(snake.size() - 1);
+    public void update_board(List<SnakeSegment> snake, Point mouse_location, long t) {
+        avatar_map.clear(old_mouse_location);
+        avatar_map.draw(mouse_location, sprites.getMouse(t));
 
-            avatar_map.clear(old_mouse_location);
-            avatar_map.draw(mouse_location, sprites.getMouse(t));
+        // A mouse has been eaten
+        if (!mouse_location.equals(old_mouse_location)) {
+            draw_blood_splatter();
+            old_mouse_location.setLocation(mouse_location);
+        }
 
-            // A mouse has been eaten
-            if (!mouse_location.equals(old_mouse_location)) {
-                draw_blood_splatter();
-                old_mouse_location.setLocation(mouse_location);
-            }
-            // No mouse has been eaten
-            else {
-                avatar_map.clear(old_snake_tail);
-                avatar_map.getCanvas(old_snake_tail).setRotate(0);
-                avatar_map.clear(snake_tail.get_coordinates());
-                draw_snake_segment(avatar_map, snake.get(snake.size() - 1), t);
-            }
+        if (!this.old_snake_tail.get_coordinates().equals(snake.get(snake.size() -1 ).get_coordinates())) {
+            avatar_map.clear(this.old_snake_tail.get_coordinates());
+            avatar_map.getCanvas(this.old_snake_tail.get_coordinates()).setRotate(0);
+            this.old_snake_tail = snake.get(snake.size() - 1);
+        }
 
-            avatar_map.clear(old_snake_head.get_coordinates());
-            draw_snake_segment(avatar_map, snake.get(1), t);
-            draw_snake_segment(avatar_map, snake_head, t);
-            old_snake_head = new SnakeSegment(snake_head);
+        for (SnakeSegment s : snake) {
+            avatar_map.clear(s.get_coordinates());
+            draw_snake_segment(avatar_map, s, t);
         }
     }
 
