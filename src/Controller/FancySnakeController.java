@@ -144,7 +144,7 @@ public class FancySnakeController {
 
                 view.update_board(game.get_snake_segments(), game.get_mouse_location(), t);
 
-                if (now - last_update_1 >= 280000000) {
+                if (now - last_update_1 >= 100000000) {
 
                     // Initiate inner in-between-frames time keeping variable - in case of more inputs between frames (with a maximum of three)
                     long last_update_2 = last_update_1;
@@ -152,7 +152,7 @@ public class FancySnakeController {
                     // Display frame for each stored input (with a minimum of one and a maximum of three)
                     for (int i = 0; i < stored_keyboard_inputs.size() + 1; i++) {
 
-                        if (now - last_update_2 >= 220000000) {
+                        if (now - last_update_2 >= 90000000) {
 
                             // If there has been no new inputs, prepare to check the validity of the most recent shown display
                             if (stored_keyboard_inputs.isEmpty()) {

@@ -16,6 +16,9 @@ import javafx.util.Duration;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * This class displays the Simple Snake game as text in the console and takes text input from user
@@ -175,10 +178,14 @@ public class FancySnakeView {
                 blood_segment++;
             }
         }
-
         for (FadeTransition fade : fades) {
             fade.play();
         }
+        ExecutorService executor = Executors.newFixedThreadPool(1);
+        Runnable worker = new WorkerThread(middle_map, old_mouse_location, grid_x, grid_y);
+        executor.execute(worker);
+        executor.shutdown();
+
     }
 
     private void collision_check(Point p, int x_max, int y_max) {
