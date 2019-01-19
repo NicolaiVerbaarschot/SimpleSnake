@@ -21,11 +21,12 @@ import java.awt.*;
 public class MenuView {
     private Scene scene;
     private Stage stage;
+    StackPane stack_pane;
     private GridPane topGrid;
     private GridPane middleGrid;
     private GridPane backGrid;
 
-    private Canvas[] cursorCanvases = new Canvas[3];
+    private Canvas[] cursorCanvases;
     private DisplayMap avatar_map;
 
     private Point mousePosition = new Point();
@@ -53,13 +54,15 @@ public class MenuView {
      * @param menuController Controller for main menu
      * @author Andreas Goll Rossau
      */
-    public MenuView(Stage stage, MenuController menuController) {
-        StackPane stack_pane = new StackPane();
+    public MenuView(Stage stage, MenuController menuController, int numberOfMenuOptions) {
+        stack_pane = new StackPane();
         this.scene = new Scene(stack_pane);
         this.backGrid = new GridPane();
         this.topGrid = new GridPane();
         this.middleGrid = new GridPane();
         this.stage = stage;
+
+        cursorCanvases = new Canvas[numberOfMenuOptions];
 
         stack_pane.getChildren().add(0, backGrid);
         stack_pane.getChildren().add(1,  middleGrid);
@@ -114,7 +117,7 @@ public class MenuView {
         Text authors = setAuthors("Authors: Thea Birk Berger, Nicolai Verbaarchot, and Andreas Goll Rossau");
         topGrid.add(authors, 0, 2, grid_x, 1);
 
-        String[] optionTexts = {"Simple Snake", "Fancy Snake", "Quit"};
+        String[] optionTexts = {"Simple Snake", "Fancy Snake", "Instructions", "High Scores", "Quit"};
         int r = 3;
         int i = 0;
         for (String s : optionTexts) {
@@ -150,6 +153,10 @@ public class MenuView {
         stage.setWidth(menuWidth);
         stage.setHeight(menuHeight);
         stage.setScene(scene);
+        stack_pane.getChildren().clear();
+        stack_pane.getChildren().add(0, backGrid);
+        stack_pane.getChildren().add(1,  middleGrid);
+        stack_pane.getChildren().add(2, topGrid);
         timer = 0;
     }
 
@@ -225,8 +232,8 @@ public class MenuView {
         authors.setTextAlignment(TextAlignment.CENTER);
         authors.setWrappingWidth(menuWidth);
         authors.setFont(Font.font("Verdana", FontWeight.LIGHT, 20));
-        authors.setFill(Color.BLACK);
-        authors.setStroke(Color.BLACK);
+        authors.setFill(Color.GREENYELLOW);
+        authors.setStroke(Color.GREENYELLOW);
 
         return authors;
     }
@@ -246,5 +253,41 @@ public class MenuView {
         title.setStroke(Color.BLACK);
 
         return title;
+    }
+
+    public void showInstructions(StackPane instructionPane) {
+        GridPane textPane = new GridPane();
+        instructionPane.getChildren().clear();
+        instructionPane.getChildren().add(0, backGrid);
+        instructionPane.getChildren().add(1, middleGrid);
+        instructionPane.getChildren().add(2, textPane);
+
+        Text title = setTitle("Instructions");
+        Text instructions = setAuthors("Welcome to Snake!\n " +
+                                        "This game was made in January of 2019 as part of an assignment for the course Introduction to Software Technology at the Technical University of Denmark (DTU).\n \n " +
+                                        "In order to play, you must first select one of the two games in the main menu. \n \n " +
+                                        "SIMPLE SNAKE:\n " +
+                                        "In this game, the snake will only move when you tell it to by pressing the arrow keys. The objective of the game is to eat mice. Once you eat a mouse, your snake will grow.\n" +
+                                        "You must also take care not to die by moving into yourself. You can, however, move into the tail of the snake, as it will move at the same time.\n " +
+                                        "You can restart the game at any time by pressing the 'r' key, or quit by pressing 'escape'.\n \n" +
+                                        "FANCY SNAKE: \n" +
+                                        "This game is much the same as Simple Snake, except it has fancier graphics, and the snake keeps moving in the direction you gave it last.\n \n" +
+                                        "We hope you enjoy it,\n" +
+                                        "-Thea Birk Berger, Nicolai Verbaarchot, and Andreas Goll Rossau");
+        textPane.add(title, 0, 0);
+        textPane.add(instructions, 0, 2);
+    }
+
+    public void showHighScores(StackPane stack_pane) {
+        GridPane highScorePane = new GridPane();
+        stack_pane.getChildren().clear();
+        stack_pane.getChildren().add(0, backGrid);
+        stack_pane.getChildren().add(1, middleGrid);
+        stack_pane.getChildren().add(2, highScorePane);
+
+        Text title = setTitle("High Scores");
+        Text placeholder = setAuthors("1: Mista Snaaku - 100 \n 2: Earth Worm Jim - 90 \n 3: Snakey McSnakeFace - 80 \n 4: Snakemaster Flash - 70 \n 5: Such Snake, Wow! - 60 \n 6: Twedledee the Wonderdummy - 50 \n 7: Sssssssmith - 40 \n 8: Solid Snake - 30 \n 9: Liquid Snake - 20 \n 10: Naked Snake - 10 \n \n Aim for the top Mr. Snake!");
+        highScorePane.add(title, 0, 0);
+        highScorePane.add(placeholder, 0, 2);
     }
 }
