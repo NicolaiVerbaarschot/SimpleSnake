@@ -101,7 +101,7 @@ public class FancySnakeController {
                 break;
             case "Restart":
                 game.reset_game();
-                view.clear_endgame();
+                view.clear_board();
                 view.draw_board(game.get_snake_segments(), game.get_mouse_location());
                 view.set_score_bar(game.get_score());
                 view.set_score_bar(game.get_score());
