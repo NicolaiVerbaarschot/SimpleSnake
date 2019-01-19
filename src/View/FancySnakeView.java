@@ -11,8 +11,10 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-
+import javafx.animation.FadeTransition;
+import javafx.util.Duration;
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -145,20 +147,37 @@ public class FancySnakeView {
 
     private void draw_blood_splatter() {
 
+        ArrayList<FadeTransition> fades = new ArrayList<>();
+
+        for (int i=0; i<9; i++) {
+            fades.add(new FadeTransition());
+        }
+
+        for (FadeTransition fade : fades) {
+            fade.setDuration(Duration.millis(5000));
+            fade.setFromValue(10);
+            fade.setToValue(0);
+            fade.setCycleCount(1);
+            fade.setAutoReverse(false);
+        }
+
+
         int blood_segment = 0;
-        // Run through all cells in a 3x3 square around eaten mouse
+
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
-                // Create new point from old_mouse_location
                 Point p = new Point(old_mouse_location);
-                // Move point to desired location in 3x3
                 p.translate(i, j);
-                // Fix any wall collisions
                 collision_check(p, grid_x - 1, grid_y - 1);
-                // Draw blood at desired location
                 middle_map.draw(p, blood[blood_segment]);
+
+                fades.get(blood_segment).setNode(middle_map.getCanvas(p));
                 blood_segment++;
             }
+        }
+
+        for (FadeTransition fade : fades) {
+            fade.play();
         }
     }
 
