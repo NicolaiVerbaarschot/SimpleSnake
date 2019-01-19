@@ -104,7 +104,6 @@ public class FancySnakeController {
                 view.clear_endgame();
                 view.draw_board(game.get_snake_segments(), game.get_mouse_location());
                 view.set_score_bar(game.get_score());
-                view.set_score_bar(game.get_score());
                 display = "up";
                 last_succeeded_display = "none";
                 endgame_flag = false;

@@ -14,9 +14,11 @@ import java.util.List;
  * @author Andreas Goll Rossau
  */
 public class MenuController {
+    private int numberOfMenuOptions = 4;
     private int selected;
     private List<String> args;
     private Stage stage;
+    private Scene menuScene;
     private MenuView menuView;
     private AnimationTimer timer;
     private long startNanoTime;
@@ -29,7 +31,7 @@ public class MenuController {
      * @author Andreas Goll Rossau
      */
     public MenuController(Stage stage, List<String> args) {
-        this.menuView = new MenuView(stage, this);
+        this.menuView = new MenuView(stage, this, numberOfMenuOptions);
         selected = 1;
         this.args = args;
         this.stage = stage;
@@ -50,18 +52,16 @@ public class MenuController {
      * @author Andreas Goll Rossau
      */
     public void keyPress(String code) {
-        int maxSelected = 3;
-
         switch (code) {
             case "UP":
                 selected--;
                 if (selected < 1) {
-                    selected = maxSelected;
+                    selected = numberOfMenuOptions;
                 }
                 break;
             case "DOWN":
                 selected++;
-                if (selected > maxSelected) {
+                if (selected > numberOfMenuOptions) {
                     selected = 1;
                 }
                 break;
@@ -89,8 +89,23 @@ public class MenuController {
                 playFancySnake();
                 break;
             case 3:
+                showInstructions();
+                break;
+            case 4:
                 System.exit(0);
         }
+    }
+
+    private void showInstructions() {
+        StackPane stack_pane = new StackPane();
+        Scene scene = new Scene(stack_pane);
+        menuScene = stage.getScene();
+        stage.setScene(scene);
+        menuView.showInstructions(stack_pane);
+
+        scene.setOnKeyPressed(
+                event -> reinitialize()
+        );
     }
 
     /**
@@ -132,6 +147,7 @@ public class MenuController {
      * @author Andreas Goll Rossau
      */
     void reinitialize() {
+        stage.setScene(menuScene);
         selected = 1;
         menuView.reinitialize();
         startNanoTime = System.nanoTime();
