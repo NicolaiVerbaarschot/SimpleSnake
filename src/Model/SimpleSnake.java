@@ -95,6 +95,17 @@ public class SimpleSnake {
             high_scores[0] = score;
             high_score_name[0] = "todd"; // TODO: Get name from user
             save_high_scores();
+
+        } else {
+            for (int i=1; i<=high_scores.length-1; i++) {
+                if (score > high_scores[i]) {
+                    System.arraycopy(high_scores, i, high_scores, i+1, (high_scores.length - 1) - i);
+                    high_scores[i] = score;
+                    high_score_name[i] = "todd"; // TODO: Get name from user
+                    break;
+                }
+            }
+            save_high_scores();
         }
     }
 
