@@ -6,6 +6,7 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class FancySnakeController {
      * @param   menuController : Controller for main menu
      * @author  Andreas Goll Rossau
      */
-    public FancySnakeController(int grid_x, int grid_y, StackPane stack_pane, Stage primary_stage, MenuController menuController) {
+    public FancySnakeController(int grid_x, int grid_y, StackPane stack_pane, Stage primary_stage, MenuController menuController) throws IOException {
 
         this.game = new SimpleSnake(grid_x, grid_y);
         this.view = new FancySnakeView(grid_x, grid_y, stack_pane, primary_stage);
@@ -77,7 +78,7 @@ public class FancySnakeController {
      * @param   code key: Input code
      * @author  Andreas Goll Rossau
      */
-    void key_press(String code) {
+    void key_press(String code) throws IOException {
 
         // Do not proceed display if the game has ended (Game Over or Game Won) unless the display attempt is "r" or "escape"
         if (endgame_flag && !(code.equals("r") || code.equals("escape")))
@@ -115,6 +116,7 @@ public class FancySnakeController {
                 break;
             default:
                 // Display Game Over or Game Won
+                game.check_for_new_high_score();
                 view.print_status(game_status);
                 last_succeeded_display = "none";
                 endgame_flag = true;
@@ -174,7 +176,12 @@ public class FancySnakeController {
                             }
 
                             // Display display
-                            key_press(display);
+                            try {
+                                key_press(display);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
 
                         } last_update_2 = now;
                     } last_update_1 = now;

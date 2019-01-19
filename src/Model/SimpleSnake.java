@@ -1,6 +1,7 @@
 package Model;
 
 import java.awt.Point;
+import java.io.*;
 import java.util.List;
 
 /**
@@ -15,6 +16,9 @@ public class SimpleSnake {
     private int grid_x;
     private int grid_y;
     private int score;
+    private int[] high_scores = new int[5];
+    private String[] high_score_name = new String[5];
+    private boolean new_high_score;
     private Point old_snake_tail;
 
     /**
@@ -24,7 +28,7 @@ public class SimpleSnake {
      * @param   grid_y: denotes the game frame height
      * @author  Thea Birk Berger
      */
-    public SimpleSnake(int grid_x, int grid_y) {
+    public SimpleSnake(int grid_x, int grid_y) throws IOException {
 
         // Set mousetrack size
         this.grid_x = grid_x;
@@ -45,7 +49,83 @@ public class SimpleSnake {
 
         // Set score
         this.score = 0;
+
+        initialize_high_scores();
+
+
+
     }
+
+    /**
+     * This method initializes the array fields used to store and manipulate the games high scores
+     *
+     * @throws IOException file not found
+     * @author Nicolai Verbaarschot
+     */
+    private void initialize_high_scores() throws IOException {
+        File file = new File("res/highscores.txt");
+        BufferedReader br = new BufferedReader(new FileReader(file));
+
+        String str;
+        int leader_board_position = 0;
+        while ((str = br.readLine()) != null) {
+            String[] tokens = str.split(" ");
+            high_score_name[leader_board_position] = tokens[0];
+            high_scores[leader_board_position] = Integer.parseInt(tokens[1]);
+            leader_board_position++;
+        }
+        br.close();
+    }
+
+    /**
+     * This method checks if the current score is a high score and saves to highscores.txt
+     *
+     * @throws IOException file not found
+     * @author Nicolai Verbaarschot
+     */
+    public void check_for_new_high_score () throws IOException {
+
+        new_high_score = score > high_scores[0];
+
+        if (new_high_score) {
+
+            // Shift leader board
+            System.arraycopy(high_scores, 0, high_scores, 1, high_scores.length - 1);
+            System.arraycopy(high_score_name, 0, high_score_name, 1, high_score_name.length - 1);
+            high_scores[0] = score;
+            high_score_name[0] = "todd"; // TODO: Get name from user
+            save_high_scores();
+        }
+    }
+
+    /**
+     * This method writes the objects field high scores and names to highscore.txt
+     *
+     * @throws IOException file not found
+     * @author Nicolai Verbaarschot
+     */
+    private void save_high_scores() throws IOException {
+        FileWriter fw = new FileWriter("res/highscores.txt");
+
+        for (int i = 0; i < high_scores.length; i++) {
+            fw.write(high_score_name[i] + " " + high_scores[i] + "\n");
+        }
+        fw.close();
+    }
+
+    /**
+     * This method is called publicly to determine if a high score has been achieved
+     *
+     * @return new_high_score boolean flag used indicating if the current score is the high score
+     * @author Nicolai Verbaarschot
+     */
+    public boolean new_high_score () {
+        return new_high_score;
+    }
+
+
+
+
 
     /**
      * Helper method to pass old position of snake's tail
@@ -233,4 +313,7 @@ public class SimpleSnake {
         // Reset points
         this.score = 0;
     }
+
 }
+
+

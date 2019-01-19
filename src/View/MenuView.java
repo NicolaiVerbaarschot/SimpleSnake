@@ -13,6 +13,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.io.IOException;
 
 /**
  * View for main menu
@@ -78,7 +79,13 @@ public class MenuView {
         topGridInit();
 
         scene.setOnKeyPressed(
-                event -> menuController.keyPress(event.getCode().toString())
+                event -> {
+                    try {
+                        menuController.keyPress(event.getCode().toString());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
         );
     }
 

@@ -7,6 +7,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -51,7 +52,7 @@ public class MenuController {
      * @param code : input code
      * @author Andreas Goll Rossau
      */
-    public void keyPress(String code) {
+    public void keyPress(String code) throws IOException {
         switch (code) {
             case "UP":
                 selected--;
@@ -78,7 +79,7 @@ public class MenuController {
      * @param selected menu selection
      * @author Andreas Goll Rossau
      */
-    private void menuSelection(int selected) {
+    private void menuSelection(int selected) throws IOException {
         switch (selected) {
             case 1:
                 timer.stop();
@@ -121,7 +122,7 @@ public class MenuController {
      * Method initializes Fancy Snake
      * @author Andreas Goll Rossau
      */
-    private void playFancySnake() {
+    private void playFancySnake() throws IOException {
         StackPane stack_pane = new StackPane();
         Scene scene = new Scene(stack_pane);
 
@@ -138,7 +139,7 @@ public class MenuController {
      * Method initializes Simple Snake
      * @author Andreas Goll Rossau
      */
-    private void playSimpleSnake() {
+    private void playSimpleSnake() throws IOException {
         GridPane gridPane = new GridPane();
         Scene scene = new Scene(gridPane);
         stage.setScene(scene);

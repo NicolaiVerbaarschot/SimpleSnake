@@ -5,6 +5,8 @@ import View.SimpleSnakeView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 /**
  * This Class controls the Simple Snake game
  *
@@ -27,7 +29,7 @@ class SimpleSnakeController {
      * @param   menuController : Controller for main menu
      * @author  Andreas Goll Rossau
      */
-    SimpleSnakeController(int grid_x, int grid_y, GridPane gridPane, Stage primary_stage, MenuController menuController) {
+    SimpleSnakeController(int grid_x, int grid_y, GridPane gridPane, Stage primary_stage, MenuController menuController) throws IOException {
 
         this.game = new SimpleSnake(grid_x, grid_y);
         this.view = new SimpleSnakeView(grid_x, grid_y, gridPane, primary_stage);
