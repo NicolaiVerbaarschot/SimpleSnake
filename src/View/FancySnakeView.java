@@ -36,15 +36,15 @@ public class FancySnakeView {
 
     private SpriteHolder sprites;
     private Image[] blood = {
-            new Image( "/image/blood_01.png"),
-            new Image( "/image/blood_02.png"),
-            new Image( "/image/blood_03.png"),
-            new Image( "/image/blood_04.png"),
-            new Image( "/image/blood_05.png"),
-            new Image( "/image/blood_06.png"),
-            new Image( "/image/blood_07.png"),
-            new Image( "/image/blood_08.png"),
-            new Image( "/image/blood_09.png")};
+            new Image( "/image/blood_01/blood_01.png"),
+            new Image( "/image/blood_01/blood_02.png"),
+            new Image( "/image/blood_01/blood_03.png"),
+            new Image( "/image/blood_01/blood_04.png"),
+            new Image( "/image/blood_01/blood_05.png"),
+            new Image( "/image/blood_01/blood_06.png"),
+            new Image( "/image/blood_01/blood_07.png"),
+            new Image( "/image/blood_01/blood_08.png"),
+            new Image( "/image/blood_01/blood_09.png")};
     private Point old_mouse_location;
     private SnakeSegment old_snake_head;
 
