@@ -268,7 +268,8 @@ public class MenuView {
                                         "In order to play, you must first select one of the two games in the main menu. \n \n " +
                                         "SIMPLE SNAKE:\n " +
                                         "In this game, the snake will only move when you tell it to by pressing the arrow keys. The objective of the game is to eat mice. Once you eat a mouse, your snake will grow.\n" +
-                                        "You must also take care not to die by moving into yourself. You can, however, move into the tail of the snake, as it will move at the same time.\n \n" +
+                                        "You must also take care not to die by moving into yourself. You can, however, move into the tail of the snake, as it will move at the same time.\n " +
+                                        "You can restart the game at any time by pressing the 'r' key, or quit by pressing 'escape'.\n \n" +
                                         "FANCY SNAKE: \n" +
                                         "This game is much the same as Simple Snake, except it has fancier graphics, and the snake keeps moving in the direction you gave it last.\n \n" +
                                         "We hope you enjoy it,\n" +
