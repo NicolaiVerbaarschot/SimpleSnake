@@ -143,7 +143,7 @@ public class FancySnakeController {
 
                 long t = (now - startNanoTime) / 100000000;
 
-                view.update_board(game.get_snake_segments(), game.get_tail(), game.get_mouse_location(), t);
+                view.update_board(game.get_snake_segments(), game.get_mouse_location(), t);
 
                 if (now - last_update_1 >= 280000000) {
 
