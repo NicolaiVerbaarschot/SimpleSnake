@@ -36,22 +36,40 @@ class SpriteHolder {
      * @author Andreas Goll Rossau
      */
     private void fancyInit() {
-        Image[] mouseFrames = new Image[]{new Image("/image/mouse20x20.png"), new Image("/image/mouse2.png")};
+        Image[] mouseFrames = new Image[]{
+                new Image("/image/mouse_01.png"),
+                new Image("/image/mouse_02.png")};
         mouse = new AnimatedImage(mouseFrames, 5);
 
-        Image[] snakeHeadFrames = new Image[]{new Image("/image/snakeHead20x20.png")};
-        snakeHead = new AnimatedImage(snakeHeadFrames, 90);
+        Image[] snakeHeadFrames = new Image[]{
+                new Image("/image/snakeHead_01.png"),
+                new Image("/image/snakeHead_02.png"),
+                new Image("/image/snakeHead_03.png"),
+                new Image("/image/snakeHead_02.png")};
+        snakeHead = new AnimatedImage(snakeHeadFrames, 3);
 
-        Image[] straightSnakeBodyFrames = new Image[]{new Image("/image/snakeStraight20x20.png")};
-        straightSnakeBody = new AnimatedImage(straightSnakeBodyFrames, 90);
+        Image[] straightSnakeBodyFrames = new Image[]{
+                new Image("/image/snakeStraight_01.png"),
+                new Image("/image/snakeStraight_02.png"),
+                new Image("/image/snakeStraight_03.png"),
+                new Image("/image/snakeStraight_04.png"),
+                new Image("/image/snakeStraight_05.png"),
+                new Image("/image/snakeStraight_06.png"),
+                new Image("/image/snakeStraight_05.png"),
+                new Image("/image/snakeStraight_04.png"),
+                new Image("/image/snakeStraight_03.png"),
+                new Image("/image/snakeStraight_02.png")};
+        straightSnakeBody = new AnimatedImage(straightSnakeBodyFrames, 3);
 
-        Image[] bentSnakeBodyFrames = new Image[]{new Image("/image/snakeBent20x20.png")};
+        Image[] bentSnakeBodyFrames = new Image[]{
+                new Image("/image/snakeBent_01.png")};
         bentSnakeBody = new AnimatedImage(bentSnakeBodyFrames, 90);
 
-        Image[] snakeTailFrames = new Image[]{new Image("/image/snakeTail20x20.png")};
+        Image[] snakeTailFrames = new Image[]{
+                new Image("/image/snakeTail_01.png")};
         snakeTail = new AnimatedImage(snakeTailFrames, 90);
 
-        emptyCell = new Image("/image/emptyCell20x20.png");
+        emptyCell = new Image("/image/emptyCell_00.png");
     }
 
     /**
@@ -65,19 +83,19 @@ class SpriteHolder {
         }
         cursor = new AnimatedImage(cursorFrames, 1);
 
-        Image[] mouseFrames = new Image[]{new Image("/image/mouse2.png"), new Image("/image/mouse20x20.png")};
+        Image[] mouseFrames = new Image[]{new Image("/image/mouse_01.png"), new Image("/image/mouse_02.png")};
         mouse = new AnimatedImage(mouseFrames, 90);
 
-        Image[] snakeHeadFrames = new Image[]{new Image("/image/head2.png"), new Image("/image/snakeHead20x20.png")};
+        Image[] snakeHeadFrames = new Image[]{new Image("/image/head2.png"), new Image("/image/snakeHead_01.png")};
         snakeHead = new AnimatedImage(snakeHeadFrames, 90);
 
-        Image[] straightSnakeBodyFrames = new Image[]{new Image("/image/snake2.png"), new Image("/image/snakeStraight20x20.png")};
+        Image[] straightSnakeBodyFrames = new Image[]{new Image("/image/snake2.png"), new Image("/image/snakeStraight_01.png")};
         straightSnakeBody = new AnimatedImage(straightSnakeBodyFrames, 90);
 
-        Image[] snakeTailFrames = new Image[]{new Image("/image/snake2.png"), new Image("/image/snakeTail20x20.png")};
+        Image[] snakeTailFrames = new Image[]{new Image("/image/snake2.png"), new Image("/image/snakeTail_01.png")};
         snakeTail = new AnimatedImage(snakeTailFrames, 90);
 
-        emptyCell = new Image("/image/emptyCell20x20.png");
+        emptyCell = new Image("/image/emptyCell_00.png");
     }
 
     /**
