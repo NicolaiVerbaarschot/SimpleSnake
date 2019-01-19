@@ -148,6 +148,11 @@ public class FancySnakeView {
         }
     }
 
+    /**
+     * This method draws blood splatter in the location of an eaten mouse
+     *
+     * @author Nicolai verbaarschot
+     */
     private void draw_blood_splatter() {
 
         ArrayList<FadeTransition> fades = new ArrayList<>();
@@ -188,6 +193,14 @@ public class FancySnakeView {
 
     }
 
+    /**
+     * This method checks and corrects a point if it lies outside the game border
+     *
+     * @param p Point to check
+     * @param x_max size of the grid in the x dimension
+     * @param y_max size of the grid in he y dimension
+     * @author Andreas Goll Rossau
+     */
     private void collision_check(Point p, int x_max, int y_max) {
         if (p.getX() == -1) {
             p.x = x_max;

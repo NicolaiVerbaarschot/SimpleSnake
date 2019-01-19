@@ -2,6 +2,12 @@ package View;
 
 import java.awt.*;
 
+
+/**
+ * This class is used to run separate threads in the background
+ *
+ * @author  Nicolai Vernaarschot
+ */
 public class WorkerThread implements Runnable {
 
     private DisplayMap map;
@@ -9,6 +15,14 @@ public class WorkerThread implements Runnable {
     private int grid_x;
     private int grid_y;
 
+    /**
+     * Constructor
+     *
+     * @param map       Map to preform tasks on
+     * @param location  Location in map to preform tasks on
+     * @param grid_x    Size of the grid in the x dimension
+     * @param grid_y    Size of the grid in the y dimension
+     */
     WorkerThread(DisplayMap map, Point location, int grid_x, int grid_y){
         this.map = map;
         this.location = location;
@@ -16,6 +30,11 @@ public class WorkerThread implements Runnable {
         this.grid_y = grid_y;
     }
 
+    /**
+     * This method is called by an executor and calls a method to time and remove blood from the map
+     *
+     * @author Nicolai Verbaarschot
+     */
     @Override
     public void run() {
         try {
@@ -25,6 +44,12 @@ public class WorkerThread implements Runnable {
         }
     }
 
+    /**
+     * This method waits for blood to fade and then removes it from the map
+     *
+     * @throws InterruptedException Thread.sleep interrupt
+     * @author Nicolai Verbaarschot
+     */
     private void time_and_remove_blood() throws InterruptedException {
         Thread.sleep(5000);
 
@@ -39,6 +64,15 @@ public class WorkerThread implements Runnable {
 
         System.out.println("Clear");
     }
+
+    /**
+     * This method checks and corrects a point if it lies outside the game border
+     *
+     * @param p Point to check
+     * @param x_max size of the grid in the x dimension
+     * @param y_max size of the grid in he y dimension
+     * @author Andreas Goll Rossau
+     */
     private void collision_check(Point p, int x_max, int y_max) {
         if (p.getX() == -1) {
             p.x = x_max;
