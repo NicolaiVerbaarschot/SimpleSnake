@@ -14,7 +14,7 @@ import java.util.List;
  * @author Andreas Goll Rossau
  */
 public class MenuController {
-    private int numberOfMenuOptions = 4;
+    private int numberOfMenuOptions = 5;
     private int selected;
     private List<String> args;
     private Stage stage;
@@ -89,19 +89,28 @@ public class MenuController {
                 playFancySnake();
                 break;
             case 3:
-                showInstructions();
+                showSubmenu("instructions");
                 break;
             case 4:
+                showSubmenu("high scores");
+                break;
+            case 5:
                 System.exit(0);
         }
     }
 
-    private void showInstructions() {
+    private void showSubmenu(String subMenu) {
         StackPane stack_pane = new StackPane();
         Scene scene = new Scene(stack_pane);
         menuScene = stage.getScene();
         stage.setScene(scene);
-        menuView.showInstructions(stack_pane);
+
+        if (subMenu.equals("instructions")) {
+            menuView.showInstructions(stack_pane);
+        }
+        else {
+            menuView.showHighScores(stack_pane);
+        }
 
         scene.setOnKeyPressed(
                 event -> reinitialize()

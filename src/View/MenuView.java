@@ -3,7 +3,6 @@ package View;
 import Controller.MenuController;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -118,7 +117,7 @@ public class MenuView {
         Text authors = setAuthors("Authors: Thea Birk Berger, Nicolai Verbaarchot, and Andreas Goll Rossau");
         topGrid.add(authors, 0, 2, grid_x, 1);
 
-        String[] optionTexts = {"Simple Snake", "Fancy Snake", "Instructions", "Quit"};
+        String[] optionTexts = {"Simple Snake", "Fancy Snake", "Instructions", "High Scores", "Quit"};
         int r = 3;
         int i = 0;
         for (String s : optionTexts) {
@@ -276,5 +275,18 @@ public class MenuView {
                                         "-Thea Birk Berger, Nicolai Verbaarchot, and Andreas Goll Rossau");
         textPane.add(title, 0, 0);
         textPane.add(instructions, 0, 2);
+    }
+
+    public void showHighScores(StackPane stack_pane) {
+        GridPane highScorePane = new GridPane();
+        stack_pane.getChildren().clear();
+        stack_pane.getChildren().add(0, backGrid);
+        stack_pane.getChildren().add(1, middleGrid);
+        stack_pane.getChildren().add(2, highScorePane);
+
+        Text title = setTitle("High Scores");
+        Text placeholder = setAuthors("1: Mista Snaaku - 100 \n 2: Earth Worm Jim - 90 \n 3: Snakey McSnakeFace - 80 \n 4: Snakemaster Flash - 70 \n 5: Such Snake, Wow! - 60 \n 6: Twedledee the Wonderdummy - 50 \n 7: Sssssssmith - 40 \n 8: Solid Snake - 30 \n 9: Liquid Snake - 20 \n 10: Naked Snake - 10 \n \n Aim for the top Mr. Snake!");
+        highScorePane.add(title, 0, 0);
+        highScorePane.add(placeholder, 0, 2);
     }
 }
