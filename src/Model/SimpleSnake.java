@@ -18,7 +18,7 @@ public class SimpleSnake {
     private int score;
     private int[] high_scores = new int[5];
     private String[] high_score_name = new String[5];
-    private boolean new_high_score;
+    private boolean score_on_leader_boards;
     private Point old_snake_tail;
 
     /**
@@ -83,28 +83,28 @@ public class SimpleSnake {
      * @throws IOException file not found
      * @author Nicolai Verbaarschot
      */
-    public void update_high_scores() throws IOException {
+    public int update_high_scores(String name) throws IOException {
 
-        new_high_score = score > high_scores[0];
+        boolean score_is_highest_score = score > high_scores[0];
 
-        if (new_high_score) {
+        int leader_board_position = 5;
 
-            // Shift leader board
-            System.arraycopy(high_scores, 0, high_scores, 1, high_scores.length - 1);
-            System.arraycopy(high_score_name, 0, high_score_name, 1, high_score_name.length - 1);
-            high_scores[0] = score;
-            high_score_name[0] = "todd"; // TODO: Get name from user
 
-        } else { // Handle all other score cases
-            for (int i=1; i<=high_scores.length-1; i++)
-                if (score > high_scores[i]) {
-                    System.arraycopy(high_scores, i, high_scores, i + 1, (high_scores.length - 1) - i);
-                    high_scores[i] = score;
-                    high_score_name[i] = "todd"; // TODO: Get name from user
-                    break;
-                }
-        }
+        // Handle all other score cases
+        for (int i=0; i<=high_scores.length-1; i++)
+            if (score > high_scores[i]) {
+                System.arraycopy(high_scores, i, high_scores, i + 1, (high_scores.length - 1) - i);
+                System.arraycopy(high_score_name, i, high_score_name, i+1, (high_score_name.length - 1) - i);
+                high_scores[i] = score;
+                high_score_name[i] = name;
+                leader_board_position = i;
+                break;
+            }
+
         save_high_scores();
+
+        return leader_board_position;
+
     }
 
     /**
@@ -125,13 +125,9 @@ public class SimpleSnake {
     /**
      * This method is called publicly to determine if a high score has been achieved
      *
-     * @return new_high_score boolean flag used indicating if the current score is the high score
+     * @return is_highest_score boolean flag used indicating if the current score is the high score
      * @author Nicolai Verbaarschot
      */
-    public boolean new_high_score () {
-        return new_high_score;
-    }
-
     public int[] get_high_scores() {
         return high_scores;
     }
