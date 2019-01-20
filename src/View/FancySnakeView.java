@@ -1,6 +1,7 @@
 package View;
 
 import Model.SnakeSegment;
+import javafx.animation.AnimationTimer;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -14,9 +15,12 @@ import javafx.stage.Stage;
 import javafx.animation.FadeTransition;
 import javafx.util.Duration;
 import java.awt.Point;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -34,10 +38,14 @@ public class FancySnakeView {
     private DisplayMap middle_map;
 
     private GridPane avatars;
+    private GridPane gameOverFrontGrid;
+    AnimationTimer timer;
+    Text playerName;
 
     private Text endgame_text = new Text();
     private Text score_bar;
     private Rectangle endgame_background = new Rectangle();
+    private String name = "";
 
     private SpriteHolder sprites;
     private Image[] blood = {
@@ -369,5 +377,126 @@ public class FancySnakeView {
             }
         }
         map.draw(segment.get_coordinates(), img);
+    }
+
+    public void gameOverScreen(boolean highScore, String game_status, int score, StackPane stackPane) {
+        GridPane gameOverBackGrid = new GridPane();
+        gameOverFrontGrid = new GridPane();
+
+        stackPane.getChildren().add(0, gameOverBackGrid);
+        stackPane.getChildren().add(1, gameOverFrontGrid);
+
+        setGameOverBackGround(gameOverBackGrid);
+
+        String title;
+        if (game_status.equals("Game Won")) {
+            title = "CONGRATULATIONS YOU WON!";
+        }
+        else {
+            title = "GAME OVER!";
+        }
+        Text titleText = new Text(title);
+        titleText.setFont(Font.font("Verdana", FontWeight.BOLD, 50));
+        titleText.setFill(Color.DEEPPINK);
+        titleText.setStroke(Color.BLACK);
+        titleText.setTextAlignment(TextAlignment.CENTER);
+        titleText.setWrappingWidth(grid_x * cell_size);
+
+        Text bottomMessage = new Text(title);
+        bottomMessage.setFont(Font.font("Verdana", FontWeight.BOLD, 50));
+        bottomMessage.setFill(Color.DEEPPINK);
+        bottomMessage.setStroke(Color.BLACK);
+        bottomMessage.setTextAlignment(TextAlignment.CENTER);
+        bottomMessage.setWrappingWidth(grid_x * cell_size);
+
+        Text score_message_text = new Text();
+        if (highScore) {
+            score_message_text.setText("YOU ARE ON THE LEADER BOARD");
+            bottomMessage.setText("Please enter your name:");
+        } else {
+            score_message_text.setText("YOU ATE " + score + " MICE");
+            bottomMessage.setText("Better luck next time");
+        }
+        score_message_text.setFont(Font.font("Times New Roman", FontWeight.BOLD, 20));
+        score_message_text.setFill(Color.LIGHTGRAY);
+        score_message_text.setStroke(Color.BLACK);
+        score_message_text.setTextAlignment(TextAlignment.CENTER);
+        score_message_text.setWrappingWidth(grid_x * cell_size);
+
+        gameOverFrontGrid.add(titleText, 0, 0, grid_x, 1);
+        gameOverFrontGrid.add(score_message_text, 0, 1, grid_x, 1 );
+
+        String highScores = "";
+        try {
+            highScores = get_high_score_list();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Text highScoreList = new Text(highScores);
+        highScoreList.setTextAlignment(TextAlignment.CENTER);
+        highScoreList.setWrappingWidth(grid_x*cell_size);
+        highScoreList.setFont(Font.font("Verdana", FontWeight.LIGHT, 20));
+        highScoreList.setFill(Color.GREENYELLOW);
+        highScoreList.setStroke(Color.GREENYELLOW);
+        gameOverFrontGrid.add(highScoreList, 0, 2, grid_x, 1);
+
+        gameOverFrontGrid.add(bottomMessage, 0, 3, grid_x, 1);
+    }
+
+    public void updatePlayerName() {
+        gameOverFrontGrid.getChildren().remove(playerName);
+
+        playerName = new Text(name);
+        playerName.setTextAlignment(TextAlignment.CENTER);
+        playerName.setWrappingWidth(grid_x*cell_size);
+        playerName.setFont(Font.font("Verdana", FontWeight.LIGHT, 20));
+        playerName.setFill(Color.GREENYELLOW);
+        playerName.setStroke(Color.GREENYELLOW);
+        gameOverFrontGrid.add(playerName, 0, 4, grid_x, 1);
+    }
+
+    private String get_high_score_list() throws IOException {
+        File file = new File("res/highscores.txt");
+        BufferedReader br = new BufferedReader(new FileReader(file));
+
+        String tempScores = "";
+        String str;
+        int leader_board_position = 1;
+        while ((str = br.readLine()) != null) {
+            tempScores += leader_board_position + ":  " + str + "\n";
+            leader_board_position++;
+        }
+        br.close();
+
+        return tempScores;
+    }
+
+    public void setGameOverBackGround(GridPane gameOverBackGrid) {
+
+        // Initialize rectangle parameters
+        endgame_background.setHeight((int) grid_y * cell_size + 65);
+        endgame_background.setWidth((int) grid_x * cell_size);
+        endgame_background.setFill(Color.CADETBLUE);
+
+        // Add endgame_background to grid_pane
+        gameOverBackGrid.add(endgame_background, 0, 0, grid_x, grid_y);
+    }
+
+    public void addToName(String input) {
+        name += input;
+    }
+
+    public void removeFromName() {
+        name = name.substring(0, name.length() - 2);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void resetName() {
+        name = "";
     }
 }

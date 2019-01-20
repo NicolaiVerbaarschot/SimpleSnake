@@ -110,7 +110,12 @@ public class MenuController {
             menuView.showInstructions(stack_pane);
         }
         else {
-            menuView.showHighScores(stack_pane);
+            try {
+                menuView.showHighScores(stack_pane);
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         scene.setOnKeyPressed(

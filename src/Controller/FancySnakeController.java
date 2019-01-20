@@ -3,6 +3,7 @@ package Controller;
 import Model.SimpleSnake;
 import View.FancySnakeView;
 import javafx.animation.AnimationTimer;
+import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -23,6 +24,8 @@ public class FancySnakeController {
 
     AnimationTimer timer;
 
+    Stage stage;
+    Scene gameScene;
 
     private List<String> stored_keyboard_inputs = new ArrayList<>();
     private String requested_display;
@@ -44,6 +47,7 @@ public class FancySnakeController {
         this.game = new SimpleSnake(grid_x, grid_y);
         this.view = new FancySnakeView(grid_x, grid_y, stack_pane, primary_stage);
         this.menuController = menuController;
+        this.stage = primary_stage;
 
         endgame_flag = false;
 
@@ -116,12 +120,59 @@ public class FancySnakeController {
                 break;
             default:
                 // Display Game Over or Game Won
-                game.update_high_scores("josh");
-                view.print_status(game_status);
+                StackPane stack_pane = new StackPane();
+                Scene scene = new Scene(stack_pane);
+                gameScene = stage.getScene();
+                stage.setScene(scene);
+
+                view.gameOverScreen(game.isHighScore(game.get_score()), game_status, game.get_score(), stack_pane);
+
+                scene.setOnKeyPressed(
+                        event -> {
+                            try {
+                                gameOverKeyPress(event.getCode().toString(), stack_pane, game_status);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                );
+
+                //view.print_status(game_status);
                 last_succeeded_display = "none";
                 endgame_flag = true;
                 break;
         }
+    }
+
+    private void gameOverKeyPress(String input, StackPane stackPane, String game_status) throws IOException {
+        if (input.length() == 1 && Character.isAlphabetic(input.charAt(0))) {
+            view.addToName(input);
+        }
+        else if (input.equals("BACK_SPACE")) {
+            view.removeFromName();
+        }
+        else if (input.equals("ENTER")) {
+            if (game.isHighScore(game.get_score())) {
+                game.update_high_scores(view.getName());
+            }
+            stage.setScene(gameScene);
+            try {
+                key_press("r");
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+            view.resetName();
+        }
+        else if (input.equals("ESCAPE")) {
+            stage.setScene(gameScene);
+                key_press(input.toLowerCase());
+            view.resetName();
+        }
+        else {
+            System.out.println(input);
+        }
+        view.updatePlayerName();
     }
 
     /**

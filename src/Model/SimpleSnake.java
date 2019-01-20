@@ -134,7 +134,14 @@ public class SimpleSnake {
         return high_score_name;
     }
 
-
+    public boolean isHighScore(int score) {
+        for (int s: high_scores) {
+            if (score > s) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 
 
@@ -325,7 +332,6 @@ public class SimpleSnake {
         // Reset points
         this.score = 0;
     }
-
 }
 
 

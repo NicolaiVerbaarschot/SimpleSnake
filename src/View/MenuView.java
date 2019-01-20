@@ -13,6 +13,9 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 
 /**
@@ -285,7 +288,7 @@ public class MenuView {
         textPane.add(instructions, 0, 2);
     }
 
-    public void showHighScores(StackPane stack_pane) {
+    public void showHighScores(StackPane stack_pane) throws IOException{
         GridPane highScorePane = new GridPane();
         stack_pane.getChildren().clear();
         stack_pane.getChildren().add(0, backGrid);
@@ -293,8 +296,21 @@ public class MenuView {
         stack_pane.getChildren().add(2, highScorePane);
 
         Text title = setTitle("High Scores");
-        Text placeholder = setAuthors("1: Mista Snaaku - 100 \n 2: Earth Worm Jim - 90 \n 3: Snakey McSnakeFace - 80 \n 4: Snakemaster Flash - 70 \n 5: Such Snake, Wow! - 60 \n 6: Twedledee the Wonderdummy - 50 \n 7: Sssssssmith - 40 \n 8: Solid Snake - 30 \n 9: Liquid Snake - 20 \n 10: Naked Snake - 10 \n \n Aim for the top Mr. Snake!");
+
+        File file = new File("res/highscores.txt");
+        BufferedReader br = new BufferedReader(new FileReader(file));
+
+        String tempScores = "";
+        String str;
+        int leader_board_position = 1;
+        while ((str = br.readLine()) != null) {
+            tempScores += leader_board_position + ":  " + str + "\n";
+            leader_board_position++;
+        }
+        br.close();
+
+        Text high_score_list = setAuthors(tempScores);
         highScorePane.add(title, 0, 0);
-        highScorePane.add(placeholder, 0, 2);
+        highScorePane.add(high_score_list, 0, 2);
     }
 }
