@@ -3,6 +3,8 @@ package Controller;
 import Model.SimpleSnake;
 import View.SnakeTextView;
 
+import java.io.IOException;
+
 /**
  * This Class controls the Simple Snake game
  *
@@ -17,7 +19,7 @@ class SnakeTextController {
      * @param   grid_y: The grid size in the y dimension
      * @author  Andreas Goll Rossau
      */
-    SnakeTextController(int grid_x, int grid_y) {
+    SnakeTextController(int grid_x, int grid_y) throws IOException {
 
         SimpleSnake game = new SimpleSnake(grid_x, grid_y);
         SnakeTextView view = new SnakeTextView();

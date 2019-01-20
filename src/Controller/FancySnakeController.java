@@ -6,6 +6,7 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class FancySnakeController {
 
     /**
      * Constructor. The program never leaves this constructor unless the game ends
+     *
      * @param   grid_x : The grid size in the x dimension
      * @param   grid_y : The grid size in the y dimension
      * @param   stack_pane : JavaFX Node
@@ -37,7 +39,7 @@ public class FancySnakeController {
      * @param   menuController : Controller for main menu
      * @author  Andreas Goll Rossau
      */
-    public FancySnakeController(int grid_x, int grid_y, StackPane stack_pane, Stage primary_stage, MenuController menuController) {
+    public FancySnakeController(int grid_x, int grid_y, StackPane stack_pane, Stage primary_stage, MenuController menuController) throws IOException {
 
         this.game = new SimpleSnake(grid_x, grid_y);
         this.view = new FancySnakeView(grid_x, grid_y, stack_pane, primary_stage);
@@ -69,12 +71,13 @@ public class FancySnakeController {
         }
     }
 
-    /**¨¨
+    /**
      * Method passes key input code to model and updates view according to game status returned from model
+     *
      * @param   code key: Input code
      * @author  Andreas Goll Rossau
      */
-    void key_press(String code) {
+    void key_press(String code) throws IOException {
 
         // Do not proceed display if the game has ended (Game Over or Game Won) unless the display attempt is "r" or "escape"
         if (endgame_flag && !(code.equals("r") || code.equals("escape")))
@@ -83,7 +86,7 @@ public class FancySnakeController {
         // Update Model and return game status
         String game_status = game.game_action(code);
 
-        // Note the most recently displayed display¨
+        // Note the most recently displayed display
         last_succeeded_display = display;
 
         // Remove stored input if it has been displayed
@@ -113,8 +116,12 @@ public class FancySnakeController {
             default:
                 // Display Game Over or Game Won
                 // view.print_status(game_status);
+                game.update_high_scores();
+                view.print_status(game_status);
+
                 view.open_end_game();
-                view.display_end_game(game_status, game.get_score(), 88, true);
+                view.display_end_game(game_status, game.get_score(), 88, game.new_high_score());
+
                 last_succeeded_display = "none";
                 endgame_flag = true;
                 break;
@@ -173,7 +180,12 @@ public class FancySnakeController {
                             }
 
                             // Display display
-                            key_press(display);
+                            try {
+                                key_press(display);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
 
                         } last_update_2 = now;
                     } last_update_1 = now;
