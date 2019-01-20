@@ -156,12 +156,7 @@ public class FancySnakeController {
                 game.update_high_scores(view.getName());
             }
             stage.setScene(gameScene);
-            try {
-                key_press("r");
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
+            key_press("r");
             view.resetName();
         }
         else if (input.equals("ESCAPE")) {

@@ -83,16 +83,33 @@ class SpriteHolder {
         }
         cursor = new AnimatedImage(cursorFrames, 1);
 
-        Image[] mouseFrames = new Image[]{new Image("/image/mouse_01.png"), new Image("/image/mouse_02.png")};
-        mouse = new AnimatedImage(mouseFrames, 90);
+        Image[] mouseFrames = new Image[]{
+                new Image("/image/mouse_01.png"),
+                new Image("/image/mouse_02.png")};
+        mouse = new AnimatedImage(mouseFrames, 5);
 
-        Image[] snakeHeadFrames = new Image[]{new Image("/image/head2.png"), new Image("/image/snakeHead_01.png")};
-        snakeHead = new AnimatedImage(snakeHeadFrames, 90);
+        Image[] snakeHeadFrames = new Image[]{
+                new Image("/image/snakeHead_01.png"),
+                new Image("/image/snakeHead_02.png"),
+                new Image("/image/snakeHead_03.png"),
+                new Image("/image/snakeHead_02.png")};
+        snakeHead = new AnimatedImage(snakeHeadFrames, 3);
 
-        Image[] straightSnakeBodyFrames = new Image[]{new Image("/image/snake2.png"), new Image("/image/snakeStraight_01.png")};
-        straightSnakeBody = new AnimatedImage(straightSnakeBodyFrames, 90);
+        Image[] straightSnakeBodyFrames = new Image[]{
+                new Image("/image/snakeStraight_01.png"),
+                new Image("/image/snakeStraight_02.png"),
+                new Image("/image/snakeStraight_03.png"),
+                new Image("/image/snakeStraight_04.png"),
+                new Image("/image/snakeStraight_05.png"),
+                new Image("/image/snakeStraight_06.png"),
+                new Image("/image/snakeStraight_05.png"),
+                new Image("/image/snakeStraight_04.png"),
+                new Image("/image/snakeStraight_03.png"),
+                new Image("/image/snakeStraight_02.png")};
+        straightSnakeBody = new AnimatedImage(straightSnakeBodyFrames, 3);
 
-        Image[] snakeTailFrames = new Image[]{new Image("/image/snake2.png"), new Image("/image/snakeTail_01.png")};
+        Image[] snakeTailFrames = new Image[]{
+                new Image("/image/snakeTail_01.png")};
         snakeTail = new AnimatedImage(snakeTailFrames, 90);
 
         emptyCell = new Image("/image/emptyCell_00.png");
