@@ -146,6 +146,9 @@ public class FancySnakeController {
         if (input.length() == 1 && Character.isAlphabetic(input.charAt(0))) {
             view.addToName(input);
         }
+        else if (input.equals("SPACE")) {
+            view.addToName(" ");
+        }
         else if (input.equals("BACK_SPACE")) {
             view.removeFromName();
         }

@@ -362,7 +362,7 @@ public class FancySnakeView {
         titleText.setTextAlignment(TextAlignment.CENTER);
         titleText.setWrappingWidth(grid_x * cell_size);
 
-        Text bottomMessage = new Text(title);
+        Text bottomMessage = new Text();
         bottomMessage.setFont(Font.font("Verdana", FontWeight.BOLD, 50));
         bottomMessage.setFill(Color.DEEPPINK);
         bottomMessage.setStroke(Color.BLACK);
@@ -371,8 +371,8 @@ public class FancySnakeView {
 
         Text score_message_text = new Text();
         if (highScore) {
-            score_message_text.setText("YOU ARE ON THE LEADER BOARD");
-            bottomMessage.setText("Please enter your name:");
+            score_message_text.setText("YOU ARE ON THE LEADER BOARD WITH " + score + "MICE");
+            bottomMessage.setText("PLEASE ENTER YOUR NAME");
         } else {
             score_message_text.setText("YOU ATE " + score + " MICE");
             bottomMessage.setText("Better luck next time");
