@@ -121,7 +121,7 @@ public class SimpleSnake {
         }
         fw.close();
     }
-
+// TODO: remove
     /**
      * This method is called publicly to determine if a high score has been achieved
      *
