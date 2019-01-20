@@ -30,7 +30,6 @@ public class FancySnakeController {
 
     /**
      * Constructor. The program never leaves this constructor unless the game ends
-     *
      * @param   grid_x : The grid size in the x dimension
      * @param   grid_y : The grid size in the y dimension
      * @param   stack_pane : JavaFX Node
@@ -63,7 +62,6 @@ public class FancySnakeController {
      * @param keyboard_input from the user passed from MainFancyApp in lowercase String form
      * @author Thea Birk Berger
      */
-    // endgameT -> r || escape
     public void set_direction(String keyboard_input){
 
         if (stored_keyboard_inputs.size() < 3 && (!endgame_flag || (keyboard_input.equals("r") || keyboard_input.equals("escape")))) {
@@ -71,9 +69,8 @@ public class FancySnakeController {
         }
     }
 
-    /**
+    /**¨¨
      * Method passes key input code to model and updates view according to game status returned from model
-     *
      * @param   code key: Input code
      * @author  Andreas Goll Rossau
      */
@@ -86,7 +83,7 @@ public class FancySnakeController {
         // Update Model and return game status
         String game_status = game.game_action(code);
 
-        // Note the most recently displayed display
+        // Note the most recently displayed display¨
         last_succeeded_display = display;
 
         // Remove stored input if it has been displayed
@@ -115,7 +112,9 @@ public class FancySnakeController {
                 break;
             default:
                 // Display Game Over or Game Won
-                view.print_status(game_status);
+                // view.print_status(game_status);
+                view.open_end_game();
+                view.display_end_game(game_status, game.get_score(), 88, true);
                 last_succeeded_display = "none";
                 endgame_flag = true;
                 break;

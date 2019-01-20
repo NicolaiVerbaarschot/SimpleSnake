@@ -1,6 +1,7 @@
 package View;
 
 import Model.SnakeSegment;
+import javafx.animation.AnimationTimer;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -29,6 +30,7 @@ public class FancySnakeView {
     private DisplayMap middle_map;
 
     private GridPane avatars;
+    private StackPane endgame;
 
     private Text endgame_text = new Text();
     private Text score_bar;
@@ -39,6 +41,9 @@ public class FancySnakeView {
 
     private Point old_mouse_location;
     private SnakeSegment old_snake_tail;
+
+    private String high_score_name;
+    private boolean endgame_opened;
 
     /**
      * Constructor initializes the view, setting the scene dimensions, and adding a gridpane of canvases
@@ -61,6 +66,9 @@ public class FancySnakeView {
         GridPane background = new GridPane();
         GridPane middle = new GridPane();
         this.avatars = new GridPane();
+        this.endgame = new StackPane();
+
+        this.endgame_opened = false;
 
         this.score_bar = new Text();
 
@@ -69,6 +77,7 @@ public class FancySnakeView {
         stack_pane.getChildren().add(0, background);
         stack_pane.getChildren().add(1, middle);
         stack_pane.getChildren().add(2, avatars);
+        stack_pane.getChildren().add(3, endgame);
 
         // Initialize score bar and add it to grid_pane
         set_score_bar(0);
@@ -188,7 +197,6 @@ public class FancySnakeView {
 
     /**
      * Method displays game Over and game Won
-     *
      * @param   status: denotes either "Game Over" or "Game Won"
      * @author  Thea Birk Berger
      */
@@ -228,6 +236,8 @@ public class FancySnakeView {
     public void clear_endgame () {
         avatars.getChildren().remove(endgame_text);
         avatars.getChildren().remove(endgame_background);
+        endgame.getChildren().remove(endgame_background);
+        endgame_opened = false;
     }
 
 
@@ -244,6 +254,10 @@ public class FancySnakeView {
         score_bar.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
         score_bar.setFill(Color.PINK);
         score_bar.setStroke(Color.BLACK);
+    }
+
+    public String get_score_bar_text() {
+        return score_bar.getText();
     }
 
     /**
@@ -335,5 +349,75 @@ public class FancySnakeView {
             }
         }
         map.draw(segment.get_coordinates(), img);
+    }
+
+    public void open_end_game() {
+
+        int window_init_size = 40;
+
+        // Initialize rectangle parameters
+        endgame_background.setHeight((int) ((grid_y+ 65)/window_init_size) * cell_size);
+        endgame_background.setWidth((int) (grid_x/window_init_size) * cell_size);
+        endgame_background.setFill(Color.CADETBLUE);
+
+        // Add endgame_background to grid_pane
+        endgame.getChildren().add(endgame_background);
+
+
+        long startNanoTime = System.nanoTime();
+        AnimationTimer timer = new AnimationTimer() {
+            int windows_size = window_init_size - 1;
+            private long last_update = 0 ;
+            public void handle(long now) {
+                long t = (now - startNanoTime) / 100000000;
+
+                if (now - last_update >= 200000 && windows_size > 0) {
+
+                    // Change rectangle parameters
+                    endgame_background.setHeight((grid_y+ 65)/ windows_size * cell_size);
+                    endgame_background.setWidth(grid_x/ windows_size * cell_size);
+                    endgame_background.setFill(Color.CADETBLUE);
+
+                    windows_size -= 1;
+                    last_update = now ;
+                }
+
+                if (windows_size == 0) {
+
+                }
+
+            }
+        };
+        timer.start();
+    }
+
+    public void display_end_game(String game_status, int score, int high_score, boolean new_high_score) {
+
+
+        if (game_status.equals("Game Over") && endgame_opened) {
+
+            Text game_over = new Text();
+            game_over.setText("GAME OVER");
+            game_over.setY(0);
+            game_over.prefHeight((grid_x * cell_size) - cell_size);
+            game_over.prefWidth(2 * cell_size);
+            game_over.setFont(Font.font("Verdana", FontWeight.BOLD, 40));
+            game_over.setFill(Color.DEEPPINK);
+            game_over.setStroke(Color.BLACK);
+            endgame.getChildren().add(game_over);
+
+
+        } else {
+
+
+        }
+    }
+
+    public void set_high_score_name(String name) {
+        this.high_score_name = name;
+    }
+
+    public String get_high_score_name() {
+        return high_score_name;
     }
 }

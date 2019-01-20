@@ -35,7 +35,7 @@ class DisplayMap {
     }
 
     /**
-     * Method adds all canvasses in mep to a GridPane
+     * Method adds all canvasses in map to a GridPane
      * @param pane GridPane to add canvasses to
      * @author Andreas Goll Rossau
      */
