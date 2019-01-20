@@ -1,6 +1,7 @@
 package View;
 
 import Model.SnakeSegment;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -192,13 +193,24 @@ public class FancySnakeView {
      * @param   status: denotes either "Game Over" or "Game Won"
      * @author  Thea Birk Berger
      */
-    public void print_status(String status) {
+    public void print_status(String status, Stage stage) {
+        StackPane stack_pane = new StackPane();
+        Scene scene = new Scene(stack_pane);
+        //Scene menuScene = stage.getScene();
+        stage.setScene(scene);
+        GridPane highScorePane = new GridPane();
+        stack_pane.getChildren().clear();
+        stack_pane.getChildren().add(0, highScorePane);
+        Text title = new Text("Test");
+        highScorePane.add(title, 0, 0);
+
+
 
         // Set text
         if (status.equals("Game Over")) {
-            this.endgame_text.setText("YOU HAVE\nLOST THE GAME");
+            this.endgame_text.setText("YOU HAVE LOST THE GAME");
         } else {
-            this.endgame_text.setText("CONGRATULATIONS!\n YOU HAVE WON THE GAME");
+            this.endgame_text.setText("CONGRATULATIONS! YOU HAVE WON THE GAME");
         }
 
         // Set text position
@@ -206,9 +218,14 @@ public class FancySnakeView {
         this.endgame_text.setWrappingWidth(grid_x * cell_size);
 
         // Set text font
-        this.endgame_text.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
+        this.endgame_text.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
         this.endgame_text.setFill(Color.CHOCOLATE);
         this.endgame_text.setStroke(Color.BLACK);
+
+        Text high_scores = new Text();
+        high_scores.setText("test\ntest\ntest\n");
+        high_scores.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
+        high_scores.setFill(Color.BLACK);
 
         // Set rectangle parameters
         endgame_background.setHeight(grid_y*cell_size);
@@ -218,6 +235,7 @@ public class FancySnakeView {
         // Add endgame_background and text to grid_pane
         this.avatars.add(endgame_background, 0, 0, grid_x, grid_y);
         this.avatars.add(this.endgame_text, 0,0, grid_x, grid_y);
+        this.avatars.add(high_scores, 0,0, grid_x, grid_y);
     }
 
     /**

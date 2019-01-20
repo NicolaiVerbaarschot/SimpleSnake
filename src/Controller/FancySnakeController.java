@@ -23,6 +23,8 @@ public class FancySnakeController {
 
     AnimationTimer timer;
 
+    private Stage stage;
+
 
     private List<String> stored_keyboard_inputs = new ArrayList<>();
     private String requested_display;
@@ -44,6 +46,7 @@ public class FancySnakeController {
         this.game = new SimpleSnake(grid_x, grid_y);
         this.view = new FancySnakeView(grid_x, grid_y, stack_pane, primary_stage);
         this.menuController = menuController;
+        this.stage = primary_stage;
 
         endgame_flag = false;
 
@@ -117,7 +120,7 @@ public class FancySnakeController {
             default:
                 // Display Game Over or Game Won
                 game.update_high_scores();
-                view.print_status(game_status);
+                view.print_status(game_status, stage);
                 last_succeeded_display = "none";
                 endgame_flag = true;
                 break;
