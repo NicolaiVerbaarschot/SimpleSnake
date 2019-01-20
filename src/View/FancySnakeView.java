@@ -223,53 +223,13 @@ public class FancySnakeView {
         }
     }
 
-
-    /**
-     * Method displays game Over and game Won
-     *
-     * @param   status: denotes either "Game Over" or "Game Won"
-     * @author  Thea Birk Berger
-     */
-    public void print_status(String status) {
-
-        // Set text
-        if (status.equals("Game Over")) {
-            this.endgame_text.setText("YOU HAVE\nLOST THE GAME");
-        } else {
-            this.endgame_text.setText("CONGRATULATIONS!\n YOU HAVE WON THE GAME");
-        }
-
-        // Set text position
-        this.endgame_text.setTextAlignment(TextAlignment.CENTER);
-        this.endgame_text.setWrappingWidth(grid_x * cell_size);
-
-        // Set text font
-        this.endgame_text.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
-        this.endgame_text.setFill(Color.CHOCOLATE);
-        this.endgame_text.setStroke(Color.BLACK);
-
-        // Set rectangle parameters
-        endgame_background.setHeight(grid_y*cell_size);
-        endgame_background.setWidth(grid_x*cell_size);
-        endgame_background.setFill(Color.CADETBLUE);
-
-        // Add endgame_background and text to grid_pane
-        this.avatars.add(endgame_background, 0, 0, grid_x, grid_y);
-        this.avatars.add(this.endgame_text, 0,0, grid_x, grid_y);
-    }
-
     /**
      * Method clears the endgame state by removing the text and background
      *
      * @author  Nicolai Verbaarschot
      */
     public void clear_board() {
-        avatars.getChildren().remove(endgame_text);
-        avatars.getChildren().remove(endgame_background);
-
         middle_map.clearAll();
-
-
     }
 
 

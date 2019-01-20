@@ -136,8 +136,6 @@ public class FancySnakeController {
                             }
                         }
                 );
-
-                //view.print_status(game_status);
                 last_succeeded_display = "none";
                 endgame_flag = true;
                 break;
