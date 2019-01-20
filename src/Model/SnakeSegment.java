@@ -3,6 +3,8 @@ package Model;
 import java.awt.Point;
 
 /**
+ * This class expands the snake segments from points to a more developed model capable of providing support for a dynamic body
+ *
  * @author Nicolai Verbaarschot
  */
 public class SnakeSegment {
@@ -14,7 +16,9 @@ public class SnakeSegment {
     private Point next_coordinates;
 
     /**
-     * @author
+     * Constructor
+     *
+     * @author Nicolai Verbaarschot
      */
     SnakeSegment() {
 
@@ -24,8 +28,10 @@ public class SnakeSegment {
     }
 
     /**
-     * @param s
-     * @author
+     * Constructor
+     *
+     * @param s SnakeSegment to construct
+     * @author Nicolai Verbaarschot
      */
     public SnakeSegment(SnakeSegment s) {
         this.coordinates = new Point(s.get_coordinates());
@@ -46,11 +52,12 @@ public class SnakeSegment {
     }
 
     /**
+     * Constructor
      *
-     * @param coordinates
-     * @param previous_coordinates
-     * @param next_coordinates
-     * @author
+     * @param coordinates current coordinates
+     * @param previous_coordinates past coordinates
+     * @param next_coordinates future coordinates
+     * @author Nicolai verbaarschot
      */
     SnakeSegment(Point coordinates, Point previous_coordinates, Point next_coordinates) {
 
@@ -60,80 +67,72 @@ public class SnakeSegment {
     }
 
     /**
-     * @return
-     * @author
+     * @return current coordinates
+     * @author Nicolai Verbaarschot
      */
     public Point get_coordinates() {
         return coordinates;
     }
 
     /**
-     * @return
-     * @author
+     * @return future coordinates
+     * @author Nicolai Verbaarschot
      */
     public Point get_next_coordinates() {
         return next_coordinates;
     }
 
     /**
-     * @return
-     * @author
+     * @return past coordinates
+     * @author Nicolai Verbaarschot
      */
     public Point get_previous_coordinates() {
         return previous_coordinates;
     }
 
     /**
-     * @param coordinates
-     * @author
-     */
-    public void set_coordinates(Point coordinates) {
-        this.coordinates = coordinates;
-    }
-
-    /**
-     * @param next_coordinates
-     * @author
+     * @param next_coordinates coordinates to set future coordinates to
+     * @author Nicolai Verbaarschot
      */
     void set_next_coordinates(Point next_coordinates) {
         this.next_coordinates = next_coordinates;
     }
 
     /**
-     * @param previous_coordinates
-     * @author
+     * @param previous_coordinates coordinates to set past coordinates to
+     * @author Nicolai verbaarschot
      */
     void set_previous_coordinates(Point previous_coordinates) {
         this.previous_coordinates = previous_coordinates;
     }
 
     /**
-     * @param value
-     * @author
+     * @param value boolean value to set is_head field
+     * @author Nicolai Verbaarschot
      */
     void set_head(boolean value) {
         this.is_head = value;
     }
 
     /**
-     * @param value
-     * @author
+     * @param value boolean value to set is_tail field
+     * @author Nicolai Verbaarschot
      */
     void set_tail(boolean value) {
         this.is_tail = value;
     }
 
     /**
-     * @return
-     * @author
+     * @return flag identifying if segment is head
+     * @author Nicolai Verbaarshcot
      */
     public boolean is_head() {
         return is_head;
     }
 
     /**
-     * @return
-     * @author
+     * @return flag identifying if segment is tail
+     * @author Nicolai Verbaarschot
      */
     public boolean is_tail() {
         return is_tail;
