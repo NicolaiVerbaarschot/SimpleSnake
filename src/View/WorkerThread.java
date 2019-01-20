@@ -61,8 +61,6 @@ public class WorkerThread implements Runnable {
                 map.clear(p);
             }
         }
-
-        System.out.println("Clear");
     }
 
     /**
