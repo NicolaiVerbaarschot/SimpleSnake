@@ -85,8 +85,6 @@ public class SimpleSnake {
      */
     public int update_high_scores(String name) throws IOException {
 
-        boolean score_is_highest_score = score > high_scores[0];
-
         int leader_board_position = 5;
 
 
@@ -121,7 +119,7 @@ public class SimpleSnake {
         }
         fw.close();
     }
-// TODO: remove
+
     /**
      * This method is called publicly to determine if a high score has been achieved
      *
