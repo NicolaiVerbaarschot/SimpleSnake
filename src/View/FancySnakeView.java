@@ -489,7 +489,9 @@ public class FancySnakeView {
     }
 
     public void removeFromName() {
-        name = name.substring(0, name.length() - 2);
+        if (name.length() != 0) {
+            name = name.substring(0, name.length() - 1);
+        }
     }
 
     public String getName() {
