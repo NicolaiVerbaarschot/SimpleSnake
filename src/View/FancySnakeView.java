@@ -11,9 +11,14 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-
+import javafx.animation.FadeTransition;
+import javafx.util.Duration;
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * This class displays the Simple Snake game as text in the console and takes text input from user
@@ -35,8 +40,16 @@ public class FancySnakeView {
     private Rectangle endgame_background = new Rectangle();
 
     private SpriteHolder sprites;
-    private Image blood = new Image( "/image/blood.png");
-
+    private Image[] blood = {
+            new Image( "/image/blood_01/blood_01.png"),
+            new Image( "/image/blood_01/blood_02.png"),
+            new Image( "/image/blood_01/blood_03.png"),
+            new Image( "/image/blood_01/blood_04.png"),
+            new Image( "/image/blood_01/blood_05.png"),
+            new Image( "/image/blood_01/blood_06.png"),
+            new Image( "/image/blood_01/blood_07.png"),
+            new Image( "/image/blood_01/blood_08.png"),
+            new Image( "/image/blood_01/blood_09.png")};
     private Point old_mouse_location;
     private SnakeSegment old_snake_tail;
 
@@ -135,42 +148,59 @@ public class FancySnakeView {
         }
     }
 
+    /**
+     * This method draws blood splatter in the location of an eaten mouse
+     *
+     * @author Nicolai verbaarschot
+     */
     private void draw_blood_splatter() {
-        // Run through all cells in a 3x3 square around eaten mouse
-        for (int i = -1; i < 2; i++) {
-            for (int j = -1; j < 2; j++) {
-                // Create new point from old_mouse_location
-                Point p = new Point(old_mouse_location);
-                // Move point to desired location in 3x3
-                p.translate(i, j);
-                // Fix any wall collisions
-                collision_check(p, grid_x - 1, grid_y - 1);
-                // Draw blood at desired location
-                middle_map.draw(p, blood);
-            }
+
+        ArrayList<FadeTransition> fades = new ArrayList<>();
+
+        for (int i=0; i<9; i++) {
+            fades.add(new FadeTransition());
         }
 
-        /*Point right_cell = new Point(collision_check((int) old_mouse_location.getX()+1, grid_x-1), collision_check((int) old_mouse_location.getY(), grid_y-1));
-        Point top_right_cell = new Point(collision_check((int) old_mouse_location.getX()+1, grid_x-1), collision_check((int) old_mouse_location.getY()-1, grid_y-1));
-        Point top_cell = new Point(collision_check((int) old_mouse_location.getX(), grid_x-1), collision_check((int) old_mouse_location.getY()-1, grid_y-1));
-        Point top_left_cell = new Point(collision_check((int) old_mouse_location.getX()-1, grid_x-1), collision_check((int) old_mouse_location.getY()-1, grid_y-1));
-        Point left_cell = new Point(collision_check((int) old_mouse_location.getX()-1, grid_x-1), collision_check((int) old_mouse_location.getY(), grid_y-1));
-        Point bottom_left_cell = new Point(collision_check((int) old_mouse_location.getX()-1, grid_x-1), collision_check((int) old_mouse_location.getY()+1, grid_y-1));
-        Point bottom_cell = new Point(collision_check((int) old_mouse_location.getX(), grid_x-1), collision_check((int) old_mouse_location.getY()+1, grid_y-1));
-        Point bottom_right_cell = new Point(collision_check((int) old_mouse_location.getX()+1, grid_x-1), collision_check((int) old_mouse_location.getY()+1, grid_y-1));
+        for (FadeTransition fade : fades) {
+            fade.setDuration(Duration.millis(5000));
+            fade.setFromValue(10);
+            fade.setToValue(0);
+            fade.setCycleCount(1);
+            fade.setAutoReverse(false);
+        }
 
-        middle_map.draw(old_mouse_location, blood);
-        middle_map.draw(right_cell, blood);
-        middle_map.draw(top_right_cell, blood);
-        middle_map.draw(top_cell, blood);
-        middle_map.draw(top_left_cell, blood);
-        middle_map.draw(left_cell, blood);
-        middle_map.draw(bottom_left_cell, blood);
-        middle_map.draw(bottom_cell, blood);
-        middle_map.draw(bottom_right_cell, blood);
-        */
+
+        int blood_segment = 0;
+
+        for (int i = -1; i < 2; i++) {
+            for (int j = -1; j < 2; j++) {
+                Point p = new Point(old_mouse_location);
+                p.translate(i, j);
+                collision_check(p, grid_x - 1, grid_y - 1);
+                middle_map.draw(p, blood[blood_segment]);
+
+                fades.get(blood_segment).setNode(middle_map.getCanvas(p));
+                blood_segment++;
+            }
+        }
+        for (FadeTransition fade : fades) {
+            fade.play();
+        }
+        ExecutorService executor = Executors.newFixedThreadPool(1);
+        Runnable worker = new WorkerThread(middle_map, old_mouse_location, grid_x, grid_y);
+        executor.execute(worker);
+        executor.shutdown();
+
     }
 
+    /**
+     * This method checks and corrects a point if it lies outside the game border
+     *
+     * @param p Point to check
+     * @param x_max size of the grid in the x dimension
+     * @param y_max size of the grid in he y dimension
+     * @author Andreas Goll Rossau
+     */
     private void collision_check(Point p, int x_max, int y_max) {
         if (p.getX() == -1) {
             p.x = x_max;
@@ -225,9 +255,13 @@ public class FancySnakeView {
      *
      * @author  Nicolai Verbaarschot
      */
-    public void clear_endgame () {
+    public void clear_board() {
         avatars.getChildren().remove(endgame_text);
         avatars.getChildren().remove(endgame_background);
+
+        middle_map.clearAll();
+
+
     }
 
 
