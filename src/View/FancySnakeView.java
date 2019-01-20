@@ -2,6 +2,7 @@ package View;
 
 import Model.SnakeSegment;
 import javafx.animation.AnimationTimer;
+import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -30,9 +31,8 @@ public class FancySnakeView {
     private DisplayMap middle_map;
 
     private GridPane avatars;
-    private StackPane endgame;
+    private GridPane endgame;
 
-    private Text endgame_text = new Text();
     private Text score_bar;
     private Rectangle endgame_background = new Rectangle();
 
@@ -44,6 +44,7 @@ public class FancySnakeView {
 
     private String high_score_name;
     private boolean endgame_opened;
+    private AnimationTimer timer;
 
     /**
      * Constructor initializes the view, setting the scene dimensions, and adding a gridpane of canvases
@@ -66,9 +67,9 @@ public class FancySnakeView {
         GridPane background = new GridPane();
         GridPane middle = new GridPane();
         this.avatars = new GridPane();
-        this.endgame = new StackPane();
+        this.endgame = new GridPane();
 
-        this.endgame_opened = false;
+        //this.endgame_opened = false;
 
         this.score_bar = new Text();
 
@@ -195,11 +196,13 @@ public class FancySnakeView {
     }
 
 
+    /*
     /**
      * Method displays game Over and game Won
      * @param   status: denotes either "Game Over" or "Game Won"
      * @author  Thea Birk Berger
      */
+    /*
     public void print_status(String status) {
 
         // Set text
@@ -226,18 +229,16 @@ public class FancySnakeView {
         // Add endgame_background and text to grid_pane
         this.avatars.add(endgame_background, 0, 0, grid_x, grid_y);
         this.avatars.add(this.endgame_text, 0,0, grid_x, grid_y);
-    }
+    }*/
+
 
     /**
      * Method clears the endgame state by removing the text and background
      *
      * @author  Nicolai Verbaarschot
      */
-    public void clear_endgame () {
-        avatars.getChildren().remove(endgame_text);
-        avatars.getChildren().remove(endgame_background);
-        endgame.getChildren().remove(endgame_background);
-        endgame_opened = false;
+    public void clear_end_game() {
+        endgame.getChildren().removeAll();
     }
 
 
@@ -351,7 +352,7 @@ public class FancySnakeView {
         map.draw(segment.get_coordinates(), img);
     }
 
-    public void open_end_game() {
+    public void open_end_game(String game_status, int score, int leader_board_position) {
 
         int window_init_size = 40;
 
@@ -363,9 +364,8 @@ public class FancySnakeView {
         // Add endgame_background to grid_pane
         endgame.getChildren().add(endgame_background);
 
-
         long startNanoTime = System.nanoTime();
-        AnimationTimer timer = new AnimationTimer() {
+        this.timer = new AnimationTimer() {
             int windows_size = window_init_size - 1;
             private long last_update = 0 ;
             public void handle(long now) {
@@ -381,43 +381,61 @@ public class FancySnakeView {
                     windows_size -= 1;
                     last_update = now ;
                 }
-
                 if (windows_size == 0) {
-
+                    timer.stop();
+                    display_end_game(game_status, score, leader_board_position);
                 }
-
             }
-        };
-        timer.start();
+        }; timer.start();
     }
 
-    public void display_end_game(String game_status, int score, int high_score, boolean new_high_score) {
+
+    public void display_end_game(String game_status, int score, int leader_board_position) {
+
+        Text endgame_text = new Text();
+        endgame_text.setTextAlignment(TextAlignment.CENTER);
+        endgame_text.setWrappingWidth(grid_x * cell_size);
+
+        Text score_message_text = new Text();
+        score_message_text.setTextAlignment(TextAlignment.CENTER);
+        score_message_text.setWrappingWidth(grid_x * cell_size);
+
+        endgame.add(endgame_text, 0, 0, grid_x-1, 2);
+        endgame.add(score_message_text, 0,0, grid_x-1, 1);
 
 
-        if (game_status.equals("Game Over") && endgame_opened) {
-
-            Text game_over = new Text();
-            game_over.setText("GAME OVER");
-            game_over.setY(0);
-            game_over.prefHeight((grid_x * cell_size) - cell_size);
-            game_over.prefWidth(2 * cell_size);
-            game_over.setFont(Font.font("Verdana", FontWeight.BOLD, 40));
-            game_over.setFill(Color.DEEPPINK);
-            game_over.setStroke(Color.BLACK);
-            endgame.getChildren().add(game_over);
-
+        if (game_status.equals("Game Over")) {
+            endgame_text.setText("GAME OVER");
+            endgame_text.setFont(Font.font("Verdana", FontWeight.BOLD, 50));
+            endgame_text.setFill(Color.DEEPPINK);
 
         } else {
-
-
+            endgame_text.setText("CONGRATULATIONS!\n YOU HAVE WON THE GAME");
+            endgame_text.setFont(Font.font("Verdana", FontWeight.BOLD, 30));
+            endgame_text.setFill(Color.YELLOW);
         }
+        endgame_text.setStroke(Color.BLACK);
+
+        if (leader_board_position == 0) {
+            score_message_text.setText("NEW HIGH SCORE");
+        } else if (leader_board_position < 5) {
+            score_message_text.setText("YOU ARE ON THE LEADER BOARD");
+        } else {
+            score_message_text.setText("YOU ATE" + score + "MICE");
+        }
+
+        score_message_text.setFont(Font.font("Times New Roman", FontWeight.BOLD, 20));
+        score_message_text.setFill(Color.LIGHTGRAY);
+        score_message_text.setStroke(Color.BLACK);
     }
 
+
     public void set_high_score_name(String name) {
-        this.high_score_name = name;
+        this.high_score_name = "Thea BB";
     }
 
     public String get_high_score_name() {
         return high_score_name;
     }
 }
+

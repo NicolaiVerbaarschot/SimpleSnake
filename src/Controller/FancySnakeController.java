@@ -101,7 +101,7 @@ public class FancySnakeController {
                 break;
             case "Restart":
                 game.reset_game();
-                view.clear_endgame();
+                view.clear_end_game();
                 view.draw_board(game.get_snake_segments(), game.get_mouse_location());
                 view.set_score_bar(game.get_score());
                 display = "up";
@@ -116,11 +116,12 @@ public class FancySnakeController {
             default:
                 // Display Game Over or Game Won
                 // view.print_status(game_status);
-                game.update_high_scores();
-                view.print_status(game_status);
+                String player_name = view.get_high_score_name();
+                int leader_board_position = game.update_high_scores(player_name);
 
-                view.open_end_game();
-                view.display_end_game(game_status, game.get_score(), 88, game.new_high_score());
+
+                //view.open_end_game(game_status, game.get_score(), leader_board_position);
+                view.open_end_game(game_status, game.get_score(), 0);
 
                 last_succeeded_display = "none";
                 endgame_flag = true;
