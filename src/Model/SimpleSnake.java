@@ -83,7 +83,7 @@ public class SimpleSnake {
      * @throws IOException file not found
      * @author Nicolai Verbaarschot
      */
-    public void check_for_new_high_score () throws IOException {
+    public void update_high_scores() throws IOException {
 
         new_high_score = score > high_scores[0];
 
@@ -94,19 +94,17 @@ public class SimpleSnake {
             System.arraycopy(high_score_name, 0, high_score_name, 1, high_score_name.length - 1);
             high_scores[0] = score;
             high_score_name[0] = "todd"; // TODO: Get name from user
-            save_high_scores();
 
-        } else {
-            for (int i=1; i<=high_scores.length-1; i++) {
+        } else { // Handle all other score cases
+            for (int i=1; i<=high_scores.length-1; i++)
                 if (score > high_scores[i]) {
-                    System.arraycopy(high_scores, i, high_scores, i+1, (high_scores.length - 1) - i);
+                    System.arraycopy(high_scores, i, high_scores, i + 1, (high_scores.length - 1) - i);
                     high_scores[i] = score;
                     high_score_name[i] = "todd"; // TODO: Get name from user
                     break;
                 }
-            }
-            save_high_scores();
         }
+        save_high_scores();
     }
 
     /**
@@ -133,6 +131,15 @@ public class SimpleSnake {
     public boolean new_high_score () {
         return new_high_score;
     }
+
+    public int[] get_high_scores() {
+        return high_scores;
+    }
+
+    public String[] get_high_score_names () {
+        return high_score_name;
+    }
+
 
 
 

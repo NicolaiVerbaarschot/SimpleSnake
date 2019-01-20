@@ -116,7 +116,7 @@ public class FancySnakeController {
                 break;
             default:
                 // Display Game Over or Game Won
-                game.check_for_new_high_score();
+                game.update_high_scores();
                 view.print_status(game_status);
                 last_succeeded_display = "none";
                 endgame_flag = true;
