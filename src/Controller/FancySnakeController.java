@@ -169,9 +169,6 @@ public class FancySnakeController {
                 key_press(input.toLowerCase());
             view.resetName();
         }
-        else {
-            System.out.println(input);
-        }
         view.updatePlayerName();
     }
 
